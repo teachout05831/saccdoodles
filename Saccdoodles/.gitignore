@@ -4,7 +4,7 @@
 .env.*.local
 
 # Config with credentials (static sites)
-js/config.js
+# js/config.js  <- Now safe to commit (OpenAI key moved to Supabase)
 
 # Dependencies
 node_modules/
