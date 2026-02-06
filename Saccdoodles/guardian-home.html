@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guardian Home Program - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    },
+                    fontFamily: {
+                        'spartan': ['League Spartan', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'League Spartan', sans-serif; }
+        .script-font { font-style: italic; font-weight: 300; }
+    </style>
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Config -->
+    <script src="js/config.js"></script>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-brand-gold hover:text-brand-gold-light transition-colors">
+                    SACC Doodles
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-300 hover:text-brand-gold" aria-label="Toggle menu">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="text-gray-300 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="text-gray-300 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="text-gray-300 hover:text-brand-gold transition-colors">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="text-brand-gold font-medium">Guardian Homes</a></li>
+                    <li class="relative group">
+                        <button class="text-gray-300 hover:text-brand-gold transition-colors flex items-center gap-1">
+                            Resources
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="absolute left-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <div class="bg-brand-card rounded-lg shadow-xl border border-brand-darker overflow-hidden">
+                                <a href="puppy-resources.html" class="block px-4 py-3 text-gray-300 hover:text-brand-gold hover:bg-brand-darker transition-colors">Puppy Resources</a>
+                                <a href="faq.html" class="block px-4 py-3 text-gray-300 hover:text-brand-gold hover:bg-brand-darker transition-colors">FAQ</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-300 hover:text-brand-gold transition-colors">Contact</a></li>
+                </ul>
+                <a href="admin.html" class="hidden md:block text-gray-400 hover:text-brand-gold transition-colors" title="Admin Dashboard">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+                    </svg>
+                </a>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-brand-card">
+                <ul class="py-4 space-y-2">
+                    <li><a href="index.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="block px-4 py-2 text-brand-gold font-medium">Guardian Homes</a></li>
+                    <li class="border-t border-brand-darker mt-2 pt-2">
+                        <span class="block px-4 py-1 text-gray-500 text-sm">Resources</span>
+                        <a href="puppy-resources.html" class="block px-6 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Puppy Resources</a>
+                        <a href="faq.html" class="block px-6 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">FAQ</a>
+                    </li>
+                    <li><a href="about.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[70vh] flex items-center justify-center bg-gradient-to-b from-brand-darker to-brand-dark pt-20">
+        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                <span class="script-font text-brand-gold text-3xl md:text-4xl block mb-2">Become a</span>
+                <span class="text-white">Guardian Home</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl mx-auto">
+                Experience the joy of raising a top-quality doodle while being part of our extended family
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#benefits" class="px-8 py-4 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                    Learn More
+                </a>
+                <a href="#apply" class="px-8 py-4 border-2 border-brand-gold text-brand-gold font-semibold rounded-lg hover:bg-brand-gold hover:text-brand-dark transition-colors">
+                    Apply Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- What is a Guardian Home -->
+    <section class="py-20 bg-brand-dark" id="what-is">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-4xl font-bold mb-6">
+                        <span class="script-font text-brand-gold text-2xl block mb-2">What is a</span>
+                        <span class="text-white">Guardian Home?</span>
+                    </h2>
+                    <div class="space-y-4 text-gray-300 text-lg">
+                        <p>A Guardian Home is a unique partnership between our breeding program and loving families like yours. Simply put: <strong class="text-white">our dogs to breed, yours to love!</strong></p>
+                        <p>Instead of keeping all our breeding dogs in a kennel environment, we place them with carefully selected families who raise them as their own beloved pets. Your guardian dog lives with you full-time, sleeps in your bed, goes on family adventures, and receives all the love and attention they deserve.</p>
+                        <p>In return, we ask that you bring your dog back to us periodically for breeding purposes. Once the breeding program is complete, your guardian dog is spayed/neutered and becomes 100% yours forever.</p>
+                        <p>This arrangement ensures our dogs live their best lives in real homes while still contributing to our breeding program. It's truly a win-win for everyone, especially the dogs!</p>
+                    </div>
+                </div>
+                <div class="bg-brand-card rounded-xl p-12 flex flex-col items-center justify-center min-h-[350px]">
+                    <svg class="w-20 h-20 text-brand-gold mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
+                    <span class="text-gray-400">Happy Guardian Family</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="py-20 bg-brand-darker" id="benefits">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="script-font text-brand-gold text-2xl block mb-2">Why Become a</span>
+                    <span class="text-white">Guardian Home?</span>
+                </h2>
+                <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                    Enjoy incredible benefits while giving a dog the loving home they deserve
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-brand-card rounded-xl p-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Free Premium Puppy</h3>
+                    <p class="text-gray-400">Receive a "pick of the litter" quality puppy at no cost. These are exceptional puppies selected for outstanding health, temperament, and breed characteristics.</p>
+                </div>
+
+                <div class="bg-brand-card rounded-xl p-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Breeding Costs Covered</h3>
+                    <p class="text-gray-400">We cover all breeding-related expenses including health testing, genetic screenings, reproductive care, and spay/neuter surgery when complete.</p>
+                </div>
+
+                <div class="bg-brand-card rounded-xl p-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Ongoing Support</h3>
+                    <p class="text-gray-400">Join our extended SACC Doodles family! You'll have direct access to us for any questions about training, health, or care.</p>
+                </div>
+
+                <div class="bg-brand-card rounded-xl p-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Health Guaranteed</h3>
+                    <p class="text-gray-400">Our guardian dogs receive comprehensive health testing and come with full health guarantees. You're getting a dog with documented excellent genetics.</p>
+                </div>
+
+                <div class="bg-brand-card rounded-xl p-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Yours Forever</h3>
+                    <p class="text-gray-400">After completing the breeding program (typically 3-4 litters for females or until age 6 for males), your dog is 100% yours with no strings attached.</p>
+                </div>
+
+                <div class="bg-brand-card rounded-xl p-8">
+                    <div class="w-16 h-16 bg-brand-gold/20 rounded-lg flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-white mb-3">Minimal Time Away</h3>
+                    <p class="text-gray-400">Your dog lives with you 95% of the time! Females visit us briefly for breeding and whelping, males may visit just a few times per year.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-20 bg-brand-dark" id="how-it-works">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="script-font text-brand-gold text-2xl block mb-2">How It</span>
+                    <span class="text-white">Works</span>
+                </h2>
+                <p class="text-xl text-gray-400">A simple process to welcome a guardian dog into your family</p>
+            </div>
+
+            <div class="space-y-8">
+                <div class="flex gap-6">
+                    <div class="w-12 h-12 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">1</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Apply & Interview</h3>
+                        <p class="text-gray-400">Fill out our application below. We'll review it and schedule a call or visit to get to know you and your family.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="w-12 h-12 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">2</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Match & Placement</h3>
+                        <p class="text-gray-400">Once approved, we'll match you with the perfect puppy based on your lifestyle. You'll sign a guardian agreement and take your new family member home!</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="w-12 h-12 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">3</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Raise & Love</h3>
+                        <p class="text-gray-400">Enjoy raising your puppy! Provide training, socialization, regular vet care, and lots of love. We're always here to help.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="w-12 h-12 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">4</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Breeding Period</h3>
+                        <p class="text-gray-400"><strong class="text-white">For females:</strong> Bring her to us for breeding when she goes into heat. She'll stay during whelping (about 8 weeks) then return home. <strong class="text-white">For males:</strong> Brief visits a few times per year.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6">
+                    <div class="w-12 h-12 bg-brand-gold text-brand-dark rounded-full flex items-center justify-center font-bold text-xl flex-shrink-0">5</div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-white mb-2">Retirement & Forever Yours</h3>
+                        <p class="text-gray-400">After completing the program, we spay/neuter your dog at our expense. The co-ownership ends, and they're officially 100% yours forever!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Requirements -->
+    <section class="py-20 bg-brand-darker" id="requirements">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="script-font text-brand-gold text-2xl block mb-2">Guardian Home</span>
+                    <span class="text-white">Requirements</span>
+                </h2>
+                <p class="text-xl text-gray-400">We're looking for committed families who meet the following criteria</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="flex items-start gap-4 bg-brand-card rounded-xl p-6">
+                    <div class="w-10 h-10 bg-brand-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold mb-1">Suitable Living Space</h4>
+                        <p class="text-gray-400 text-sm">A home with a securely fenced yard. The dog must live indoors as a family pet.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 bg-brand-card rounded-xl p-6">
+                    <div class="w-10 h-10 bg-brand-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold mb-1">Local to Our Area</h4>
+                        <p class="text-gray-400 text-sm">Must live within reasonable driving distance for breeding visits and health appointments.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 bg-brand-card rounded-xl p-6">
+                    <div class="w-10 h-10 bg-brand-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold mb-1">Dog Experience</h4>
+                        <p class="text-gray-400 text-sm">Prior experience owning and caring for dogs. Comfortable with training and grooming.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 bg-brand-card rounded-xl p-6">
+                    <div class="w-10 h-10 bg-brand-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold mb-1">Commitment to Care</h4>
+                        <p class="text-gray-400 text-sm">Provide quality food, regular grooming, routine vet care, and keep up with vaccinations.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 bg-brand-card rounded-xl p-6">
+                    <div class="w-10 h-10 bg-brand-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold mb-1">Open Communication</h4>
+                        <p class="text-gray-400 text-sm">Maintain regular contact, share photos/updates, and promptly communicate any concerns.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-4 bg-brand-card rounded-xl p-6">
+                    <div class="w-10 h-10 bg-brand-gold/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-semibold mb-1">Flexible Schedule</h4>
+                        <p class="text-gray-400 text-sm">Ability to coordinate vet appointments and breeding visits with our schedule.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Application Form -->
+    <section class="py-20 bg-brand-dark" id="apply">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Featured Image -->
+            <div class="mb-10 rounded-2xl overflow-hidden shadow-2xl">
+                <img src="pictures/dog-2.jpeg" alt="Happy SACC Doodles puppy" class="w-full h-64 sm:h-80 object-cover">
+            </div>
+
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">
+                    <span class="script-font text-brand-gold text-2xl block mb-2">Apply to Be a</span>
+                    <span class="text-white">Guardian Home</span>
+                </h2>
+                <p class="text-xl text-gray-400">Ready to welcome a SACC Doodles pup into your family?</p>
+            </div>
+
+            <div class="bg-brand-card rounded-2xl p-8">
+                <form id="guardian-application">
+                    <!-- Personal Info -->
+                    <div class="mb-8 pb-8 border-b border-brand-darker">
+                        <h3 class="text-xl font-semibold text-brand-gold mb-4">Personal Information</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">First Name *</label>
+                                <input type="text" id="firstName" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Last Name *</label>
+                                <input type="text" id="lastName" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Email *</label>
+                                <input type="email" id="email" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Phone *</label>
+                                <input type="tel" id="phone" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-gray-300 text-sm mb-2">Full Address *</label>
+                            <input type="text" id="address" required placeholder="Street, City, State, ZIP" class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Household Info -->
+                    <div class="mb-8 pb-8 border-b border-brand-darker">
+                        <h3 class="text-xl font-semibold text-brand-gold mb-4">Household Information</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Type of Home *</label>
+                                <select id="homeType" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                    <option value="">Select...</option>
+                                    <option value="House">House</option>
+                                    <option value="Townhouse">Townhouse</option>
+                                    <option value="Condo">Condo</option>
+                                    <option value="Apartment">Apartment</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Do you have a fenced yard? *</label>
+                                <select id="yardFenced" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                    <option value="">Select...</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                    <option value="Partially">Partially</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preferences -->
+                    <div class="mb-8 pb-8 border-b border-brand-darker">
+                        <h3 class="text-xl font-semibold text-brand-gold mb-4">Dog Preferences</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Gender Preference *</label>
+                                <select id="genderPref" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                    <option value="">Select...</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Male">Male</option>
+                                    <option value="No Preference">No Preference</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Breed Preference *</label>
+                                <select id="breedPref" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                    <option value="">Select...</option>
+                                    <option value="Open to Any">Open to Any</option>
+                                    <option value="Goldendoodle">Goldendoodle</option>
+                                    <option value="Bernedoodle">Bernedoodle</option>
+                                    <option value="Poodle">Poodle</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="block text-gray-300 text-sm mb-2">Why do you want to be a Guardian Home? *</label>
+                            <textarea id="whyInterested" required rows="4" class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none resize-none"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Agreement -->
+                    <div class="mb-6">
+                        <label class="flex items-start gap-3 cursor-pointer">
+                            <input type="checkbox" required class="mt-1 w-4 h-4 accent-brand-gold">
+                            <span class="text-gray-300 text-sm">I understand the responsibilities of being a Guardian Home and am committed to providing a loving environment for a SACC Doodles dog. *</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                        Submit Application
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-brand-darker">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl font-bold mb-4">
+                <span class="script-font text-brand-gold text-2xl block mb-2">Have More</span>
+                <span class="text-white">Questions?</span>
+            </h2>
+            <p class="text-xl text-gray-400 mb-10">
+                We're happy to answer any questions about our Guardian Home Program!
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="tel:+14808228443" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    Call: 480-822-8443
+                </a>
+                <a href="contact.html" class="px-8 py-4 border-2 border-brand-gold text-brand-gold font-semibold rounded-lg hover:bg-brand-gold hover:text-brand-dark transition-colors">
+                    Send a Message
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-card border-t border-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <span class="text-2xl font-bold text-brand-gold">SACC Doodles</span>
+                    <p class="text-gray-400 mt-4">Breeding quality puppies with love and care.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-brand-gold transition-colors">Home</a></li>
+                        <li><a href="our-dogs.html" class="text-gray-400 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                        <li><a href="available-puppies.html" class="text-gray-400 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                        <li><a href="guardian-home.html" class="text-gray-400 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                        <li><a href="faq.html" class="text-gray-400 hover:text-brand-gold transition-colors">FAQ</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-brand-gold transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact Us</h4>
+                    <p class="flex items-center gap-2 text-gray-400">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                        480-822-8443
+                    </p>
+                    <p class="flex items-center gap-2 text-gray-400 mt-2">
+                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        mizzteachout@gmail.com
+                    </p>
+                </div>
+            </div>
+            <div class="border-t border-brand-darker mt-12 pt-8 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2025 SACC Doodles. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Guardian Application Form Submission -->
+    <script>
+        // Initialize Supabase client (using different name to avoid conflict with window.supabase)
+        const supabaseClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+
+        document.getElementById('guardian-application').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                const formData = {
+                    name: `${document.getElementById('firstName').value} ${document.getElementById('lastName').value}`,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    address: document.getElementById('address').value,
+                    home_type: document.getElementById('homeType').value,
+                    yard_fenced: document.getElementById('yardFenced').value === 'Yes',
+                    gender_preference: document.getElementById('genderPref').value,
+                    breed_preference: document.getElementById('breedPref').value,
+                    why_interested: document.getElementById('whyInterested').value,
+                    status: 'Pending'
+                };
+
+                const { data, error } = await supabaseClient
+                    .from('guardian_applications')
+                    .insert(formData)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                // Show success state
+                const formSection = document.getElementById('apply');
+                formSection.innerHTML = `
+                    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="bg-brand-card rounded-2xl p-8 text-center">
+                            <svg class="w-20 h-20 mx-auto text-green-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <h2 class="text-2xl font-bold text-brand-gold mb-4">Application Submitted!</h2>
+                            <p class="text-gray-300 mb-6">Thank you for your interest in our Guardian Home Program! We've received your application and will review it carefully.</p>
+                            <p class="text-gray-400 mb-8">We'll be in touch within a few business days to discuss next steps.</p>
+                            <a href="index.html" class="inline-block px-8 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">Return to Home</a>
+                        </div>
+                    </div>
+                `;
+                formSection.scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                console.error('Error submitting guardian application:', error);
+                alert('There was an error submitting your application. Please try again or contact us directly at 480-822-8443.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

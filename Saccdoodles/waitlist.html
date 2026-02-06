@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Our Waitlist - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    },
+                    fontFamily: {
+                        'spartan': ['League Spartan', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'League Spartan', sans-serif; }
+        .script-font { font-style: italic; font-weight: 300; }
+    </style>
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Config and Database -->
+    <script src="js/config.js"></script>
+    <script src="js/supabase-config.js"></script>
+    <script src="js/data-supabase.js"></script>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-brand-gold hover:text-brand-gold-light transition-colors">
+                    SACC Doodles
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-300 hover:text-brand-gold" aria-label="Toggle menu">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="text-gray-300 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="text-gray-300 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="text-brand-gold font-medium">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="text-gray-300 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                    <li class="relative group">
+                        <button class="text-gray-300 hover:text-brand-gold transition-colors flex items-center gap-1">
+                            Resources
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="absolute left-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <div class="bg-brand-card rounded-lg shadow-xl border border-brand-darker overflow-hidden">
+                                <a href="puppy-resources.html" class="block px-4 py-3 text-gray-300 hover:text-brand-gold hover:bg-brand-darker transition-colors">Puppy Resources</a>
+                                <a href="faq.html" class="block px-4 py-3 text-gray-300 hover:text-brand-gold hover:bg-brand-darker transition-colors">FAQ</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-300 hover:text-brand-gold transition-colors">Contact</a></li>
+                </ul>
+                <a href="admin.html" class="hidden md:block text-gray-400 hover:text-brand-gold transition-colors" title="Admin Dashboard">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+                    </svg>
+                </a>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-brand-card">
+                <ul class="py-4 space-y-2">
+                    <li><a href="index.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="block px-4 py-2 text-brand-gold font-medium">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Guardian Homes</a></li>
+                    <li class="border-t border-brand-darker mt-2 pt-2">
+                        <span class="block px-4 py-1 text-gray-500 text-sm">Resources</span>
+                        <a href="puppy-resources.html" class="block px-6 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Puppy Resources</a>
+                        <a href="faq.html" class="block px-6 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">FAQ</a>
+                    </li>
+                    <li><a href="about.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    </script>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-12 bg-gradient-to-b from-brand-darker to-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                <span class="script-font text-brand-gold text-2xl md:text-3xl block mb-2">Join Our</span>
+                <span class="text-white">Waitlist</span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                Reserve your spot for an upcoming puppy from SACC Doodles
+            </p>
+        </div>
+    </section>
+
+    <!-- Waitlist Content -->
+    <section class="py-12 bg-brand-dark">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+                <!-- Info Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-gradient-to-br from-brand-gold/15 to-brand-gold/5 border border-brand-gold/30 rounded-2xl p-6 sticky top-28">
+                        <h2 class="text-xl font-bold text-brand-gold mb-4">How Our Waitlist Works</h2>
+                        <ul class="space-y-3 text-sm">
+                            <li class="flex items-start gap-2 text-gray-300">
+                                <span class="text-brand-gold font-bold mt-0.5">&#10003;</span>
+                                Choose to be waitlisted for specific parents OR a breed type
+                            </li>
+                            <li class="flex items-start gap-2 text-gray-300">
+                                <span class="text-brand-gold font-bold mt-0.5">&#10003;</span>
+                                Your position is secured with a $300 deposit
+                            </li>
+                            <li class="flex items-start gap-2 text-gray-300">
+                                <span class="text-brand-gold font-bold mt-0.5">&#10003;</span>
+                                You'll receive your waitlist number upon submission
+                            </li>
+                            <li class="flex items-start gap-2 text-gray-300">
+                                <span class="text-brand-gold font-bold mt-0.5">&#10003;</span>
+                                When puppies are available, we contact families in order
+                            </li>
+                            <li class="flex items-start gap-2 text-gray-300">
+                                <span class="text-brand-gold font-bold mt-0.5">&#10003;</span>
+                                You get first pick based on your waitlist position
+                            </li>
+                        </ul>
+
+                        <div class="mt-6 bg-brand-gold/20 border border-brand-gold rounded-xl p-4">
+                            <h4 class="text-brand-gold font-semibold mb-1 text-sm">Deposit Information</h4>
+                            <p class="text-white font-semibold text-sm">$300 Non-Refundable Deposit</p>
+                            <p class="text-gray-300 text-xs mt-1">Your deposit can be transferred to any litter and never expires.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Section -->
+                <div class="lg:col-span-2">
+                    <!-- Success Message (hidden by default) -->
+                    <div class="hidden bg-brand-card rounded-2xl p-8 shadow-xl text-center" id="successMessage">
+                        <svg class="w-20 h-20 mx-auto text-green-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <h2 class="text-2xl font-bold text-brand-gold mb-4">You're on the Waitlist!</h2>
+                        <p class="text-gray-300 mb-6">Thank you for your application. We've received your information and will be in touch soon about the deposit process.</p>
+                        <div class="text-5xl font-bold text-brand-gold mb-2">#<span id="waitlistPosition">--</span></div>
+                        <p class="text-gray-500 text-sm">Your Waitlist Position</p>
+                        <p class="text-gray-500 mt-6 text-sm">We'll contact you via email with next steps for submitting your $300 deposit.</p>
+                        <a href="index.html" class="inline-block mt-8 px-8 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">Return to Home</a>
+                    </div>
+
+                    <!-- Form Container -->
+                    <div id="formContainer">
+                        <!-- Progress Steps -->
+                        <div class="mb-8">
+                            <div class="flex items-center justify-between relative">
+                                <!-- Progress Line Background -->
+                                <div class="absolute top-5 left-0 right-0 h-0.5 bg-brand-card"></div>
+                                <!-- Progress Line Active -->
+                                <div id="progress-line" class="absolute top-5 left-0 h-0.5 bg-brand-gold transition-all duration-300" style="width: 0%"></div>
+
+                                <!-- Step 1 -->
+                                <div class="relative z-10 flex flex-col items-center">
+                                    <div id="step-1-indicator" class="w-10 h-10 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-semibold text-sm">1</div>
+                                    <span id="step-1-label" class="mt-2 text-xs text-brand-gold font-medium">Your Info</span>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div class="relative z-10 flex flex-col items-center">
+                                    <div id="step-2-indicator" class="w-10 h-10 rounded-full bg-brand-card border-2 border-gray-600 text-gray-400 flex items-center justify-center font-semibold text-sm">2</div>
+                                    <span id="step-2-label" class="mt-2 text-xs text-gray-500 font-medium">Preferences</span>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div class="relative z-10 flex flex-col items-center">
+                                    <div id="step-3-indicator" class="w-10 h-10 rounded-full bg-brand-card border-2 border-gray-600 text-gray-400 flex items-center justify-center font-semibold text-sm">3</div>
+                                    <span id="step-3-label" class="mt-2 text-xs text-gray-500 font-medium">About You</span>
+                                </div>
+
+                                <!-- Step 4 -->
+                                <div class="relative z-10 flex flex-col items-center">
+                                    <div id="step-4-indicator" class="w-10 h-10 rounded-full bg-brand-card border-2 border-gray-600 text-gray-400 flex items-center justify-center font-semibold text-sm">4</div>
+                                    <span id="step-4-label" class="mt-2 text-xs text-gray-500 font-medium">Review</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Card -->
+                        <div class="bg-brand-card rounded-2xl p-8 shadow-xl">
+                            <form id="waitlistForm">
+
+                                <!-- Step 1: Your Information -->
+                                <div id="step-1" class="step-content">
+                                    <h3 class="text-xl font-semibold text-brand-gold mb-6">Your Information</h3>
+
+                                    <div class="space-y-4">
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block text-gray-300 text-sm mb-2">First Name *</label>
+                                                <input type="text" id="firstName" name="firstName" required
+                                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                                    placeholder="Jane">
+                                            </div>
+                                            <div>
+                                                <label class="block text-gray-300 text-sm mb-2">Last Name *</label>
+                                                <input type="text" id="lastName" name="lastName" required
+                                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                                    placeholder="Smith">
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-gray-300 text-sm mb-2">Email Address *</label>
+                                            <input type="email" id="email" name="email" required
+                                                class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                                placeholder="jane@example.com">
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-gray-300 text-sm mb-2">Phone Number *</label>
+                                            <input type="tel" id="phone" name="phone" required
+                                                class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                                placeholder="(555) 123-4567">
+                                        </div>
+
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            <div>
+                                                <label class="block text-gray-300 text-sm mb-2">City *</label>
+                                                <input type="text" id="city" name="city" required
+                                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                                    placeholder="Gilbert">
+                                            </div>
+                                            <div>
+                                                <label class="block text-gray-300 text-sm mb-2">State *</label>
+                                                <input type="text" id="state" name="state" required
+                                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                                    placeholder="Arizona">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 2: Puppy Preferences -->
+                                <div id="step-2" class="step-content hidden">
+                                    <h3 class="text-xl font-semibold text-brand-gold mb-6">Puppy Preferences</h3>
+
+                                    <div class="space-y-6">
+                                        <!-- Preference Type -->
+                                        <div>
+                                            <h4 class="text-brand-gold font-medium mb-4">What would you like to be waitlisted for?</h4>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <label class="cursor-pointer">
+                                                    <input type="radio" name="preferenceType" value="parents" class="hidden peer">
+                                                    <div class="p-4 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors">
+                                                        <span class="block font-semibold text-white">Specific Parents</span>
+                                                        <span class="text-gray-400 text-sm">I want puppies from specific dogs</span>
+                                                    </div>
+                                                </label>
+                                                <label class="cursor-pointer">
+                                                    <input type="radio" name="preferenceType" value="breed" class="hidden peer" checked>
+                                                    <div class="p-4 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors">
+                                                        <span class="block font-semibold text-white">Breed Type</span>
+                                                        <span class="text-gray-400 text-sm">Any puppies of a certain breed</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Parent Selection (shown when "Specific Parents" is selected) -->
+                                        <div id="parentSelection" class="hidden">
+                                            <p class="text-gray-400 mb-4">Select the parent pair you're interested in:</p>
+                                            <select id="parentPair" name="parentPair" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                                <option value="">Choose a breeding pair...</option>
+                                                <option value="luna-max">Luna & Max (Goldendoodle)</option>
+                                                <option value="bella-charlie">Bella & Charlie (Bernedoodle)</option>
+                                                <option value="daisy-cooper">Daisy & Cooper (Aussiedoodle)</option>
+                                            </select>
+                                            <p class="text-gray-500 text-sm mt-2">Don't see your preferred pair? <a href="our-dogs.html" class="text-brand-gold hover:underline">View all our dogs</a></p>
+                                        </div>
+
+                                        <!-- Breed Selection (shown when "Breed Type" is selected) -->
+                                        <div id="breedSelection">
+                                            <p class="text-gray-400 mb-4">Select the breed(s) you're interested in:</p>
+                                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" name="breeds" value="goldendoodle" class="hidden peer">
+                                                    <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                                        Goldendoodle
+                                                    </div>
+                                                </label>
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" name="breeds" value="bernedoodle" class="hidden peer">
+                                                    <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                                        Bernedoodle
+                                                    </div>
+                                                </label>
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" name="breeds" value="aussiedoodle" class="hidden peer">
+                                                    <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                                        Aussiedoodle
+                                                    </div>
+                                                </label>
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" name="breeds" value="labradoodle" class="hidden peer">
+                                                    <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                                        Labradoodle
+                                                    </div>
+                                                </label>
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" name="breeds" value="sheepadoodle" class="hidden peer">
+                                                    <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                                        Sheepadoodle
+                                                    </div>
+                                                </label>
+                                                <label class="cursor-pointer">
+                                                    <input type="checkbox" name="breeds" value="any" class="hidden peer">
+                                                    <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                                        Any Breed
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <!-- Additional Preferences -->
+                                        <div class="pt-4 border-t border-brand-darker">
+                                            <h4 class="text-brand-gold font-medium mb-4">Additional Preferences</h4>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label class="block text-gray-300 text-sm mb-2">Gender Preference</label>
+                                                    <select id="genderPref" name="genderPref" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                                        <option value="any">No Preference</option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label class="block text-gray-300 text-sm mb-2">Color Preference</label>
+                                                    <input type="text" id="colorPref" name="colorPref" placeholder="e.g., Red, Cream, Parti"
+                                                        class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors">
+                                                </div>
+                                            </div>
+                                            <div class="mt-4">
+                                                <label class="block text-gray-300 text-sm mb-2">Size Preference</label>
+                                                <select id="sizePref" name="sizePref" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                                    <option value="any">No Preference</option>
+                                                    <option value="mini">Mini (under 25 lbs)</option>
+                                                    <option value="medium">Medium (25-50 lbs)</option>
+                                                    <option value="standard">Standard (50+ lbs)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: About You -->
+                                <div id="step-3" class="step-content hidden">
+                                    <h3 class="text-xl font-semibold text-brand-gold mb-6">Tell Us About Yourself</h3>
+
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-gray-300 text-sm mb-2">Living Situation *</label>
+                                            <select id="livingSituation" name="livingSituation" required class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                                <option value="">Select...</option>
+                                                <option value="house-yard">House with Yard</option>
+                                                <option value="house-no-yard">House without Yard</option>
+                                                <option value="apartment">Apartment/Condo</option>
+                                                <option value="farm">Farm/Acreage</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-gray-300 text-sm mb-2">Dog Ownership Experience *</label>
+                                            <select id="experience" name="experience" required class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                                <option value="">Select...</option>
+                                                <option value="first-time">First-time Dog Owner</option>
+                                                <option value="some">Some Experience</option>
+                                                <option value="experienced">Experienced Dog Owner</option>
+                                                <option value="breeder">Breeder/Professional</option>
+                                            </select>
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-gray-300 text-sm mb-2">Other Pets in Home</label>
+                                            <input type="text" id="otherPets" name="otherPets" placeholder="e.g., 1 cat, 2 dogs"
+                                                class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors">
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-gray-300 text-sm mb-2">Children in Home</label>
+                                            <input type="text" id="children" name="children" placeholder="e.g., Ages 5 and 8"
+                                                class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors">
+                                        </div>
+
+                                        <div>
+                                            <label class="block text-gray-300 text-sm mb-2">Why do you want a puppy from SACC Doodles?</label>
+                                            <textarea id="message" name="message" rows="4" placeholder="Tell us about your family and why you'd be a great puppy parent..."
+                                                class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors resize-none"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 4: Review & Submit -->
+                                <div id="step-4" class="step-content hidden">
+                                    <h3 class="text-xl font-semibold text-brand-gold mb-6">Review & Submit</h3>
+
+                                    <!-- Summary Section -->
+                                    <div class="space-y-4 mb-6">
+                                        <div class="bg-brand-darker rounded-lg p-4">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <h4 class="text-brand-gold font-medium">Your Information</h4>
+                                                <button type="button" onclick="goToStep(1)" class="text-sm text-gray-400 hover:text-brand-gold">Edit</button>
+                                            </div>
+                                            <div id="summary-info" class="text-gray-300 text-sm space-y-1"></div>
+                                        </div>
+
+                                        <div class="bg-brand-darker rounded-lg p-4">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <h4 class="text-brand-gold font-medium">Puppy Preferences</h4>
+                                                <button type="button" onclick="goToStep(2)" class="text-sm text-gray-400 hover:text-brand-gold">Edit</button>
+                                            </div>
+                                            <div id="summary-preferences" class="text-gray-300 text-sm space-y-1"></div>
+                                        </div>
+
+                                        <div class="bg-brand-darker rounded-lg p-4">
+                                            <div class="flex justify-between items-center mb-2">
+                                                <h4 class="text-brand-gold font-medium">About You</h4>
+                                                <button type="button" onclick="goToStep(3)" class="text-sm text-gray-400 hover:text-brand-gold">Edit</button>
+                                            </div>
+                                            <div id="summary-home" class="text-gray-300 text-sm space-y-1"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Deposit Info -->
+                                    <div class="bg-brand-gold/20 border border-brand-gold rounded-xl p-4 mb-6">
+                                        <h4 class="text-brand-gold font-semibold mb-2">Deposit Information</h4>
+                                        <p class="text-white font-semibold">$300 Non-Refundable Deposit</p>
+                                        <p class="text-gray-300 text-sm mt-1">Your deposit can be transferred to any litter and never expires.</p>
+                                    </div>
+
+                                    <!-- Agreements -->
+                                    <div class="space-y-4">
+                                        <label class="flex items-start gap-3 cursor-pointer">
+                                            <input type="checkbox" id="depositAgree" name="depositAgree" required class="mt-1 w-4 h-4 accent-brand-gold">
+                                            <span class="text-gray-300 text-sm">I understand that a <strong class="text-white">$300 non-refundable deposit</strong> is required to secure my place on the waitlist. I acknowledge that this deposit can be transferred to any litter and does not expire. *</span>
+                                        </label>
+
+                                        <label class="flex items-start gap-3 cursor-pointer">
+                                            <input type="checkbox" id="contactAgree" name="contactAgree" required class="mt-1 w-4 h-4 accent-brand-gold">
+                                            <span class="text-gray-300 text-sm">I agree to be contacted by SACC Doodles regarding my waitlist application and available puppies. *</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Navigation Buttons -->
+                                <div class="flex justify-between mt-8 pt-6 border-t border-brand-darker">
+                                    <button type="button" id="prev-btn"
+                                        class="hidden px-6 py-3 bg-brand-darker border border-brand-card rounded-lg text-gray-300 hover:border-brand-gold hover:text-brand-gold transition-colors">
+                                        <span class="flex items-center">
+                                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                            </svg>
+                                            Back
+                                        </span>
+                                    </button>
+
+                                    <button type="button" id="next-btn"
+                                        class="ml-auto px-6 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                                        <span class="flex items-center">
+                                            Next Step
+                                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                            </svg>
+                                        </span>
+                                    </button>
+
+                                    <button type="submit" id="submit-btn"
+                                        class="hidden ml-auto px-8 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                                        Submit Application
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Trust Indicator -->
+                        <div class="mt-6 text-center">
+                            <p class="text-gray-500 text-sm">Your information is secure and will never be shared with third parties.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-card border-t border-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <span class="text-2xl font-bold text-brand-gold">SACC Doodles</span>
+                    <p class="text-gray-400 mt-4">Breeding quality puppies with love and care.</p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="Instagram">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="TikTok">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="Facebook">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-brand-gold transition-colors">Home</a></li>
+                        <li><a href="our-dogs.html" class="text-gray-400 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                        <li><a href="available-puppies.html" class="text-gray-400 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                        <li><a href="waitlist.html" class="text-gray-400 hover:text-brand-gold transition-colors">Waitlist</a></li>
+                        <li><a href="guardian-home.html" class="text-gray-400 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                        <li><a href="puppy-resources.html" class="text-gray-400 hover:text-brand-gold transition-colors">Puppy Resources</a></li>
+                        <li><a href="faq.html" class="text-gray-400 hover:text-brand-gold transition-colors">FAQ</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-brand-gold transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact Us</h4>
+                    <div class="space-y-3">
+                        <p class="flex items-center gap-2 text-gray-400">
+                            <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            480-822-8443
+                        </p>
+                        <p class="flex items-center gap-2 text-gray-400">
+                            <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            mizzteachout@gmail.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-brand-darker mt-12 pt-8 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2025 SACC Doodles. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Multi-step form logic
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        const form = document.getElementById('waitlistForm');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressLine = document.getElementById('progress-line');
+
+        // Handle preference type switching
+        document.querySelectorAll('input[name="preferenceType"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const breedSelection = document.getElementById('breedSelection');
+                const parentSelection = document.getElementById('parentSelection');
+
+                if (e.target.value === 'parents') {
+                    breedSelection.classList.add('hidden');
+                    parentSelection.classList.remove('hidden');
+                } else {
+                    breedSelection.classList.remove('hidden');
+                    parentSelection.classList.add('hidden');
+                }
+            });
+        });
+
+        function goToStep(step) {
+            currentStep = step;
+            updateStep(currentStep);
+        }
+
+        function updateStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+
+            // Show current step
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+
+            // Update step indicators
+            for (let i = 1; i <= totalSteps; i++) {
+                const indicator = document.getElementById(`step-${i}-indicator`);
+                const label = document.getElementById(`step-${i}-label`);
+
+                if (i < step) {
+                    // Completed
+                    indicator.className = 'w-10 h-10 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-semibold text-sm';
+                    indicator.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+                    label.className = 'mt-2 text-xs text-brand-gold font-medium';
+                } else if (i === step) {
+                    // Current
+                    indicator.className = 'w-10 h-10 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-semibold text-sm';
+                    indicator.textContent = i;
+                    label.className = 'mt-2 text-xs text-brand-gold font-medium';
+                } else {
+                    // Future
+                    indicator.className = 'w-10 h-10 rounded-full bg-brand-card border-2 border-gray-600 text-gray-400 flex items-center justify-center font-semibold text-sm';
+                    indicator.textContent = i;
+                    label.className = 'mt-2 text-xs text-gray-500 font-medium';
+                }
+            }
+
+            // Update progress line
+            progressLine.style.width = `${((step - 1) / (totalSteps - 1)) * 100}%`;
+
+            // Update buttons
+            prevBtn.classList.toggle('hidden', step === 1);
+            nextBtn.classList.toggle('hidden', step === totalSteps);
+            submitBtn.classList.toggle('hidden', step !== totalSteps);
+
+            // If on review step, populate summary
+            if (step === 4) {
+                populateSummary();
+            }
+        }
+
+        function validateStep(step) {
+            const stepEl = document.getElementById(`step-${step}`);
+            const requiredFields = stepEl.querySelectorAll('[required]');
+            let isValid = true;
+
+            for (const field of requiredFields) {
+                // Remove any existing error styling
+                field.classList.remove('border-red-500');
+
+                if (!field.value) {
+                    field.classList.add('border-red-500');
+                    if (isValid) field.focus();
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        function populateSummary() {
+            // Your Information
+            const firstName = document.getElementById('firstName').value || '-';
+            const lastName = document.getElementById('lastName').value || '-';
+            const email = document.getElementById('email').value || '-';
+            const phone = document.getElementById('phone').value || '-';
+            const city = document.getElementById('city').value || '-';
+            const state = document.getElementById('state').value || '-';
+
+            document.getElementById('summary-info').innerHTML = `
+                <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <p><strong>Location:</strong> ${city}, ${state}</p>
+            `;
+
+            // Preferences
+            const prefType = document.querySelector('input[name="preferenceType"]:checked')?.value;
+            const prefTypeText = prefType === 'parents' ? 'Specific Parents' : 'Breed Type';
+
+            let selectionText = '-';
+            if (prefType === 'parents') {
+                const select = document.getElementById('parentPair');
+                selectionText = select?.options[select.selectedIndex]?.text || '-';
+            } else {
+                const breeds = Array.from(document.querySelectorAll('input[name="breeds"]:checked')).map(cb => cb.value);
+                selectionText = breeds.length ? breeds.join(', ') : 'None selected';
+            }
+
+            const genderSelect = document.getElementById('genderPref');
+            const gender = genderSelect?.options[genderSelect.selectedIndex]?.text || '-';
+            const color = document.getElementById('colorPref').value || 'No preference';
+            const sizeSelect = document.getElementById('sizePref');
+            const size = sizeSelect?.options[sizeSelect.selectedIndex]?.text || '-';
+
+            document.getElementById('summary-preferences').innerHTML = `
+                <p><strong>Looking for:</strong> ${prefTypeText}</p>
+                <p><strong>Selection:</strong> ${selectionText}</p>
+                <p><strong>Gender:</strong> ${gender}</p>
+                <p><strong>Color:</strong> ${color}</p>
+                <p><strong>Size:</strong> ${size}</p>
+            `;
+
+            // About Home
+            const livingSelect = document.getElementById('livingSituation');
+            const living = livingSelect?.options[livingSelect.selectedIndex]?.text || '-';
+            const experienceSelect = document.getElementById('experience');
+            const experience = experienceSelect?.options[experienceSelect.selectedIndex]?.text || '-';
+            const pets = document.getElementById('otherPets').value || 'None';
+            const children = document.getElementById('children').value || 'None';
+
+            document.getElementById('summary-home').innerHTML = `
+                <p><strong>Living situation:</strong> ${living}</p>
+                <p><strong>Experience:</strong> ${experience}</p>
+                <p><strong>Other pets:</strong> ${pets}</p>
+                <p><strong>Children:</strong> ${children}</p>
+            `;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                updateStep(currentStep);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentStep--;
+            updateStep(currentStep);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Handle form submission with Supabase
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Validate final step checkboxes
+            if (!validateStep(currentStep)) return;
+
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            try {
+                // Collect selected breeds
+                const selectedBreeds = [];
+                document.querySelectorAll('input[name="breeds"]:checked').forEach(cb => {
+                    selectedBreeds.push(cb.value);
+                });
+
+                // Get preference type
+                const preferenceType = document.querySelector('input[name="preferenceType"]:checked')?.value || 'breed';
+
+                // Get parent pair if selected
+                const parentPair = document.getElementById('parentPair').value;
+
+                // Build additional info for notes
+                const additionalInfo = {
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    livingSituation: document.getElementById('livingSituation').value,
+                    experience: document.getElementById('experience').value,
+                    otherPets: document.getElementById('otherPets').value,
+                    children: document.getElementById('children').value,
+                    message: document.getElementById('message').value,
+                    sizePreference: document.getElementById('sizePref').value,
+                    preferenceType: preferenceType,
+                    parentPair: parentPair
+                };
+
+                // Build entry object for DB
+                const entry = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    status: 'pending',
+                    selectedBreeds: selectedBreeds,
+                    genderPreference: document.getElementById('genderPref').value,
+                    colorPreference: document.getElementById('colorPref').value,
+                    notes: JSON.stringify(additionalInfo)
+                };
+
+                // Save to Supabase
+                const savedEntry = await DB.waitlist.save(entry);
+
+                // Get position in waitlist
+                const activeEntries = await DB.waitlist.getActive();
+                const position = activeEntries.length;
+
+                // Hide form, show success
+                document.getElementById('formContainer').classList.add('hidden');
+                document.getElementById('successMessage').classList.remove('hidden');
+                document.getElementById('waitlistPosition').textContent = position;
+
+                // Scroll to top to show success message
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            } catch (error) {
+                console.error('Error submitting waitlist form:', error);
+                alert('There was an error submitting your application. Please try again or contact us directly.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+
+        // Initialize
+        updateStep(1);
+    </script>
+</body>
+</html>

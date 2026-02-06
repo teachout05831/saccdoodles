@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git clone:*)",
+      "WebFetch(domain:task-system-nine.vercel.app)",
+      "Bash(node:*)",
+      "Bash(npx http-server:*)",
+      "Bash(timeout:*)",
+      "Bash(python:*)",
+      "Bash(findstr:*)",
+      "Bash(npx serve:*)",
+      "Bash(move:*)",
+      "Bash(ls:*)",
+      "WebFetch(domain:saccdoodles.com)",
+      "WebFetch(domain:timberidgegoldendoodles.com)",
+      "WebFetch(domain:harmonydoodles.com)",
+      "WebFetch(domain:goldendoodlebabies.com)",
+      "WebFetch(domain:eurogoldendoodle.com)",
+      "Bash(wc:*)",
+      "Bash(dir:*)",
+      "Bash(find:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(where:*)",
+      "Bash(npx:*)",
+      "Bash(npm install:*)",
+      "Bash(netstat:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git init:*)"
+    ]
+  }
+}

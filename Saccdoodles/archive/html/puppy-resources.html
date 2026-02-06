@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puppy Resources - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <span class="logo-text">SACC Doodles</span>
+                </a>
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="our-dogs.html">Our Dogs</a></li>
+                    <li><a href="available-puppies.html">Available Puppies</a></li>
+                    <li><a href="waitlist.html">Waitlist</a></li>
+                    <li><a href="guardian-home.html">Guardian Homes</a></li>
+                    <li><a href="puppy-resources.html" class="active">Puppy Resources</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <a href="admin.html" class="admin-link" title="Admin Dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="container">
+            <h1 class="hero-title">
+                <span class="script-font">Puppy</span>
+                Resources
+            </h1>
+            <p class="hero-subtitle">Everything you need to know to prepare for and care for your new puppy</p>
+        </div>
+    </section>
+
+    <!-- Quick Navigation -->
+    <section class="resource-nav-section">
+        <div class="container">
+            <div class="resource-nav">
+                <a href="#breeds" class="resource-nav-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                        <line x1="9" y1="9" x2="9.01" y2="9"/>
+                        <line x1="15" y1="9" x2="15.01" y2="9"/>
+                    </svg>
+                    Our Breeds
+                </a>
+                <a href="#comes-home" class="resource-nav-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    What Comes Home
+                </a>
+                <a href="#supplies" class="resource-nav-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                    </svg>
+                    Supply List
+                </a>
+                <a href="#first-days" class="resource-nav-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    First Days Home
+                </a>
+                <a href="#training" class="resource-nav-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    Training Tips
+                </a>
+                <a href="#food" class="resource-nav-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                        <line x1="6" y1="1" x2="6" y2="4"/>
+                        <line x1="10" y1="1" x2="10" y2="4"/>
+                        <line x1="14" y1="1" x2="14" y2="4"/>
+                    </svg>
+                    Food & Nutrition
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Breeds Section -->
+    <section id="breeds" class="content-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="script-font">Find Your</span>
+                Perfect Breed
+            </h2>
+            <p class="section-intro">Each of our breeds has unique characteristics and traits. Learn about each one to find the perfect fit for your family and lifestyle.</p>
+
+            <div class="breed-cards">
+                <!-- Poodle -->
+                <div class="breed-card">
+                    <div class="breed-image">
+                        <div class="image-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                            <span>Poodle</span>
+                        </div>
+                    </div>
+                    <div class="breed-content">
+                        <h3>Poodle</h3>
+                        <div class="breed-traits">
+                            <span class="trait">Highly Intelligent</span>
+                            <span class="trait">Hypoallergenic</span>
+                            <span class="trait">Athletic</span>
+                        </div>
+                        <p>Poodles are one of the most intelligent dog breeds, making them highly trainable and eager to please. They come in three sizes (standard, miniature, and toy) and are known for their curly, low-shedding coats that are ideal for allergy sufferers.</p>
+                        <div class="breed-details">
+                            <div class="detail-item">
+                                <strong>Temperament:</strong> Alert, intelligent, loyal, and active
+                            </div>
+                            <div class="detail-item">
+                                <strong>Energy Level:</strong> High - requires daily exercise and mental stimulation
+                            </div>
+                            <div class="detail-item">
+                                <strong>Good For:</strong> Active families, those with allergies, first-time dog owners
+                            </div>
+                            <div class="detail-item">
+                                <strong>Grooming:</strong> Regular professional grooming every 4-6 weeks; daily brushing recommended
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Goldendoodle -->
+                <div class="breed-card">
+                    <div class="breed-image">
+                        <div class="image-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                            <span>Goldendoodle</span>
+                        </div>
+                    </div>
+                    <div class="breed-content">
+                        <h3>Goldendoodle</h3>
+                        <div class="breed-traits">
+                            <span class="trait">Friendly</span>
+                            <span class="trait">Great with Kids</span>
+                            <span class="trait">Low-Shedding</span>
+                        </div>
+                        <p>A cross between a Golden Retriever and a Poodle, Goldendoodles combine the best of both breeds. They're known for their friendly, affectionate nature and make excellent family pets. Their teddy bear appearance and loving personality have made them one of the most popular doodle breeds.</p>
+                        <div class="breed-details">
+                            <div class="detail-item">
+                                <strong>Temperament:</strong> Friendly, gentle, social, and eager to please
+                            </div>
+                            <div class="detail-item">
+                                <strong>Energy Level:</strong> Moderate to high - enjoys walks, playtime, and swimming
+                            </div>
+                            <div class="detail-item">
+                                <strong>Good For:</strong> Families with children, therapy work, first-time owners
+                            </div>
+                            <div class="detail-item">
+                                <strong>Grooming:</strong> Professional grooming every 6-8 weeks; regular brushing to prevent matting
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bernedoodle -->
+                <div class="breed-card">
+                    <div class="breed-image">
+                        <div class="image-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                            <span>Bernedoodle</span>
+                        </div>
+                    </div>
+                    <div class="breed-content">
+                        <h3>Bernedoodle</h3>
+                        <div class="breed-traits">
+                            <span class="trait">Loyal</span>
+                            <span class="trait">Gentle Giant</span>
+                            <span class="trait">Playful</span>
+                        </div>
+                        <p>A cross between a Bernese Mountain Dog and a Poodle, Bernedoodles are known for their striking tri-color coats and gentle, loyal personalities. They tend to be more laid-back than some other doodle breeds while still being playful and fun-loving.</p>
+                        <div class="breed-details">
+                            <div class="detail-item">
+                                <strong>Temperament:</strong> Loyal, goofy, affectionate, and sometimes stubborn
+                            </div>
+                            <div class="detail-item">
+                                <strong>Energy Level:</strong> Moderate - enjoys activity but also loves to cuddle
+                            </div>
+                            <div class="detail-item">
+                                <strong>Good For:</strong> Families wanting a loyal companion, those with space for a larger dog
+                            </div>
+                            <div class="detail-item">
+                                <strong>Grooming:</strong> Professional grooming every 6-8 weeks; regular brushing essential for their wavy/curly coats
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cavapoo -->
+                <div class="breed-card">
+                    <div class="breed-image">
+                        <div class="image-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                            <span>Cavapoo</span>
+                        </div>
+                    </div>
+                    <div class="breed-content">
+                        <h3>Cavapoo</h3>
+                        <div class="breed-traits">
+                            <span class="trait">Compact Size</span>
+                            <span class="trait">Affectionate</span>
+                            <span class="trait">Adaptable</span>
+                        </div>
+                        <p>A cross between a Cavalier King Charles Spaniel and a Poodle, Cavapoos are small, adorable companions perfect for those wanting a smaller doodle. They're known for their sweet, gentle nature and adaptability to different living situations, including apartments.</p>
+                        <div class="breed-details">
+                            <div class="detail-item">
+                                <strong>Temperament:</strong> Sweet, gentle, social, and loving
+                            </div>
+                            <div class="detail-item">
+                                <strong>Energy Level:</strong> Low to moderate - happy with walks and indoor play
+                            </div>
+                            <div class="detail-item">
+                                <strong>Good For:</strong> Apartments, seniors, families with gentle children, first-time owners
+                            </div>
+                            <div class="detail-item">
+                                <strong>Grooming:</strong> Professional grooming every 6-8 weeks; regular brushing for their soft coats
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Golden Retriever -->
+                <div class="breed-card">
+                    <div class="breed-image">
+                        <div class="image-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                            <span>Golden Retriever</span>
+                        </div>
+                    </div>
+                    <div class="breed-content">
+                        <h3>Golden Retriever</h3>
+                        <div class="breed-traits">
+                            <span class="trait">Family Favorite</span>
+                            <span class="trait">Devoted</span>
+                            <span class="trait">Versatile</span>
+                        </div>
+                        <p>Golden Retrievers are one of America's most beloved breeds for good reason. They're intelligent, friendly, and devoted family companions. Known for their beautiful golden coats and gentle mouths, they excel in many roles from family pet to therapy dog to service animal.</p>
+                        <div class="breed-details">
+                            <div class="detail-item">
+                                <strong>Temperament:</strong> Friendly, reliable, trustworthy, and kind
+                            </div>
+                            <div class="detail-item">
+                                <strong>Energy Level:</strong> High - needs regular exercise, loves swimming and fetch
+                            </div>
+                            <div class="detail-item">
+                                <strong>Good For:</strong> Active families, homes with children, those wanting a devoted companion
+                            </div>
+                            <div class="detail-item">
+                                <strong>Grooming:</strong> Regular brushing (2-3 times per week); moderate shedding year-round with heavier seasonal shedding
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Comes Home With Your Puppy -->
+    <section id="comes-home" class="content-section alt-bg">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="script-font">What Comes</span>
+                Home With Your Puppy
+            </h2>
+            <p class="section-intro">When you pick up your new family member, they won't come empty-handed! Here's everything that goes home with your puppy.</p>
+
+            <div class="comes-home-grid">
+                <div class="comes-home-item">
+                    <div class="comes-home-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                    </div>
+                    <h3>Bag of Food</h3>
+                    <p>Your puppy will come home with a bag of Kirkland (Costco) puppy food - the same food they've been eating. This helps with the transition and prevents tummy upset.</p>
+                </div>
+
+                <div class="comes-home-item">
+                    <div class="comes-home-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="3" y1="9" x2="21" y2="9"/>
+                            <line x1="9" y1="21" x2="9" y2="9"/>
+                        </svg>
+                    </div>
+                    <h3>Comfort Blanket</h3>
+                    <p>A blanket that smells like their littermates and mama. This familiar scent helps comfort your puppy during their first nights in their new home.</p>
+                </div>
+
+                <div class="comes-home-item">
+                    <div class="comes-home-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                    </div>
+                    <h3>Toy</h3>
+                    <p>A toy that your puppy has been playing with. Having something familiar helps ease the transition to their new environment.</p>
+                </div>
+
+                <div class="comes-home-item">
+                    <div class="comes-home-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="16" y1="13" x2="8" y2="13"/>
+                            <line x1="16" y1="17" x2="8" y2="17"/>
+                            <polyline points="10 9 9 9 8 9"/>
+                        </svg>
+                    </div>
+                    <h3>Puppy Profile</h3>
+                    <p>You'll receive your puppy's profile and individual information via text or email. This includes their personality traits, preferences, and any special notes about your specific puppy.</p>
+                </div>
+
+                <div class="comes-home-item">
+                    <div class="comes-home-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <h3>Vet Records</h3>
+                    <p>Complete veterinary records including vaccinations, deworming schedule, and health check information. You'll need these for your first vet visit.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Supply Checklist -->
+    <section id="supplies" class="content-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="script-font">Puppy</span>
+                Supply Checklist
+            </h2>
+            <p class="section-intro">Be prepared before bringing your puppy home! Here's everything you'll need.</p>
+
+            <div class="supply-categories">
+                <!-- Crate & Sleeping -->
+                <div class="supply-category">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        Crate & Sleeping
+                    </h3>
+                    <div class="supply-note">
+                        <strong>Important:</strong> All of our puppies are crate trained and sleep in wire metal crates. They're already comfortable with crate time!
+                    </div>
+                    <ul class="supply-list">
+                        <li>
+                            <span class="supply-name">Wire Metal Crate</span>
+                            <span class="supply-desc">Size appropriate for your puppy's expected adult size. Get one with a divider to adjust as they grow.</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Crate Pad or Bed</span>
+                            <span class="supply-desc">Washable padding for comfort inside the crate</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Crate Cover (Optional)</span>
+                            <span class="supply-desc">Helps create a den-like environment and can reduce anxiety</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Food & Water -->
+                <div class="supply-category">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                            <line x1="6" y1="1" x2="6" y2="4"/>
+                            <line x1="10" y1="1" x2="10" y2="4"/>
+                            <line x1="14" y1="1" x2="14" y2="4"/>
+                        </svg>
+                        Food & Water
+                    </h3>
+                    <ul class="supply-list">
+                        <li>
+                            <span class="supply-name">Kirkland Puppy Food (Costco)</span>
+                            <span class="supply-desc">This is what our puppies eat - we recommend continuing with this food</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Food & Water Bowls</span>
+                            <span class="supply-desc">Stainless steel or ceramic recommended; avoid plastic</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Treat Pouch</span>
+                            <span class="supply-desc">For training sessions</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Training Treats</span>
+                            <span class="supply-desc">Small, soft treats that can be given quickly during training</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Grooming -->
+                <div class="supply-category">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="4"/>
+                            <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
+                            <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
+                            <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
+                            <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
+                        </svg>
+                        Grooming
+                    </h3>
+                    <ul class="supply-list">
+                        <li>
+                            <span class="supply-name">Puppy Shampoo</span>
+                            <span class="supply-desc">Choose a gentle, tearless formula specifically for puppies</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Slicker Brush</span>
+                            <span class="supply-desc">Essential for doodle coats to prevent matting</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Metal Comb</span>
+                            <span class="supply-desc">For working through tangles and checking for mats</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Nail Clippers or Grinder</span>
+                            <span class="supply-desc">Start handling paws early so they're comfortable with nail trims</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Safety & Containment -->
+                <div class="supply-category">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        Safety & Containment
+                    </h3>
+                    <ul class="supply-list">
+                        <li>
+                            <span class="supply-name">Collar with ID Tag</span>
+                            <span class="supply-desc">Include your phone number and address</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Leash (6 ft)</span>
+                            <span class="supply-desc">Standard length for walks and training</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Exercise Pen (X-Pen)</span>
+                            <span class="supply-desc">Creates a safe play area when you can't directly supervise</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Baby Gates</span>
+                            <span class="supply-desc">Block off areas of your home as needed</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Potty Training -->
+                <div class="supply-category">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 11 12 14 22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        Potty Training
+                    </h3>
+                    <ul class="supply-list">
+                        <li>
+                            <span class="supply-name">Enzyme Cleaner</span>
+                            <span class="supply-desc">Essential for cleaning accidents - removes odors that attract repeat incidents</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Potty Pads (Optional)</span>
+                            <span class="supply-desc">For apartment living or bad weather backup</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Poop Bags</span>
+                            <span class="supply-desc">Biodegradable options are great for the environment</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Toys & Enrichment -->
+                <div class="supply-category">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            <line x1="9" y1="9" x2="9.01" y2="9"/>
+                            <line x1="15" y1="9" x2="15.01" y2="9"/>
+                        </svg>
+                        Toys & Enrichment
+                    </h3>
+                    <ul class="supply-list">
+                        <li>
+                            <span class="supply-name">Chew Toys</span>
+                            <span class="supply-desc">KONG, Nylabone, or other durable options for teething</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Plush Toys</span>
+                            <span class="supply-desc">Soft toys for comfort and play</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Puzzle Toys</span>
+                            <span class="supply-desc">Mental stimulation to prevent boredom</span>
+                        </li>
+                        <li>
+                            <span class="supply-name">Rope Toys</span>
+                            <span class="supply-desc">Great for gentle tug games and dental health</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- First Days Home -->
+    <section id="first-days" class="content-section alt-bg">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="script-font">The First</span>
+                Days Home
+            </h2>
+            <p class="section-intro">What to expect and how to help your puppy adjust to their new home.</p>
+
+            <div class="timeline-section">
+                <div class="timeline-item">
+                    <div class="timeline-marker">Day 1</div>
+                    <div class="timeline-content">
+                        <h3>Arrival Day</h3>
+                        <ul>
+                            <li>Keep things calm and quiet - resist the urge to invite everyone over to meet the puppy</li>
+                            <li>Show your puppy their potty spot immediately upon arrival</li>
+                            <li>Let them explore their designated area at their own pace</li>
+                            <li>Introduce their crate with the door open and their blanket inside</li>
+                            <li>Offer small meals to avoid upset stomach from travel stress</li>
+                            <li>Expect some whining at bedtime - this is normal! The comfort blanket with littermate scent helps</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">Days 2-3</div>
+                    <div class="timeline-content">
+                        <h3>Settling In</h3>
+                        <ul>
+                            <li>Establish a consistent routine for feeding, potty breaks, play, and sleep</li>
+                            <li>Take your puppy out to potty: first thing in the morning, after meals, after naps, after play, and before bed</li>
+                            <li>Start introducing family members one at a time</li>
+                            <li>Begin using their name positively (never for scolding)</li>
+                            <li>Practice short crate sessions during the day with treats</li>
+                            <li>Puppy-proof your home - get down to their level and look for hazards</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">Week 1</div>
+                    <div class="timeline-content">
+                        <h3>Building Routine</h3>
+                        <ul>
+                            <li>Schedule your first vet visit (bring the health records we provided)</li>
+                            <li>Continue consistent potty training - celebrate successes!</li>
+                            <li>Start basic training: sit, name recognition, and "look at me"</li>
+                            <li>Handle paws, ears, and mouth daily to prepare for grooming and vet visits</li>
+                            <li>Begin supervised introductions to other family pets (if applicable)</li>
+                            <li>Limit visitors to prevent overwhelming your puppy</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">Weeks 2-4</div>
+                    <div class="timeline-content">
+                        <h3>Growing Confidence</h3>
+                        <ul>
+                            <li>Your puppy should be settling into the routine</li>
+                            <li>Continue positive reinforcement training</li>
+                            <li>Begin gentle socialization to new sounds, surfaces, and experiences</li>
+                            <li>Watch for teething and provide appropriate chew toys</li>
+                            <li>Start leaving for short periods to prevent separation anxiety</li>
+                            <li>Consider puppy kindergarten classes after vaccinations are complete</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>The "3-3-3 Rule"</h4>
+                <p>It takes approximately:</p>
+                <ul>
+                    <li><strong>3 days</strong> for your puppy to decompress from the transition</li>
+                    <li><strong>3 weeks</strong> to start learning your routine</li>
+                    <li><strong>3 months</strong> to feel fully at home and show their true personality</li>
+                </ul>
+                <p>Be patient - adjustment takes time!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Training Section -->
+    <section id="training" class="content-section">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="script-font">Puppy</span>
+                Training Tips
+            </h2>
+            <p class="section-intro">Early training is essential for a well-behaved adult dog. It's much easier to prevent bad habits than to fix them later!</p>
+
+            <div class="training-grid">
+                <!-- Common Puppy Behaviors -->
+                <div class="training-topic">
+                    <h3>Common Puppy Behaviors to Address Early</h3>
+                    <p>Catching these behaviors early makes training much easier:</p>
+
+                    <div class="behavior-item">
+                        <h4>Nipping & Mouthing</h4>
+                        <p>Puppies explore with their mouths, but nipping must be redirected. When your puppy nips, say "ouch" and redirect to a toy. If they continue, calmly end playtime. Consistency is key!</p>
+                    </div>
+
+                    <div class="behavior-item">
+                        <h4>Chewing</h4>
+                        <p>Puppies chew - especially when teething. Provide plenty of appropriate chew toys and remove access to items you don't want destroyed. If you catch them chewing something inappropriate, redirect to an approved toy.</p>
+                    </div>
+
+                    <div class="behavior-item">
+                        <h4>Jumping Up</h4>
+                        <p>While cute as a puppy, jumping becomes problematic in adult dogs. Ignore jumping (turn away) and only give attention when all four paws are on the floor.</p>
+                    </div>
+
+                    <div class="behavior-item">
+                        <h4>Barking</h4>
+                        <p>Some barking is normal, but excessive barking should be addressed. Identify triggers, don't reward barking with attention, and teach a "quiet" command.</p>
+                    </div>
+                </div>
+
+                <!-- Training Resources -->
+                <div class="training-topic">
+                    <h3>Training Resources</h3>
+                    <p>We recommend these YouTube channels and resources for puppy training:</p>
+
+                    <div class="resource-links">
+                        <a href="https://www.youtube.com/c/ZakGeorge" target="_blank" rel="noopener noreferrer" class="resource-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                            </svg>
+                            <div>
+                                <strong>Zak George's Dog Training Revolution</strong>
+                                <span>Positive reinforcement training for all skill levels</span>
+                            </div>
+                        </a>
+
+                        <a href="https://www.youtube.com/c/McCannDogs" target="_blank" rel="noopener noreferrer" class="resource-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                            </svg>
+                            <div>
+                                <strong>McCann Dog Training</strong>
+                                <span>Professional trainers with comprehensive puppy guides</span>
+                            </div>
+                        </a>
+
+                        <a href="https://www.youtube.com/c/KikopupDogTraining" target="_blank" rel="noopener noreferrer" class="resource-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                            </svg>
+                            <div>
+                                <strong>Kikopup (Emily Larlham)</strong>
+                                <span>Force-free training techniques and behavior solutions</span>
+                            </div>
+                        </a>
+
+                        <a href="https://www.youtube.com/c/SimpawticoDogTraining" target="_blank" rel="noopener noreferrer" class="resource-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+                            </svg>
+                            <div>
+                                <strong>Simpawtico Dog Training</strong>
+                                <span>Clear, concise training videos for common issues</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Training Tips -->
+                <div class="training-topic full-width">
+                    <h3>Essential Training Tips</h3>
+                    <div class="tips-grid">
+                        <div class="tip-card">
+                            <h4>Keep Sessions Short</h4>
+                            <p>Puppies have short attention spans. Train for 5-10 minutes at a time, several times a day.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>Use High-Value Treats</h4>
+                            <p>Small, soft, smelly treats work best. Your puppy should be excited to work for them!</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>Be Consistent</h4>
+                            <p>Everyone in the household should use the same commands and rules.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>End on a Win</h4>
+                            <p>Always finish training with something your puppy does well to keep it positive.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>Patience is Key</h4>
+                            <p>Puppies don't generalize well at first. Practice commands in different locations.</p>
+                        </div>
+                        <div class="tip-card">
+                            <h4>Never Punish</h4>
+                            <p>Positive reinforcement builds trust. Punishment creates fear and damages your bond.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Food & Nutrition Section -->
+    <section id="food" class="content-section alt-bg">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="script-font">Food &</span>
+                Nutrition
+            </h2>
+
+            <div class="food-grid">
+                <!-- Current Food -->
+                <div class="food-card highlight">
+                    <h3>What We Feed</h3>
+                    <p>All of our puppies are raised on <strong>Kirkland Signature Puppy Food</strong> from Costco. This is a high-quality, affordable option that our puppies thrive on.</p>
+                    <p>We send your puppy home with a bag of this food to help with the transition. We recommend continuing with this food, but if you choose to switch, please do so gradually (see below).</p>
+                </div>
+
+                <!-- Switching Food -->
+                <div class="food-card">
+                    <h3>How to Switch Foods Safely</h3>
+                    <p>Switching your puppy's food too quickly can cause digestive upset. Always transition gradually over 7-10 days:</p>
+                    <div class="food-transition">
+                        <div class="transition-step">
+                            <span class="step-days">Days 1-2</span>
+                            <div class="ratio-bar">
+                                <div class="old-food" style="width: 75%">75% Old</div>
+                                <div class="new-food" style="width: 25%">25% New</div>
+                            </div>
+                        </div>
+                        <div class="transition-step">
+                            <span class="step-days">Days 3-4</span>
+                            <div class="ratio-bar">
+                                <div class="old-food" style="width: 50%">50% Old</div>
+                                <div class="new-food" style="width: 50%">50% New</div>
+                            </div>
+                        </div>
+                        <div class="transition-step">
+                            <span class="step-days">Days 5-6</span>
+                            <div class="ratio-bar">
+                                <div class="old-food" style="width: 25%">25% Old</div>
+                                <div class="new-food" style="width: 75%">75% New</div>
+                            </div>
+                        </div>
+                        <div class="transition-step">
+                            <span class="step-days">Days 7+</span>
+                            <div class="ratio-bar">
+                                <div class="new-food" style="width: 100%">100% New Food</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="transition-note">If your puppy has loose stools, slow down the transition. Some puppies need up to 2 weeks to adjust.</p>
+                </div>
+
+                <!-- Feeding Schedule -->
+                <div class="food-card">
+                    <h3>Feeding Schedule</h3>
+                    <div class="schedule-list">
+                        <div class="schedule-item">
+                            <strong>8-12 Weeks:</strong>
+                            <span>3-4 meals per day</span>
+                        </div>
+                        <div class="schedule-item">
+                            <strong>3-6 Months:</strong>
+                            <span>3 meals per day</span>
+                        </div>
+                        <div class="schedule-item">
+                            <strong>6-12 Months:</strong>
+                            <span>2 meals per day</span>
+                        </div>
+                        <div class="schedule-item">
+                            <strong>Adult:</strong>
+                            <span>1-2 meals per day</span>
+                        </div>
+                    </div>
+                    <p>Follow the feeding guidelines on your food bag based on your puppy's weight and adjust as needed. Your vet can help determine the right amount.</p>
+                </div>
+
+                <!-- Tips -->
+                <div class="food-card">
+                    <h3>Feeding Tips</h3>
+                    <ul class="food-tips">
+                        <li>Feed at consistent times each day</li>
+                        <li>Pick up uneaten food after 15-20 minutes</li>
+                        <li>Always provide fresh water</li>
+                        <li>Avoid feeding immediately before or after vigorous exercise</li>
+                        <li>Treats should be no more than 10% of daily calories</li>
+                        <li>Transition to adult food around 12 months (ask your vet)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="resource-cta-section">
+        <div class="container">
+            <h2>Have Questions?</h2>
+            <p>We're here to help you every step of the way. Don't hesitate to reach out if you have questions about your puppy!</p>
+            <a href="contact.html" class="btn btn-primary">Contact Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-text">SACC Doodles</span>
+                    <p>Breeding quality puppies with love and care.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            </svg>
+                        </a>
+                        <a href="#" aria-label="Facebook">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="our-dogs.html">Our Dogs</a></li>
+                        <li><a href="available-puppies.html">Available Puppies</a></li>
+                        <li><a href="guardian-home.html">Guardian Homes</a></li>
+                        <li><a href="puppy-resources.html">Puppy Resources</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact Us</h4>
+                    <p>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        480-822-8443
+                    </p>
+                    <p>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        mizzteachout@gmail.com
+                    </p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SACC Doodles. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>body { font-family: 'League Spartan', sans-serif; }</style>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="index.html" class="text-xl font-bold text-brand-gold">SACC Doodles</a>
+                <div class="flex items-center gap-4">
+                    <a href="index.html" class="text-gray-300 hover:text-brand-gold text-sm">View Website</a>
+                    <button onclick="handleLogout()" class="text-gray-400 hover:text-red-400 text-sm flex items-center gap-1">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                        </svg>
+                        Logout
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="flex pt-16 min-h-screen">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-64 bg-brand-darker border-r border-brand-card fixed left-0 top-16 bottom-0 overflow-y-auto hidden md:block">
+            <!-- Search Bar -->
+            <div class="p-4 border-b border-brand-card">
+                <div class="relative">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input type="text" placeholder="Search..." class="w-full pl-9 pr-4 py-2 bg-brand-card border border-brand-card rounded-lg text-sm text-gray-300 placeholder-gray-500 focus:outline-none focus:border-brand-gold">
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="sidebar-nav p-4 space-y-6">
+                <!-- Overview -->
+                <div>
+                    <p class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-3">Overview</p>
+                    <a href="#" data-page="dashboard" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-brand-gold/10 text-brand-gold">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="7" height="7"/>
+                            <rect x="14" y="3" width="7" height="7"/>
+                            <rect x="14" y="14" width="7" height="7"/>
+                            <rect x="3" y="14" width="7" height="7"/>
+                        </svg>
+                        Dashboard
+                    </a>
+                </div>
+
+                <!-- Management -->
+                <div>
+                    <p class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-3">Management</p>
+                    <div class="space-y-1">
+                        <a href="#" data-page="dogs" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                                <line x1="9" y1="9" x2="9.01" y2="9"/>
+                                <line x1="15" y1="9" x2="15.01" y2="9"/>
+                            </svg>
+                            Dogs
+                        </a>
+                        <a href="#" data-page="litters" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                            Litters
+                        </a>
+                        <a href="#" data-page="puppies" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                            Puppies
+                        </a>
+                        <a href="#" data-page="waitlist" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                                <path d="M9 14l2 2 4-4"/>
+                            </svg>
+                            Waitlist
+                        </a>
+                        <a href="#" data-page="customers" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
+                            </svg>
+                            Customers
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Finance & Health -->
+                <div>
+                    <p class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-3">Finance & Health</p>
+                    <div class="space-y-1">
+                        <a href="#" data-page="expenses" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <line x1="12" y1="1" x2="12" y2="23"/>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            </svg>
+                            Expenses
+                        </a>
+                        <a href="#" data-page="vet-records" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                            Vet Records
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Website Content -->
+                <div>
+                    <p class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-3">Website Content</p>
+                    <div class="space-y-1">
+                        <a href="#" data-page="testimonials" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                            Testimonials
+                        </a>
+                        <a href="#" data-page="gallery" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            Happy Families
+                        </a>
+                        <a href="#" data-page="faq" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                            FAQ
+                        </a>
+                        <a href="#" data-page="settings" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+                            </svg>
+                            Site Settings
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Applications & Forms -->
+                <div>
+                    <p class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-3">Applications & Forms</p>
+                    <div class="space-y-1">
+                        <a href="#" data-page="guardian-applications" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                            Guardian Applications
+                        </a>
+                        <a href="#" data-page="contact-messages" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            Contact Messages
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div>
+                    <p class="text-xs uppercase tracking-wider text-gray-500 mb-2 px-3">Tools</p>
+                    <div class="space-y-1">
+                        <a href="#" data-page="reports" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <line x1="18" y1="20" x2="18" y2="10"/>
+                                <line x1="12" y1="20" x2="12" y2="4"/>
+                                <line x1="6" y1="20" x2="6" y2="14"/>
+                            </svg>
+                            Reports
+                        </a>
+                        <a href="#" data-page="documents" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                            </svg>
+                            Documents
+                        </a>
+                        <a href="#" data-page="reminders" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                            </svg>
+                            Reminders
+                        </a>
+                        <a href="#" data-page="birthdays" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:bg-brand-card hover:text-white transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            Birthdays
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="flex-1 md:ml-64 p-6">
+            <!-- Dashboard Header -->
+            <div class="mb-8">
+                <h1 class="text-2xl font-bold text-white mb-2">Dashboard</h1>
+                <p class="text-gray-400">Welcome back! Here's an overview of your breeding program.</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-brand-card rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
+                            </svg>
+                        </div>
+                        <span class="text-green-400 text-sm">Active</span>
+                    </div>
+                    <p class="text-3xl font-bold text-white mb-1">8</p>
+                    <p class="text-gray-500 text-sm">Total Dogs</p>
+                </div>
+
+                <div class="bg-brand-card rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <span class="text-blue-400 text-sm">Available</span>
+                    </div>
+                    <p class="text-3xl font-bold text-white mb-1">5</p>
+                    <p class="text-gray-500 text-sm">Available Puppies</p>
+                </div>
+
+                <div class="bg-brand-card rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                                <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                            </svg>
+                        </div>
+                        <span class="text-yellow-400 text-sm">Pending</span>
+                    </div>
+                    <p class="text-3xl font-bold text-white mb-1">12</p>
+                    <p class="text-gray-500 text-sm">Waitlist Entries</p>
+                </div>
+
+                <div class="bg-brand-card rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-brand-gold/20 rounded-full flex items-center justify-center">
+                            <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                            </svg>
+                        </div>
+                        <span class="text-purple-400 text-sm">Total</span>
+                    </div>
+                    <p class="text-3xl font-bold text-white mb-1">24</p>
+                    <p class="text-gray-500 text-sm">Happy Families</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="mb-8">
+                <h2 class="text-lg font-semibold text-white mb-4">Quick Actions</h2>
+                <div class="flex flex-wrap gap-3">
+                    <button class="px-4 py-2 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                        Add New Dog
+                    </button>
+                    <button class="px-4 py-2 bg-brand-card text-gray-300 font-semibold rounded-lg hover:bg-brand-darker transition-colors">
+                        Add New Litter
+                    </button>
+                    <button class="px-4 py-2 bg-brand-card text-gray-300 font-semibold rounded-lg hover:bg-brand-darker transition-colors">
+                        View Waitlist
+                    </button>
+                    <button class="px-4 py-2 bg-brand-card text-gray-300 font-semibold rounded-lg hover:bg-brand-darker transition-colors">
+                        Add Expense
+                    </button>
+                </div>
+            </div>
+
+            <!-- Recent Activity & Upcoming -->
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- Recent Activity -->
+                <div class="bg-brand-card rounded-xl p-6">
+                    <h2 class="text-lg font-semibold text-white mb-4">Recent Activity</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white">New waitlist application received</p>
+                                <p class="text-gray-500 text-sm">Sarah M. - Goldendoodle</p>
+                                <p class="text-gray-600 text-xs">2 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white">Puppy marked as reserved</p>
+                                <p class="text-gray-500 text-sm">Maple - Going to Johnson family</p>
+                                <p class="text-gray-600 text-xs">Yesterday</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 bg-purple-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white">Vet record added</p>
+                                <p class="text-gray-500 text-sm">Luna - Annual checkup completed</p>
+                                <p class="text-gray-600 text-xs">2 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upcoming Events -->
+                <div class="bg-brand-card rounded-xl p-6">
+                    <h2 class="text-lg font-semibold text-white mb-4">Upcoming</h2>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-3 bg-brand-darker rounded-lg">
+                            <div class="text-center">
+                                <p class="text-brand-gold font-bold text-lg">15</p>
+                                <p class="text-gray-500 text-xs">Feb</p>
+                            </div>
+                            <div>
+                                <p class="text-white">Puppy pickup - Smith family</p>
+                                <p class="text-gray-500 text-sm">Cooper (Goldendoodle)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-3 bg-brand-darker rounded-lg">
+                            <div class="text-center">
+                                <p class="text-brand-gold font-bold text-lg">18</p>
+                                <p class="text-gray-500 text-xs">Feb</p>
+                            </div>
+                            <div>
+                                <p class="text-white">Vet appointment - Bella</p>
+                                <p class="text-gray-500 text-sm">Vaccination due</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 p-3 bg-brand-darker rounded-lg">
+                            <div class="text-center">
+                                <p class="text-brand-gold font-bold text-lg">22</p>
+                                <p class="text-gray-500 text-xs">Feb</p>
+                            </div>
+                            <div>
+                                <p class="text-white">Expected litter</p>
+                                <p class="text-gray-500 text-sm">Luna x Max - Bernedoodle</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Mobile Sidebar Toggle -->
+    <button id="mobileSidebarToggle" class="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-gold text-brand-dark rounded-full shadow-lg flex items-center justify-center z-50" onclick="toggleMobileSidebar()">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+    </button>
+
+    <!-- General Modal (for forms, details, etc.) -->
+    <div id="modalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[90] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
+        <div id="modal" class="bg-brand-card rounded-xl w-full max-w-lg mx-4 max-h-[90vh] flex flex-col transform scale-95 transition-transform duration-200">
+            <div class="flex items-center justify-between p-4 border-b border-brand-darker">
+                <h2 id="modalTitle" class="text-lg font-bold text-white">Modal Title</h2>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="modalBody" class="p-4 overflow-y-auto flex-1">
+                <!-- Modal content goes here -->
+            </div>
+            <div id="modalFooter" class="flex justify-end gap-3 p-4 border-t border-brand-darker">
+                <!-- Modal footer buttons go here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal (shown when not authenticated) -->
+    <div id="loginModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center">
+        <div class="bg-brand-card rounded-xl p-8 w-full max-w-md mx-4">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-brand-gold mb-2">SACC Doodles Admin</h2>
+                <p class="text-gray-400">Sign in to manage your breeding program</p>
+            </div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Email</label>
+                    <input type="email" id="loginEmail" required
+                        class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-brand-gold">
+                </div>
+                <div>
+                    <label class="block text-sm text-gray-400 mb-1">Password</label>
+                    <input type="password" id="loginPassword" required
+                        class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-brand-gold">
+                </div>
+                <div id="loginError" class="text-red-400 text-sm hidden"></div>
+                <button type="submit" id="loginBtn"
+                    class="w-full py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts - Load in correct order -->
+    <!-- 1. Supabase library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- 2. Config (your credentials) -->
+    <script src="js/config.js"></script>
+    <!-- 3. Supabase initialization -->
+    <script src="js/supabase-config.js"></script>
+    <!-- 4. Data layer (Supabase version) -->
+    <script src="js/data-supabase.js"></script>
+    <!-- 5. Media upload system -->
+    <script src="js/uploads.js"></script>
+    <!-- 6. Admin functionality -->
+    <script src="js/admin.js"></script>
+
+    <!-- Auth check script -->
+    <script>
+        // Logout handler (global)
+        async function handleLogout() {
+            if (confirm('Are you sure you want to log out?')) {
+                try {
+                    await Auth.signOut();
+                    window.location.reload();
+                } catch (error) {
+                    console.error('Logout error:', error);
+                }
+            }
+        }
+
+        // Mobile sidebar toggle
+        function toggleMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('hidden');
+                sidebar.classList.toggle('block');
+            }
+        }
+
+        (async function() {
+            console.log('Starting app initialization...');
+
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
+            }
+
+            // Initialize Supabase
+            if (typeof initSupabase !== 'function') {
+                console.error('initSupabase not found - check script loading order');
+                return;
+            }
+
+            const client = initSupabase();
+            console.log('Supabase client:', client ? 'initialized' : 'FAILED');
+
+            if (!client) {
+                console.error('Failed to initialize Supabase client');
+                return;
+            }
+
+            const loginModal = document.getElementById('loginModal');
+            const loginForm = document.getElementById('loginForm');
+            const loginError = document.getElementById('loginError');
+            const loginBtn = document.getElementById('loginBtn');
+
+            // Start the admin dashboard after auth confirmed
+            async function startDashboard() {
+                console.log('Loading data from Supabase...');
+                loginBtn.textContent = 'Loading data...';
+
+                try {
+                    // Load all data into cache
+                    await DB.init();
+                    console.log('Data loaded successfully');
+
+                    // Hide login modal
+                    loginModal.classList.add('hidden');
+
+                    // Initialize the admin UI
+                    if (typeof initAdmin === 'function') {
+                        initAdmin();
+                    }
+                } catch (error) {
+                    console.error('Failed to load data:', error);
+                    loginError.textContent = 'Failed to load data. Please refresh.';
+                    loginError.classList.remove('hidden');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Sign In';
+                }
+            }
+
+            // Check if user is authenticated
+            async function checkAuth() {
+                console.log('Checking auth...');
+                try {
+                    const session = await Auth.getSession();
+                    console.log('Session:', session ? 'found' : 'none');
+                    if (session) {
+                        await startDashboard();
+                    }
+                } catch (error) {
+                    console.error('Auth check failed:', error);
+                }
+            }
+
+            // Handle login form submit
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                console.log('Form submitted');
+
+                loginError.classList.add('hidden');
+                loginBtn.disabled = true;
+                loginBtn.textContent = 'Signing in...';
+
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                console.log('Attempting login for:', email);
+
+                try {
+                    const result = await Auth.signIn(email, password);
+                    console.log('Login result:', result);
+                    await startDashboard();
+                } catch (error) {
+                    console.error('Login error:', error);
+                    loginError.textContent = error.message || 'Invalid email or password';
+                    loginError.classList.remove('hidden');
+                    loginBtn.disabled = false;
+                    loginBtn.textContent = 'Sign In';
+                }
+            });
+
+            // Listen for auth state changes
+            if (typeof Auth !== 'undefined' && Auth.onAuthStateChange) {
+                Auth.onAuthStateChange((event, session) => {
+                    console.log('Auth state changed:', event);
+                    if (event === 'SIGNED_OUT') {
+                        loginModal.classList.remove('hidden');
+                        window.location.reload();
+                    }
+                });
+            }
+
+            // Initial auth check
+            await checkAuth();
+        })();
+    </script>
+</body>
+</html>

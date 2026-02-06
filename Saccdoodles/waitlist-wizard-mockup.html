@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join Our Waitlist - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    },
+                    fontFamily: {
+                        'spartan': ['League Spartan', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'League Spartan', sans-serif; }
+        .script-font { font-style: italic; font-weight: 300; }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-brand-gold hover:text-brand-gold-light transition-colors">
+                    SACC Doodles
+                </a>
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="text-gray-300 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="text-gray-300 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="text-brand-gold font-medium">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="text-gray-300 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                    <li><a href="puppy-resources.html" class="text-gray-300 hover:text-brand-gold transition-colors">Puppy Resources</a></li>
+                    <li><a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-300 hover:text-brand-gold transition-colors">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-12 bg-gradient-to-b from-brand-darker to-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                <span class="script-font text-brand-gold text-2xl md:text-3xl block mb-2">Join Our</span>
+                <span class="text-white">Waitlist</span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                Reserve your spot for an upcoming puppy from SACC Doodles
+            </p>
+        </div>
+    </section>
+
+    <!-- Multi-Step Form -->
+    <section class="py-12 bg-brand-dark">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Progress Steps -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between relative">
+                    <!-- Progress Line Background -->
+                    <div class="absolute top-5 left-0 right-0 h-0.5 bg-brand-card"></div>
+                    <!-- Progress Line Active -->
+                    <div id="progress-line" class="absolute top-5 left-0 h-0.5 bg-brand-gold transition-all duration-300" style="width: 0%"></div>
+
+                    <!-- Step 1 -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="step-1-indicator" class="w-10 h-10 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-semibold text-sm">1</div>
+                        <span id="step-1-label" class="mt-2 text-xs text-brand-gold font-medium">Your Info</span>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="step-2-indicator" class="w-10 h-10 rounded-full bg-brand-card border-2 border-gray-600 text-gray-400 flex items-center justify-center font-semibold text-sm">2</div>
+                        <span id="step-2-label" class="mt-2 text-xs text-gray-500 font-medium">Preferences</span>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="step-3-indicator" class="w-10 h-10 rounded-full bg-brand-card border-2 border-gray-600 text-gray-400 flex items-center justify-center font-semibold text-sm">3</div>
+                        <span id="step-3-label" class="mt-2 text-xs text-gray-500 font-medium">About You</span>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div id="step-4-indicator" class="w-10 h-10 rounded-full bg-brand-card border-2 border-gray-600 text-gray-400 flex items-center justify-center font-semibold text-sm">4</div>
+                        <span id="step-4-label" class="mt-2 text-xs text-gray-500 font-medium">Review</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="bg-brand-card rounded-2xl p-8 shadow-xl">
+                <form id="waitlist-form">
+
+                    <!-- Step 1: Your Information -->
+                    <div id="step-1" class="step-content">
+                        <h3 class="text-xl font-semibold text-brand-gold mb-6">Your Information</h3>
+
+                        <div class="space-y-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-300 text-sm mb-2">First Name *</label>
+                                    <input type="text" name="firstName" required
+                                        class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                        placeholder="Jane">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-300 text-sm mb-2">Last Name *</label>
+                                    <input type="text" name="lastName" required
+                                        class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                        placeholder="Smith">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Email Address *</label>
+                                <input type="email" name="email" required
+                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                    placeholder="jane@example.com">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Phone Number *</label>
+                                <input type="tel" name="phone" required
+                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                    placeholder="(555) 123-4567">
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-gray-300 text-sm mb-2">City *</label>
+                                    <input type="text" name="city" required
+                                        class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                        placeholder="Gilbert">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-300 text-sm mb-2">State *</label>
+                                    <input type="text" name="state" required
+                                        class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors"
+                                        placeholder="Arizona">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Puppy Preferences -->
+                    <div id="step-2" class="step-content hidden">
+                        <h3 class="text-xl font-semibold text-brand-gold mb-6">Puppy Preferences</h3>
+
+                        <div class="space-y-6">
+                            <!-- Preference Type -->
+                            <div>
+                                <h4 class="text-brand-gold font-medium mb-4">What would you like to be waitlisted for?</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="preferenceType" value="parents" class="hidden peer">
+                                        <div class="p-4 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors">
+                                            <span class="block font-semibold text-white">Specific Parents</span>
+                                            <span class="text-gray-400 text-sm">I want puppies from specific dogs</span>
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="preferenceType" value="breed" class="hidden peer" checked>
+                                        <div class="p-4 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors">
+                                            <span class="block font-semibold text-white">Breed Type</span>
+                                            <span class="text-gray-400 text-sm">Any puppies of a certain breed</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Parent Selection (shown when "Specific Parents" is selected) -->
+                            <div id="parentSelection" class="hidden">
+                                <p class="text-gray-400 mb-4">Select the parent pair you're interested in:</p>
+                                <select name="parentPair" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                    <option value="">Choose a breeding pair...</option>
+                                    <option value="luna-max">Luna & Max (Goldendoodle)</option>
+                                    <option value="bella-charlie">Bella & Charlie (Bernedoodle)</option>
+                                    <option value="daisy-cooper">Daisy & Cooper (Aussiedoodle)</option>
+                                </select>
+                                <p class="text-gray-500 text-sm mt-2">Don't see your preferred pair? <a href="our-dogs.html" class="text-brand-gold hover:underline">View all our dogs</a></p>
+                            </div>
+
+                            <!-- Breed Selection (shown when "Breed Type" is selected) -->
+                            <div id="breedSelection">
+                                <p class="text-gray-400 mb-4">Select the breed(s) you're interested in:</p>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" name="breeds" value="goldendoodle" class="hidden peer">
+                                        <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                            Goldendoodle
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" name="breeds" value="bernedoodle" class="hidden peer">
+                                        <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                            Bernedoodle
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" name="breeds" value="aussiedoodle" class="hidden peer">
+                                        <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                            Aussiedoodle
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" name="breeds" value="labradoodle" class="hidden peer">
+                                        <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                            Labradoodle
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" name="breeds" value="sheepadoodle" class="hidden peer">
+                                        <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                            Sheepadoodle
+                                        </div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="checkbox" name="breeds" value="any" class="hidden peer">
+                                        <div class="p-3 border-2 border-brand-card rounded-lg text-center bg-brand-darker hover:border-brand-gold peer-checked:border-brand-gold peer-checked:bg-brand-gold/15 transition-colors text-gray-300 peer-checked:text-brand-gold">
+                                            Any Breed
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Additional Preferences -->
+                            <div class="pt-4 border-t border-brand-darker">
+                                <h4 class="text-brand-gold font-medium mb-4">Additional Preferences</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-gray-300 text-sm mb-2">Gender Preference</label>
+                                        <select name="genderPref" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                            <option value="any">No Preference</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-300 text-sm mb-2">Color Preference</label>
+                                        <input type="text" name="colorPref" placeholder="e.g., Red, Cream, Parti"
+                                            class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors">
+                                    </div>
+                                </div>
+                                <div class="mt-4">
+                                    <label class="block text-gray-300 text-sm mb-2">Size Preference</label>
+                                    <select name="sizePref" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                        <option value="any">No Preference</option>
+                                        <option value="mini">Mini (under 25 lbs)</option>
+                                        <option value="medium">Medium (25-50 lbs)</option>
+                                        <option value="standard">Standard (50+ lbs)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: About You -->
+                    <div id="step-3" class="step-content hidden">
+                        <h3 class="text-xl font-semibold text-brand-gold mb-6">Tell Us About Yourself</h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Living Situation *</label>
+                                <select name="livingSituation" required class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                    <option value="">Select...</option>
+                                    <option value="house-yard">House with Yard</option>
+                                    <option value="house-no-yard">House without Yard</option>
+                                    <option value="apartment">Apartment/Condo</option>
+                                    <option value="farm">Farm/Acreage</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Dog Ownership Experience *</label>
+                                <select name="experience" required class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                    <option value="">Select...</option>
+                                    <option value="first-time">First-time Dog Owner</option>
+                                    <option value="some">Some Experience</option>
+                                    <option value="experienced">Experienced Dog Owner</option>
+                                    <option value="breeder">Breeder/Professional</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Other Pets in Home</label>
+                                <input type="text" name="otherPets" placeholder="e.g., 1 cat, 2 dogs"
+                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Children in Home</label>
+                                <input type="text" name="children" placeholder="e.g., Ages 5 and 8"
+                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors">
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-300 text-sm mb-2">Why do you want a puppy from SACC Doodles?</label>
+                                <textarea name="message" rows="4" placeholder="Tell us about your family and why you'd be a great puppy parent..."
+                                    class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors resize-none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Review & Submit -->
+                    <div id="step-4" class="step-content hidden">
+                        <h3 class="text-xl font-semibold text-brand-gold mb-6">Review & Submit</h3>
+
+                        <!-- Summary Section -->
+                        <div class="space-y-4 mb-6">
+                            <div class="bg-brand-darker rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-brand-gold font-medium">Your Information</h4>
+                                    <button type="button" onclick="goToStep(1)" class="text-sm text-gray-400 hover:text-brand-gold">Edit</button>
+                                </div>
+                                <div id="summary-info" class="text-gray-300 text-sm space-y-1"></div>
+                            </div>
+
+                            <div class="bg-brand-darker rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-brand-gold font-medium">Puppy Preferences</h4>
+                                    <button type="button" onclick="goToStep(2)" class="text-sm text-gray-400 hover:text-brand-gold">Edit</button>
+                                </div>
+                                <div id="summary-preferences" class="text-gray-300 text-sm space-y-1"></div>
+                            </div>
+
+                            <div class="bg-brand-darker rounded-lg p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <h4 class="text-brand-gold font-medium">About You</h4>
+                                    <button type="button" onclick="goToStep(3)" class="text-sm text-gray-400 hover:text-brand-gold">Edit</button>
+                                </div>
+                                <div id="summary-home" class="text-gray-300 text-sm space-y-1"></div>
+                            </div>
+                        </div>
+
+                        <!-- Deposit Info -->
+                        <div class="bg-brand-gold/20 border border-brand-gold rounded-xl p-4 mb-6">
+                            <h4 class="text-brand-gold font-semibold mb-2">Deposit Information</h4>
+                            <p class="text-white font-semibold">$300 Non-Refundable Deposit</p>
+                            <p class="text-gray-300 text-sm mt-1">Your deposit can be transferred to any litter and never expires.</p>
+                        </div>
+
+                        <!-- Agreements -->
+                        <div class="space-y-4">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" name="depositAgree" required class="mt-1 w-4 h-4 accent-brand-gold">
+                                <span class="text-gray-300 text-sm">I understand that a <strong class="text-white">$300 non-refundable deposit</strong> is required to secure my place on the waitlist. I acknowledge that this deposit can be transferred to any litter and does not expire. *</span>
+                            </label>
+
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" name="contactAgree" required class="mt-1 w-4 h-4 accent-brand-gold">
+                                <span class="text-gray-300 text-sm">I agree to be contacted by SACC Doodles regarding my waitlist application and available puppies. *</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between mt-8 pt-6 border-t border-brand-darker">
+                        <button type="button" id="prev-btn"
+                            class="hidden px-6 py-3 bg-brand-darker border border-brand-card rounded-lg text-gray-300 hover:border-brand-gold hover:text-brand-gold transition-colors">
+                            <span class="flex items-center">
+                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                                </svg>
+                                Back
+                            </span>
+                        </button>
+
+                        <button type="button" id="next-btn"
+                            class="ml-auto px-6 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                            <span class="flex items-center">
+                                Next Step
+                                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                </svg>
+                            </span>
+                        </button>
+
+                        <button type="submit" id="submit-btn"
+                            class="hidden ml-auto px-8 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                            Submit Application
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Trust Indicator -->
+            <div class="mt-6 text-center">
+                <p class="text-gray-500 text-sm">Your information is secure and will never be shared with third parties.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-card border-t border-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="border-t border-brand-darker pt-8 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2025 SACC Doodles. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Multi-step form logic
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        const form = document.getElementById('waitlist-form');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const progressLine = document.getElementById('progress-line');
+
+        // Handle preference type switching
+        document.querySelectorAll('input[name="preferenceType"]').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const breedSelection = document.getElementById('breedSelection');
+                const parentSelection = document.getElementById('parentSelection');
+
+                if (e.target.value === 'parents') {
+                    breedSelection.classList.add('hidden');
+                    parentSelection.classList.remove('hidden');
+                } else {
+                    breedSelection.classList.remove('hidden');
+                    parentSelection.classList.add('hidden');
+                }
+            });
+        });
+
+        function goToStep(step) {
+            currentStep = step;
+            updateStep(currentStep);
+        }
+
+        function updateStep(step) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(el => el.classList.add('hidden'));
+
+            // Show current step
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+
+            // Update step indicators
+            for (let i = 1; i <= totalSteps; i++) {
+                const indicator = document.getElementById(`step-${i}-indicator`);
+                const label = document.getElementById(`step-${i}-label`);
+
+                if (i < step) {
+                    // Completed
+                    indicator.className = 'w-10 h-10 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-semibold text-sm';
+                    indicator.innerHTML = '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>';
+                    label.className = 'mt-2 text-xs text-brand-gold font-medium';
+                } else if (i === step) {
+                    // Current
+                    indicator.className = 'w-10 h-10 rounded-full bg-brand-gold text-brand-dark flex items-center justify-center font-semibold text-sm';
+                    indicator.textContent = i;
+                    label.className = 'mt-2 text-xs text-brand-gold font-medium';
+                } else {
+                    // Future
+                    indicator.className = 'w-10 h-10 rounded-full bg-brand-card border-2 border-gray-600 text-gray-400 flex items-center justify-center font-semibold text-sm';
+                    indicator.textContent = i;
+                    label.className = 'mt-2 text-xs text-gray-500 font-medium';
+                }
+            }
+
+            // Update progress line
+            progressLine.style.width = `${((step - 1) / (totalSteps - 1)) * 100}%`;
+
+            // Update buttons
+            prevBtn.classList.toggle('hidden', step === 1);
+            nextBtn.classList.toggle('hidden', step === totalSteps);
+            submitBtn.classList.toggle('hidden', step !== totalSteps);
+
+            // If on review step, populate summary
+            if (step === 4) {
+                populateSummary();
+            }
+        }
+
+        function validateStep(step) {
+            const stepEl = document.getElementById(`step-${step}`);
+            const requiredFields = stepEl.querySelectorAll('[required]');
+            let isValid = true;
+
+            for (const field of requiredFields) {
+                // Remove any existing error styling
+                field.classList.remove('border-red-500');
+
+                if (!field.value) {
+                    field.classList.add('border-red-500');
+                    if (isValid) field.focus();
+                    isValid = false;
+                }
+            }
+            return isValid;
+        }
+
+        function populateSummary() {
+            // Your Information
+            const firstName = form.firstName.value || '-';
+            const lastName = form.lastName.value || '-';
+            const email = form.email.value || '-';
+            const phone = form.phone.value || '-';
+            const city = form.city.value || '-';
+            const state = form.state.value || '-';
+
+            document.getElementById('summary-info').innerHTML = `
+                <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+                <p><strong>Email:</strong> ${email}</p>
+                <p><strong>Phone:</strong> ${phone}</p>
+                <p><strong>Location:</strong> ${city}, ${state}</p>
+            `;
+
+            // Preferences
+            const prefType = document.querySelector('input[name="preferenceType"]:checked')?.value;
+            const prefTypeText = prefType === 'parents' ? 'Specific Parents' : 'Breed Type';
+
+            let selectionText = '-';
+            if (prefType === 'parents') {
+                const parentPair = form.parentPair?.value;
+                const select = form.querySelector('select[name="parentPair"]');
+                selectionText = select?.options[select.selectedIndex]?.text || '-';
+            } else {
+                const breeds = Array.from(form.querySelectorAll('input[name="breeds"]:checked')).map(cb => cb.value);
+                selectionText = breeds.length ? breeds.join(', ') : 'None selected';
+            }
+
+            const gender = form.genderPref.options[form.genderPref.selectedIndex]?.text || '-';
+            const color = form.colorPref.value || 'No preference';
+            const size = form.sizePref.options[form.sizePref.selectedIndex]?.text || '-';
+
+            document.getElementById('summary-preferences').innerHTML = `
+                <p><strong>Looking for:</strong> ${prefTypeText}</p>
+                <p><strong>Selection:</strong> ${selectionText}</p>
+                <p><strong>Gender:</strong> ${gender}</p>
+                <p><strong>Color:</strong> ${color}</p>
+                <p><strong>Size:</strong> ${size}</p>
+            `;
+
+            // About Home
+            const living = form.livingSituation.options[form.livingSituation.selectedIndex]?.text || '-';
+            const experience = form.experience.options[form.experience.selectedIndex]?.text || '-';
+            const pets = form.otherPets.value || 'None';
+            const children = form.children.value || 'None';
+
+            document.getElementById('summary-home').innerHTML = `
+                <p><strong>Living situation:</strong> ${living}</p>
+                <p><strong>Experience:</strong> ${experience}</p>
+                <p><strong>Other pets:</strong> ${pets}</p>
+                <p><strong>Children:</strong> ${children}</p>
+            `;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (validateStep(currentStep)) {
+                currentStep++;
+                updateStep(currentStep);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentStep--;
+            updateStep(currentStep);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Here you would submit to Supabase
+            alert('Application submitted! (This is a mockup - connect to Supabase for production)');
+        });
+
+        // Initialize
+        updateStep(1);
+    </script>
+</body>
+</html>

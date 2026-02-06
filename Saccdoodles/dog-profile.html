@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dog Profile Editor - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'League Spartan', sans-serif; }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+
+    <!-- HEADER NAV -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                    <a href="admin.html" class="text-gray-400 hover:text-white flex-shrink-0">
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                    </a>
+                    <h1 class="text-base sm:text-xl font-bold text-brand-gold truncate">Dog Profile</h1>
+                    <span id="dogName" class="text-gray-400 text-sm sm:text-base truncate hidden sm:inline">New Dog</span>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <button onclick="previewDog()" class="hidden sm:flex px-3 sm:px-4 py-2 bg-brand-card text-white text-sm font-medium rounded-lg hover:bg-brand-gold hover:text-brand-dark transition-colors items-center gap-2">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                        <span class="hidden sm:inline">Preview</span>
+                    </button>
+                    <button onclick="saveDog()" class="px-4 sm:px-6 py-2 bg-brand-gold text-brand-dark text-sm sm:text-base font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                        Save
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- MAIN EDITOR -->
+    <div class="pt-20 sm:pt-24 pb-8 sm:pb-12 px-3 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+
+                <!-- LEFT COLUMN: Media -->
+                <div class="bg-brand-card rounded-xl p-4 sm:p-6">
+                    <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        Photos & Videos
+                    </h3>
+
+                    <!-- Primary Photo -->
+                    <div class="mb-4 sm:mb-6">
+                        <label class="block text-xs sm:text-sm text-gray-400 mb-2">Primary Photo</label>
+                        <div class="aspect-square bg-brand-darker rounded-lg overflow-hidden relative group cursor-pointer border-2 border-dashed border-gray-600 hover:border-brand-gold transition-colors">
+                            <img id="primaryPhoto" src="" alt="Primary photo" class="w-full h-full object-cover hidden">
+                            <div id="primaryPhotoPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
+                                <svg class="w-12 h-12 sm:w-16 sm:h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <span class="text-xs sm:text-sm text-center px-2">Click to upload photo</span>
+                            </div>
+                            <input type="file" id="primaryPhotoInput" accept="image/*" class="hidden">
+                        </div>
+                    </div>
+
+                    <!-- Photo Gallery -->
+                    <div class="mb-4 sm:mb-6">
+                        <label class="block text-xs sm:text-sm text-gray-400 mb-2">Additional Photos</label>
+                        <div class="grid grid-cols-3 gap-1.5 sm:gap-2 mb-3">
+                            <div class="aspect-square bg-brand-darker rounded-lg border-2 border-dashed border-gray-600 flex items-center justify-center cursor-pointer hover:border-brand-gold transition-colors">
+                                <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500">Add multiple photos to showcase your dog</p>
+                    </div>
+
+                    <!-- Featured Video -->
+                    <div>
+                        <label class="block text-xs sm:text-sm text-gray-400 mb-2">Featured Video (optional)</label>
+                        <div class="aspect-video bg-brand-darker rounded-lg border-2 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold transition-colors">
+                            <svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                            </svg>
+                            <span class="text-gray-500 text-xs sm:text-sm text-center px-2">Drop video or click to upload</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MIDDLE COLUMN: Basic Info & Breeding -->
+                <div class="space-y-4 sm:space-y-6">
+                    <!-- Basic Information -->
+                    <div class="bg-brand-card rounded-xl p-4 sm:p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            Basic Information
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs sm:text-sm text-gray-400 mb-1">Dog Name *</label>
+                                <input type="text" id="dogNameInput" placeholder="e.g., Bella" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none">
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs sm:text-sm text-gray-400 mb-1">Breed</label>
+                                    <input type="text" id="dogBreedInput" placeholder="e.g., Goldendoodle" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs sm:text-sm text-gray-400 mb-1">Gender *</label>
+                                    <select id="dogGenderSelect" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                        <option value="">Select...</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-xs sm:text-sm text-gray-400 mb-1">Birthday</label>
+                                    <input type="date" id="dogBirthdayInput" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs sm:text-sm text-gray-400 mb-1">Weight (lbs)</label>
+                                    <input type="number" id="dogWeightInput" step="0.1" placeholder="0.0" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs sm:text-sm text-gray-400 mb-1">Color</label>
+                                <input type="text" id="dogColorInput" placeholder="e.g., Apricot, Cream, Black" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Breeding & Status -->
+                    <div class="bg-brand-card rounded-xl p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                            Breeding Information
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs sm:text-sm text-gray-400 mb-1">Status</label>
+                                <select class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                    <option value="active">Active Breeding</option>
+                                    <option value="retired">Retired</option>
+                                    <option value="puppy">Puppy (Not Breeding Age)</option>
+                                    <option value="guardian">Guardian Home</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs sm:text-sm text-gray-400 mb-1">Location</label>
+                                <select id="locationSelect" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                    <option value="home">Home with Breeder</option>
+                                    <option value="guardian">Guardian Home</option>
+                                </select>
+                            </div>
+
+                            <div id="guardianSection" class="hidden">
+                                <label class="block text-xs sm:text-sm text-gray-400 mb-1">Guardian Family</label>
+                                <select class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                                    <option value="">Select guardian family...</option>
+                                    <!-- Will be populated from database -->
+                                </select>
+                            </div>
+
+                            <div class="flex items-center gap-4 pt-2">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="isBreeding" class="w-5 h-5 rounded border-gray-600 text-brand-gold focus:ring-brand-gold bg-brand-darker">
+                                    <span class="text-sm text-gray-300">Active Breeding Dog</span>
+                                </label>
+                            </div>
+
+                            <div class="flex items-center gap-4">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="checkbox" id="isPublic" class="w-5 h-5 rounded border-gray-600 text-brand-gold focus:ring-brand-gold bg-brand-darker">
+                                    <span class="text-sm text-gray-300">Show on Website</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Heat Cycle (Female Only) -->
+                    <div id="heatCycleSection" class="bg-brand-card rounded-xl p-6 hidden">
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            Heat Cycle Tracking
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-xs sm:text-sm text-gray-400 mb-1">Last Heat Date</label>
+                                <input type="date" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs sm:text-sm text-gray-400 mb-1">Cycle Length (days)</label>
+                                <input type="number" value="180" placeholder="180" class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none">
+                                <p class="text-xs text-gray-500 mt-1">Typical cycle is 180 days (6 months)</p>
+                            </div>
+
+                            <div class="p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                                <p class="text-sm text-blue-300">
+                                    <strong>Next Expected Heat:</strong> <span id="nextHeat">Calculate based on last heat</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Health & Notes -->
+                <div class="space-y-6">
+                    <!-- Health Tests -->
+                    <div class="bg-brand-card rounded-xl p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Health Testing
+                        </h3>
+
+                        <div class="space-y-3" id="healthTestsList">
+                            <p class="text-sm text-gray-500">No health tests recorded yet</p>
+                        </div>
+
+                        <button onclick="addHealthTest()" class="mt-4 w-full px-4 py-2 bg-brand-darker border border-gray-600 rounded-lg text-gray-400 hover:text-brand-gold hover:border-brand-gold transition-colors flex items-center justify-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            Add Health Test
+                        </button>
+                    </div>
+
+                    <!-- Notes & Description -->
+                    <div class="bg-brand-card rounded-xl p-6">
+                        <h3 class="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                            Description & Notes
+                        </h3>
+
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex items-center justify-between mb-1">
+                                    <label class="block text-xs sm:text-sm text-gray-400">Public Description</label>
+                                    <button type="button" onclick="openAIPromptModal()" class="flex items-center gap-1.5 px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white text-xs font-medium rounded-md transition-colors">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                        </svg>
+                                        Generate with AI
+                                    </button>
+                                </div>
+                                <textarea id="dogDescriptionInput" rows="4" placeholder="Tell visitors about this dog's personality, temperament, and background..." class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none text-sm resize-none"></textarea>
+                                <p class="text-xs text-gray-500 mt-1">This will appear on the website</p>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs sm:text-sm text-gray-400 mb-1">Private Notes</label>
+                                <textarea id="dogNotesInput" rows="3" placeholder="Internal notes, reminders, medical history..." class="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-brand-darker border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none text-sm resize-none"></textarea>
+                                <p class="text-xs text-gray-500 mt-1">Only visible to you in the admin</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="bg-gradient-to-br from-brand-gold/10 to-brand-card rounded-xl p-6 border border-brand-gold/20">
+                        <h3 class="text-lg font-semibold text-brand-gold mb-4">Quick Stats</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Age:</span>
+                                <span class="text-white font-semibold" id="ageDisplay">-</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Total Litters:</span>
+                                <span class="text-white font-semibold">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Total Puppies:</span>
+                                <span class="text-white font-semibold">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Health Tests:</span>
+                                <span class="text-white font-semibold" id="healthTestCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts - Load in correct order -->
+    <!-- 1. Supabase library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- 2. Config (your credentials) -->
+    <script src="js/config.js"></script>
+    <!-- 3. Supabase initialization -->
+    <script src="js/supabase-config.js"></script>
+    <!-- 4. Data layer (Supabase version) - defines DB object -->
+    <script src="js/data-supabase.js"></script>
+    <!-- 5. Media upload system -->
+    <script src="js/uploads.js"></script>
+
+    <script>
+        // Initialize and load dog data
+        let currentDogId = null;
+        let dogData = {};
+
+        // Get dog ID from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        currentDogId = urlParams.get('id');
+
+        // Load dog data if editing
+        async function loadDogData() {
+            if (currentDogId) {
+                try {
+                    await DB.init();
+                    const dog = DB.dogs.getById(currentDogId);
+                    if (dog) {
+                        dogData = dog;
+                        populateForm(dog);
+                    }
+                } catch (error) {
+                    console.error('Error loading dog data:', error);
+                }
+            } else {
+                // Load guardians for new dog
+                await DB.init();
+                populateGuardianSelect();
+            }
+        }
+
+        // Populate form with dog data
+        function populateForm(dog) {
+            // Basic fields
+            if (dog.name) {
+                document.getElementById('dogNameInput').value = dog.name;
+                document.getElementById('dogName').textContent = dog.name;
+            }
+            if (dog.breed) document.getElementById('dogBreedInput').value = dog.breed;
+            if (dog.gender) document.getElementById('dogGenderSelect').value = dog.gender;
+            if (dog.birthday) document.getElementById('dogBirthdayInput').value = dog.birthday;
+            if (dog.weight) document.getElementById('dogWeightInput').value = dog.weight;
+            if (dog.color) document.getElementById('dogColorInput').value = dog.color;
+            if (dog.description) document.getElementById('dogDescriptionInput').value = dog.description;
+            if (dog.notes) document.getElementById('dogNotesInput').value = dog.notes;
+
+            // Set checkboxes
+            if (dog.is_breeding) document.getElementById('isBreeding').checked = true;
+            if (dog.is_public) document.getElementById('isPublic').checked = true;
+
+            // Set location
+            if (dog.location) {
+                document.getElementById('locationSelect').value = dog.location;
+                if (dog.location === 'guardian') {
+                    document.getElementById('guardianSection').classList.remove('hidden');
+                }
+            }
+
+            // Load photos
+            if (dog.photo_url || (dog.photos && dog.photos.length > 0)) {
+                const photoUrl = dog.photo_url || dog.photos[0];
+                document.getElementById('primaryPhoto').src = photoUrl;
+                document.getElementById('primaryPhoto').classList.remove('hidden');
+                document.getElementById('primaryPhotoPlaceholder').classList.add('hidden');
+            }
+
+            // Load health tests
+            if (dog.health_tests && dog.health_tests.length > 0) {
+                const testsList = document.getElementById('healthTestsList');
+                testsList.innerHTML = '';
+                dog.health_tests.forEach(test => {
+                    addHealthTestToList(test.name, test.result);
+                });
+            }
+
+            // Heat cycle data - show section if female
+            if (dog.gender === 'female') {
+                document.getElementById('heatCycleSection').classList.remove('hidden');
+            }
+
+            // Populate guardians dropdown
+            populateGuardianSelect(dog.guardian_id);
+
+            // Calculate and display age if birthday exists
+            if (dog.birthday) {
+                const age = calculateAge(dog.birthday);
+                document.getElementById('ageDisplay').textContent = age;
+            }
+        }
+
+        // Calculate age from birthday
+        function calculateAge(birthday) {
+            const birthDate = new Date(birthday);
+            const today = new Date();
+            const years = today.getFullYear() - birthDate.getFullYear();
+            const months = today.getMonth() - birthDate.getMonth();
+
+            if (years === 0) {
+                return `${months} months`;
+            } else if (months < 0) {
+                return `${years - 1} years, ${12 + months} months`;
+            } else {
+                return `${years} years, ${months} months`;
+            }
+        }
+
+        // Populate guardian select dropdown
+        function populateGuardianSelect(selectedId = null) {
+            const customers = DB.customers.getAll();
+            const guardians = customers.filter(c => c.isGuardian);
+            const select = document.querySelector('#guardianSection select');
+
+            if (select) {
+                select.innerHTML = '<option value="">Select guardian family...</option>';
+                guardians.forEach(guardian => {
+                    const option = document.createElement('option');
+                    option.value = guardian.id;
+                    option.textContent = guardian.name;
+                    if (guardian.id === selectedId) option.selected = true;
+                    select.appendChild(option);
+                });
+            }
+        }
+
+        // Show/hide guardian section based on location
+        document.getElementById('locationSelect').addEventListener('change', function() {
+            const guardianSection = document.getElementById('guardianSection');
+            if (this.value === 'guardian') {
+                guardianSection.classList.remove('hidden');
+            } else {
+                guardianSection.classList.add('hidden');
+            }
+        });
+
+        // Show/hide heat cycle section based on gender
+        const genderSelect = document.getElementById('dogGenderSelect');
+        if (genderSelect) {
+            genderSelect.addEventListener('change', function() {
+                const heatCycleSection = document.getElementById('heatCycleSection');
+                if (this.value === 'female') {
+                    heatCycleSection.classList.remove('hidden');
+                } else {
+                    heatCycleSection.classList.add('hidden');
+                }
+            });
+        }
+
+        // Update dog name in header
+        document.getElementById('dogNameInput').addEventListener('input', function() {
+            const nameDisplay = document.getElementById('dogName');
+            nameDisplay.textContent = this.value || 'New Dog';
+        });
+
+        // Photo upload functionality
+        document.getElementById('primaryPhotoPlaceholder').addEventListener('click', function() {
+            document.getElementById('primaryPhotoInput').click();
+        });
+
+        document.getElementById('primaryPhotoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('primaryPhoto').src = e.target.result;
+                    document.getElementById('primaryPhoto').classList.remove('hidden');
+                    document.getElementById('primaryPhotoPlaceholder').classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Add health test to list
+        function addHealthTestToList(testName, testResult) {
+            const testsList = document.getElementById('healthTestsList');
+            if (testsList.querySelector('p.text-gray-500')) {
+                testsList.innerHTML = '';
+            }
+
+            const testItem = document.createElement('div');
+            testItem.className = 'flex items-center justify-between p-2.5 sm:p-3 bg-brand-darker rounded-lg';
+            testItem.innerHTML = `
+                <div>
+                    <p class="text-xs sm:text-sm font-semibold text-white">${testName}</p>
+                    <p class="text-xs text-green-400">${testResult}</p>
+                </div>
+                <button onclick="removeHealthTest(this)" class="text-red-400 hover:text-red-300 flex-shrink-0">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            `;
+            testsList.appendChild(testItem);
+
+            // Update health test count
+            updateHealthTestCount();
+        }
+
+        // Remove health test
+        function removeHealthTest(button) {
+            button.closest('.flex').remove();
+            updateHealthTestCount();
+
+            // Show placeholder if no tests
+            const testsList = document.getElementById('healthTestsList');
+            if (testsList.children.length === 0) {
+                testsList.innerHTML = '<p class="text-xs sm:text-sm text-gray-500">No health tests recorded yet</p>';
+            }
+        }
+
+        // Update health test count
+        function updateHealthTestCount() {
+            const testsList = document.getElementById('healthTestsList');
+            const count = testsList.querySelectorAll('.flex').length;
+            document.getElementById('healthTestCount').textContent = count;
+        }
+
+        // Add health test function
+        function addHealthTest() {
+            const testName = prompt('Enter health test name (e.g., OFA Hips, PennHIP, Embark DNA):');
+            if (testName) {
+                const testResult = prompt('Enter result (e.g., Excellent, Clear, Normal):');
+                if (testResult) {
+                    const testsList = document.getElementById('healthTestsList');
+                    if (testsList.querySelector('p')) {
+                        testsList.innerHTML = '';
+                    }
+
+                    const testItem = document.createElement('div');
+                    testItem.className = 'flex items-center justify-between p-3 bg-brand-darker rounded-lg';
+                    testItem.innerHTML = `
+                        <div>
+                            <p class="text-sm font-semibold text-white">${testName}</p>
+                            <p class="text-xs text-green-400">${testResult}</p>
+                        </div>
+                        <button onclick="this.parentElement.remove()" class="text-red-400 hover:text-red-300">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    `;
+                    testsList.appendChild(testItem);
+
+                    // Update health test count
+                    document.getElementById('healthTestCount').textContent = testsList.children.length;
+                }
+            }
+        }
+
+        // Gather form data
+        function gatherFormData() {
+            const data = {
+                name: document.getElementById('dogNameInput')?.value.trim() || '',
+                breed: document.getElementById('dogBreedInput')?.value.trim() || '',
+                gender: document.getElementById('dogGenderSelect')?.value || 'female',
+                birthday: document.getElementById('dogBirthdayInput')?.value || '',
+                weight: parseFloat(document.getElementById('dogWeightInput')?.value) || null,
+                color: document.getElementById('dogColorInput')?.value.trim() || '',
+                location: document.getElementById('locationSelect')?.value || 'home',
+                is_breeding: document.getElementById('isBreeding')?.checked || false,
+                is_public: document.getElementById('isPublic')?.checked || false,
+                description: document.getElementById('dogDescriptionInput')?.value.trim() || '',
+                notes: document.getElementById('dogNotesInput')?.value.trim() || '',
+            };
+
+            // Get photo URL - only if it's not a placeholder
+            const photoSrc = document.getElementById('primaryPhoto')?.src || '';
+            if (photoSrc && !photoSrc.includes('blob:') && photoSrc !== window.location.href) {
+                data.photo_url = photoSrc;
+            }
+
+            // Get guardian ID if location is guardian
+            if (data.location === 'guardian') {
+                const guardianSelect = document.querySelector('#guardianSection select');
+                data.guardian_id = guardianSelect?.value || null;
+            }
+
+            // Gather health tests
+            const healthTests = [];
+            const testItems = document.querySelectorAll('#healthTestsList > div.flex');
+            testItems.forEach(item => {
+                const name = item.querySelector('.text-white')?.textContent || '';
+                const result = item.querySelector('.text-green-400')?.textContent || '';
+                if (name && result) {
+                    healthTests.push({ name, result });
+                }
+            });
+            data.health_tests = healthTests;
+
+            return data;
+        }
+
+        // Save function
+        async function saveDog() {
+            try {
+                const data = gatherFormData();
+
+                // Validation
+                if (!data.name) {
+                    alert('Please enter a dog name');
+                    return;
+                }
+
+                await DB.init();
+
+                let savedDog;
+                if (currentDogId) {
+                    // Update existing dog
+                    savedDog = await DB.dogs.update(currentDogId, data);
+                    console.log('Dog updated:', savedDog);
+                } else {
+                    // Add new dog
+                    savedDog = await DB.dogs.add(data);
+                    console.log('Dog added:', savedDog);
+                }
+
+                // Success - redirect back to admin
+                alert('Dog saved successfully!');
+                window.location.href = 'admin.html#dogs';
+            } catch (error) {
+                console.error('Error saving dog:', error);
+                alert('Error saving dog: ' + error.message);
+            }
+        }
+
+        // Preview function
+        function previewDog() {
+            const data = gatherFormData();
+
+            // Create preview modal content
+            const previewContent = `
+                <div class="max-w-2xl mx-auto bg-brand-card rounded-lg p-6">
+                    <div class="flex items-start gap-6">
+                        ${data.photo_url ? `<img src="${data.photo_url}" class="w-32 h-32 object-cover rounded-lg">` : '<div class="w-32 h-32 bg-brand-darker rounded-lg flex items-center justify-center text-gray-500">No photo</div>'}
+                        <div class="flex-1">
+                            <h2 class="text-2xl font-bold text-brand-gold mb-2">${data.name || 'Unnamed Dog'}</h2>
+                            <div class="space-y-1 text-sm">
+                                <p><span class="text-gray-400">Breed:</span> <span class="text-white">${data.breed || 'Not specified'}</span></p>
+                                <p><span class="text-gray-400">Gender:</span> <span class="text-white">${data.gender || 'Not specified'}</span></p>
+                                <p><span class="text-gray-400">Birthday:</span> <span class="text-white">${data.birthday || 'Not specified'}</span></p>
+                                <p><span class="text-gray-400">Weight:</span> <span class="text-white">${data.weight ? data.weight + ' lbs' : 'Not specified'}</span></p>
+                                <p><span class="text-gray-400">Color:</span> <span class="text-white">${data.color || 'Not specified'}</span></p>
+                                <p><span class="text-gray-400">Location:</span> <span class="text-white">${data.location === 'guardian' ? 'Guardian Home' : 'Home with Breeder'}</span></p>
+                            </div>
+                            <div class="flex gap-2 mt-3">
+                                ${data.is_breeding ? '<span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">Active Breeding</span>' : ''}
+                                ${data.is_public ? '<span class="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded">Public Profile</span>' : ''}
+                            </div>
+                        </div>
+                    </div>
+                    ${data.health_tests && data.health_tests.length > 0 ? `
+                        <div class="mt-6 pt-6 border-t border-gray-700">
+                            <h3 class="text-lg font-semibold mb-3">Health Tests</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                ${data.health_tests.map(test => `
+                                    <div class="p-2 bg-brand-darker rounded">
+                                        <p class="text-sm font-semibold">${test.name}</p>
+                                        <p class="text-xs text-green-400">${test.result}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+                    ${data.notes ? `
+                        <div class="mt-6 pt-6 border-t border-gray-700">
+                            <h3 class="text-lg font-semibold mb-2">Notes</h3>
+                            <p class="text-sm text-gray-300">${data.notes}</p>
+                        </div>
+                    ` : ''}
+                    <div class="mt-6 flex justify-end">
+                        <button onclick="closePreview()" class="px-4 py-2 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                            Close Preview
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            // Create preview overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'previewOverlay';
+            overlay.className = 'fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 overflow-y-auto';
+            overlay.innerHTML = previewContent;
+            document.body.appendChild(overlay);
+
+            // Close on overlay click
+            overlay.addEventListener('click', function(e) {
+                if (e.target === overlay) {
+                    closePreview();
+                }
+            });
+        }
+
+        // Close preview
+        function closePreview() {
+            const overlay = document.getElementById('previewOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            loadDogData();
+        });
+
+        // ===== AI DESCRIPTION GENERATOR =====
+
+        // Open AI prompt modal
+        function openAIPromptModal() {
+            const modalHTML = `
+                <div id="aiPromptOverlay" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+                    <div class="bg-brand-card rounded-xl p-6 max-w-2xl w-full">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                                <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                Generate Description with AI
+                            </h3>
+                            <button onclick="closeAIPromptModal()" class="text-gray-400 hover:text-white">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <p class="text-sm text-gray-400 mb-4">
+                            Provide a custom prompt to guide the AI in generating a description for this dog.
+                            The AI will use the dog's basic information (name, breed, gender, color) along with your prompt.
+                        </p>
+
+                        <div class="mb-4">
+                            <label class="block text-sm text-gray-400 mb-2">Your Custom Prompt</label>
+                            <textarea id="aiCustomPrompt" rows="4" placeholder="Example: Write a warm, friendly description highlighting this dog's gentle temperament and family-friendly nature. Mention their beautiful coat color and excellent breeding lines." class="w-full px-4 py-3 bg-brand-darker border border-gray-600 rounded-lg text-white placeholder-gray-500 focus:border-purple-500 focus:outline-none text-sm resize-none"></textarea>
+                        </div>
+
+                        <div class="bg-purple-500/10 border border-purple-500/20 rounded-lg p-3 mb-4">
+                            <p class="text-xs text-purple-300">
+                                <strong>Tip:</strong> Be specific about the tone, length, and key points you want emphasized in the description.
+                            </p>
+                        </div>
+
+                        <div class="flex gap-3 justify-end">
+                            <button onclick="closeAIPromptModal()" class="px-4 py-2 bg-brand-darker text-gray-300 rounded-lg hover:bg-gray-700 transition-colors">
+                                Cancel
+                            </button>
+                            <button onclick="generateDescription()" class="px-4 py-2 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-500 transition-colors flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                Generate Description
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+            // Close on overlay click
+            document.getElementById('aiPromptOverlay').addEventListener('click', function(e) {
+                if (e.target.id === 'aiPromptOverlay') {
+                    closeAIPromptModal();
+                }
+            });
+        }
+
+        // Close AI prompt modal
+        function closeAIPromptModal() {
+            const overlay = document.getElementById('aiPromptOverlay');
+            if (overlay) {
+                overlay.remove();
+            }
+        }
+
+        // Generate description using OpenAI (via secure Supabase Edge Function)
+        async function generateDescription() {
+            const customPrompt = document.getElementById('aiCustomPrompt')?.value.trim();
+
+            if (!customPrompt) {
+                alert('Please enter a custom prompt to guide the AI generation.');
+                return;
+            }
+
+            // Show loading state
+            const generateBtn = event.target.closest('button');
+            const originalBtnText = generateBtn.innerHTML;
+            generateBtn.disabled = true;
+            generateBtn.innerHTML = `
+                <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12a8 8 0 0116 0"></path>
+                </svg>
+                Generating...
+            `;
+
+            try {
+                // Call Edge Function (it handles dog data gathering internally)
+                const description = await callOpenAI(customPrompt);
+
+                // Insert generated description into textarea
+                document.getElementById('dogDescriptionInput').value = description;
+
+                // Close modal
+                closeAIPromptModal();
+
+                // Show success message
+                alert('Description generated successfully!');
+            } catch (error) {
+                console.error('AI generation error:', error);
+                alert('Error generating description: ' + error.message);
+
+                // Restore button
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = originalBtnText;
+            }
+        }
+
+        // Call Supabase Edge Function for OpenAI (secure - API key hidden on server)
+        async function callOpenAI(prompt) {
+            // Gather dog data for context
+            const dogData = {
+                name: document.getElementById('dogNameInput')?.value.trim() || 'this dog',
+                breed: document.getElementById('dogBreedInput')?.value.trim() || 'breed not specified',
+                gender: document.getElementById('dogGenderSelect')?.value || 'not specified',
+                color: document.getElementById('dogColorInput')?.value.trim() || 'color not specified',
+                weight: document.getElementById('dogWeightInput')?.value || 'weight not specified'
+            };
+
+            // Call Supabase Edge Function
+            const response = await fetch(`${CONFIG.SUPABASE_URL}/functions/v1/generate-description`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${CONFIG.SUPABASE_ANON_KEY}`
+                },
+                body: JSON.stringify({
+                    prompt,
+                    dogData
+                })
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Failed to generate description');
+            }
+
+            const data = await response.json();
+            return data.description;
+        }
+    </script>
+</body>
+</html>

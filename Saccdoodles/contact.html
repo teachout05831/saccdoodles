@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    },
+                    fontFamily: {
+                        'spartan': ['League Spartan', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'League Spartan', sans-serif; }
+        .script-font { font-style: italic; font-weight: 300; }
+    </style>
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- App Config -->
+    <script src="js/config.js"></script>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-brand-gold hover:text-brand-gold-light transition-colors">
+                    SACC Doodles
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-300 hover:text-brand-gold" aria-label="Toggle menu">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="text-gray-300 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="text-gray-300 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="text-gray-300 hover:text-brand-gold transition-colors">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="text-gray-300 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                    <li class="relative group">
+                        <button class="text-gray-300 hover:text-brand-gold transition-colors flex items-center gap-1">
+                            Resources
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="absolute left-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <div class="bg-brand-card rounded-lg shadow-xl border border-brand-darker overflow-hidden">
+                                <a href="puppy-resources.html" class="block px-4 py-3 text-gray-300 hover:text-brand-gold hover:bg-brand-darker transition-colors">Puppy Resources</a>
+                                <a href="faq.html" class="block px-4 py-3 text-gray-300 hover:text-brand-gold hover:bg-brand-darker transition-colors">FAQ</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="text-brand-gold font-medium">Contact</a></li>
+                </ul>
+                <a href="admin.html" class="hidden md:block text-gray-400 hover:text-brand-gold transition-colors" title="Admin Dashboard">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+                    </svg>
+                </a>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-brand-card">
+                <ul class="py-4 space-y-2">
+                    <li><a href="index.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Guardian Homes</a></li>
+                    <li class="border-t border-brand-darker mt-2 pt-2">
+                        <span class="block px-4 py-1 text-gray-500 text-sm">Resources</span>
+                        <a href="puppy-resources.html" class="block px-6 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Puppy Resources</a>
+                        <a href="faq.html" class="block px-6 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">FAQ</a>
+                    </li>
+                    <li><a href="about.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="block px-4 py-2 text-brand-gold font-medium">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    </script>
+
+    <!-- Page Header -->
+    <section class="pt-32 pb-16 bg-gradient-to-b from-brand-darker to-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">
+                <span class="script-font text-brand-gold text-2xl md:text-3xl block mb-2">Get in</span>
+                <span class="text-white">Touch</span>
+            </h1>
+            <p class="text-xl text-gray-400 max-w-2xl mx-auto">
+                We'd love to hear from you! Reach out with any questions about our puppies or program.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="py-16 bg-brand-dark">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-2xl font-semibold text-white mb-8">Contact Information</h3>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-brand-card rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-medium text-white">Phone</h4>
+                                <a href="tel:+14808228443" class="text-brand-gold hover:text-brand-gold-light text-lg">480-822-8443</a>
+                                <p class="text-gray-500 text-sm mt-1">Call or text anytime!</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-brand-card rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-medium text-white">Email</h4>
+                                <a href="mailto:mizzteachout@gmail.com" class="text-brand-gold hover:text-brand-gold-light">mizzteachout@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-brand-card rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-medium text-white">Follow Us</h4>
+                                <p class="text-gray-400">@premiumdoodles</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12">
+                        <h3 class="text-xl font-semibold text-white mb-4">Quick Response</h3>
+                        <p class="text-gray-400 mb-6">For the fastest response, please text or call us! We typically respond within a few hours during business hours.</p>
+                        <a href="tel:+14808228443" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            Call Now
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="bg-brand-card rounded-2xl p-8">
+                    <h3 class="text-xl font-semibold text-white mb-6">Send Us a Message</h3>
+                    <form id="contact-form">
+                        <div class="mb-4">
+                            <label class="block text-gray-300 text-sm mb-2" for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-300 text-sm mb-2" for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-300 text-sm mb-2" for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-gray-300 text-sm mb-2" for="interest">I'm Interested In</label>
+                            <select id="interest" name="interest" class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white focus:border-brand-gold focus:outline-none transition-colors">
+                                <option value="">Select an option</option>
+                                <option value="available">Available Puppies</option>
+                                <option value="upcoming">Upcoming Litters</option>
+                                <option value="guardian">Guardian Home Program</option>
+                                <option value="general">General Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="mb-6">
+                            <label class="block text-gray-300 text-sm mb-2" for="message">Message *</label>
+                            <textarea id="message" name="message" required rows="5" placeholder="Tell us about yourself and what you're looking for..." class="w-full px-4 py-3 bg-brand-darker border border-brand-dark rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none transition-colors resize-none"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-card border-t border-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <span class="text-2xl font-bold text-brand-gold">SACC Doodles</span>
+                    <p class="text-gray-400 mt-4">Breeding quality puppies with love and care.</p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="Instagram">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="TikTok">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="Facebook">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-brand-gold transition-colors">Home</a></li>
+                        <li><a href="our-dogs.html" class="text-gray-400 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                        <li><a href="available-puppies.html" class="text-gray-400 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                        <li><a href="guardian-home.html" class="text-gray-400 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                        <li><a href="puppy-resources.html" class="text-gray-400 hover:text-brand-gold transition-colors">Puppy Resources</a></li>
+                        <li><a href="faq.html" class="text-gray-400 hover:text-brand-gold transition-colors">FAQ</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-brand-gold transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact Us</h4>
+                    <div class="space-y-3">
+                        <p class="flex items-center gap-2 text-gray-400">
+                            <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            480-822-8443
+                        </p>
+                        <p class="flex items-center gap-2 text-gray-400">
+                            <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            mizzteachout@gmail.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-brand-darker mt-12 pt-8 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2025 SACC Doodles. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Form Submission -->
+    <script>
+        // Initialize Supabase client (using different name to avoid conflict with window.supabase)
+        const supabaseClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+
+        document.getElementById('contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+
+            try {
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    phone: document.getElementById('phone').value,
+                    subject: document.getElementById('interest').value || 'General Inquiry',
+                    message: document.getElementById('message').value,
+                    read: false
+                };
+
+                const { data, error } = await supabaseClient
+                    .from('contact_submissions')
+                    .insert(formData)
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                // Show success state
+                const formContainer = document.getElementById('contact-form').parentElement;
+                formContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <svg class="w-16 h-16 mx-auto text-green-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-brand-gold mb-2">Message Sent!</h3>
+                        <p class="text-gray-400">Thank you for reaching out. We'll get back to you soon!</p>
+                    </div>
+                `;
+
+            } catch (error) {
+                console.error('Error submitting contact form:', error);
+                alert('There was an error sending your message. Please try again or contact us directly at 480-822-8443.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+    </script>
+</body>
+</html>

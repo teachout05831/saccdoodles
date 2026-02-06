@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SACC Doodles - Image Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen p-8">
+    <div class="max-w-6xl mx-auto">
+        <h1 class="text-3xl font-bold text-brand-gold mb-2">SACC Doodles - Image Gallery</h1>
+        <p class="text-gray-400 mb-8">Images downloaded from saccdoodles.com - Click any image to view full size</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Hero Image -->
+            <div class="bg-brand-card rounded-xl overflow-hidden">
+                <a href="hero-main.jpeg" target="_blank">
+                    <img src="hero-main.jpeg" alt="Hero Main" class="w-full h-48 object-cover hover:scale-105 transition-transform">
+                </a>
+                <div class="p-4">
+                    <h3 class="font-semibold text-white">hero-main.jpeg</h3>
+                    <p class="text-gray-500 text-sm">Home page hero background</p>
+                    <p class="text-gray-600 text-xs mt-1">766 KB</p>
+                </div>
+            </div>
+
+            <!-- Dog 1 -->
+            <div class="bg-brand-card rounded-xl overflow-hidden">
+                <a href="dog-1.jpeg" target="_blank">
+                    <img src="dog-1.jpeg" alt="Dog 1" class="w-full h-48 object-cover hover:scale-105 transition-transform">
+                </a>
+                <div class="p-4">
+                    <h3 class="font-semibold text-white">dog-1.jpeg</h3>
+                    <p class="text-gray-500 text-sm">Dogs page - Image 1</p>
+                    <p class="text-gray-600 text-xs mt-1">316 KB</p>
+                </div>
+            </div>
+
+            <!-- Dog 2 -->
+            <div class="bg-brand-card rounded-xl overflow-hidden">
+                <a href="dog-2.jpeg" target="_blank">
+                    <img src="dog-2.jpeg" alt="Dog 2" class="w-full h-48 object-cover hover:scale-105 transition-transform">
+                </a>
+                <div class="p-4">
+                    <h3 class="font-semibold text-white">dog-2.jpeg</h3>
+                    <p class="text-gray-500 text-sm">Dogs page - Image 2</p>
+                    <p class="text-gray-600 text-xs mt-1">538 KB</p>
+                </div>
+            </div>
+
+            <!-- Dog 3 -->
+            <div class="bg-brand-card rounded-xl overflow-hidden">
+                <a href="dog-3.jpeg" target="_blank">
+                    <img src="dog-3.jpeg" alt="Dog 3" class="w-full h-48 object-cover hover:scale-105 transition-transform">
+                </a>
+                <div class="p-4">
+                    <h3 class="font-semibold text-white">dog-3.jpeg</h3>
+                    <p class="text-gray-500 text-sm">Dogs page - Image 3</p>
+                    <p class="text-gray-600 text-xs mt-1">737 KB</p>
+                </div>
+            </div>
+
+            <!-- Dog 4 -->
+            <div class="bg-brand-card rounded-xl overflow-hidden">
+                <a href="dog-4.jpeg" target="_blank">
+                    <img src="dog-4.jpeg" alt="Dog 4" class="w-full h-48 object-cover hover:scale-105 transition-transform">
+                </a>
+                <div class="p-4">
+                    <h3 class="font-semibold text-white">dog-4.jpeg</h3>
+                    <p class="text-gray-500 text-sm">Dogs page - Image 4</p>
+                    <p class="text-gray-600 text-xs mt-1">235 KB</p>
+                </div>
+            </div>
+
+            <!-- About Angela -->
+            <div class="bg-brand-card rounded-xl overflow-hidden">
+                <a href="about-angela.jpeg" target="_blank">
+                    <img src="about-angela.jpeg" alt="About Angela" class="w-full h-48 object-cover hover:scale-105 transition-transform">
+                </a>
+                <div class="p-4">
+                    <h3 class="font-semibold text-white">about-angela.jpeg</h3>
+                    <p class="text-gray-500 text-sm">About Us page - Angela photo</p>
+                    <p class="text-gray-600 text-xs mt-1">588 KB</p>
+                </div>
+            </div>
+
+            <!-- Pet Delivery -->
+            <div class="bg-brand-card rounded-xl overflow-hidden">
+                <a href="pet-delivery.png" target="_blank">
+                    <img src="pet-delivery.png" alt="Pet Delivery" class="w-full h-48 object-cover hover:scale-105 transition-transform">
+                </a>
+                <div class="p-4">
+                    <h3 class="font-semibold text-white">pet-delivery.png</h3>
+                    <p class="text-gray-500 text-sm">Guardian Home page header</p>
+                    <p class="text-gray-600 text-xs mt-1">62 KB</p>
+                </div>
+            </div>
+
+            <!-- Puppy Collage -->
+            <div class="bg-brand-card rounded-xl overflow-hidden">
+                <a href="puppy-collage-bernedoodle.png" target="_blank">
+                    <img src="puppy-collage-bernedoodle.png" alt="Puppy Collage Bernedoodle" class="w-full h-48 object-cover hover:scale-105 transition-transform">
+                </a>
+                <div class="p-4">
+                    <h3 class="font-semibold text-white">puppy-collage-bernedoodle.png</h3>
+                    <p class="text-gray-500 text-sm">Bernedoodle puppy collage</p>
+                    <p class="text-gray-600 text-xs mt-1">778 KB</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 p-4 bg-brand-card rounded-xl">
+            <h2 class="font-semibold text-white mb-2">Image Summary</h2>
+            <p class="text-gray-400 text-sm">Total: 8 images | Combined size: ~4 MB</p>
+            <p class="text-gray-500 text-xs mt-2">Source: saccdoodles.com</p>
+        </div>
+    </div>
+</body>
+</html>

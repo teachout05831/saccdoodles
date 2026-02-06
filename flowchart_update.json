@@ -1,0 +1,89 @@
+{
+  "elements": [
+    {"id":"e1","type":"ellipse","x":900,"y":50,"width":200,"height":80,"strokeColor":"#ba9b79","backgroundColor":"#ba9b79","fillStyle":"solid","strokeWidth":2,"roughness":0,"opacity":100},
+    {"id":"e2","type":"text","x":940,"y":75,"width":120,"height":30,"strokeColor":"#161616","text":"START","fontSize":24,"fontFamily":1,"textAlign":"center"},
+    {"id":"e3","type":"arrow","x":1000,"y":130,"width":0,"height":50,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[0,50]],"endArrowhead":"arrow"},
+    {"id":"e4","type":"diamond","x":850,"y":180,"width":300,"height":100,"strokeColor":"#ba9b79","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roughness":0},
+    {"id":"e5","type":"text","x":870,"y":215,"width":260,"height":30,"strokeColor":"#ffffff","text":"MARKETING CHANNELS","fontSize":16,"fontFamily":1,"textAlign":"center"},
+    {"id":"e6","type":"arrow","x":850,"y":230,"width":-350,"height":120,"strokeColor":"#4ade80","strokeWidth":2,"points":[[0,0],[-350,120]],"endArrowhead":"arrow"},
+    {"id":"e7","type":"arrow","x":1000,"y":280,"width":0,"height":70,"strokeColor":"#60a5fa","strokeWidth":2,"points":[[0,0],[0,70]],"endArrowhead":"arrow"},
+    {"id":"e8","type":"arrow","x":1150,"y":230,"width":350,"height":120,"strokeColor":"#f472b6","strokeWidth":2,"points":[[0,0],[350,120]],"endArrowhead":"arrow"},
+    {"id":"e9","type":"rectangle","x":350,"y":350,"width":200,"height":70,"strokeColor":"#4ade80","backgroundColor":"#166534","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e10","type":"text","x":390,"y":370,"width":120,"height":30,"strokeColor":"#ffffff","text":"PAID ADS","fontSize":18,"fontFamily":1,"textAlign":"center"},
+    {"id":"e11","type":"rectangle","x":900,"y":350,"width":200,"height":70,"strokeColor":"#60a5fa","backgroundColor":"#1e40af","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e12","type":"text","x":910,"y":370,"width":180,"height":30,"strokeColor":"#ffffff","text":"MARKETPLACES","fontSize":16,"fontFamily":1,"textAlign":"center"},
+    {"id":"e13","type":"rectangle","x":1450,"y":350,"width":200,"height":70,"strokeColor":"#f472b6","backgroundColor":"#9d174d","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e14","type":"text","x":1490,"y":370,"width":120,"height":30,"strokeColor":"#ffffff","text":"ORGANIC","fontSize":18,"fontFamily":1,"textAlign":"center"},
+    {"id":"a15","type":"arrow","x":400,"y":420,"width":-80,"height":60,"strokeColor":"#4ade80","strokeWidth":2,"points":[[0,0],[-80,60]],"endArrowhead":"arrow"},
+    {"id":"a16","type":"arrow","x":500,"y":420,"width":80,"height":60,"strokeColor":"#4ade80","strokeWidth":2,"points":[[0,0],[80,60]],"endArrowhead":"arrow"},
+    {"id":"e17","type":"rectangle","x":200,"y":480,"width":160,"height":60,"strokeColor":"#4ade80","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e18","type":"text","x":220,"y":495,"width":120,"height":30,"strokeColor":"#4ade80","text":"Google Ads","fontSize":16,"fontFamily":1,"textAlign":"center"},
+    {"id":"e19","type":"rectangle","x":480,"y":480,"width":160,"height":60,"strokeColor":"#4ade80","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e20","type":"text","x":490,"y":495,"width":140,"height":30,"strokeColor":"#4ade80","text":"Facebook Ads","fontSize":16,"fontFamily":1,"textAlign":"center"},
+    {"id":"a21","type":"arrow","x":920,"y":420,"width":-100,"height":60,"strokeColor":"#60a5fa","strokeWidth":2,"points":[[0,0],[-100,60]],"endArrowhead":"arrow"},
+    {"id":"a22","type":"arrow","x":1000,"y":420,"width":0,"height":60,"strokeColor":"#60a5fa","strokeWidth":2,"points":[[0,0],[0,60]],"endArrowhead":"arrow"},
+    {"id":"a23","type":"arrow","x":1080,"y":420,"width":100,"height":60,"strokeColor":"#60a5fa","strokeWidth":2,"points":[[0,0],[100,60]],"endArrowhead":"arrow"},
+    {"id":"e24","type":"rectangle","x":720,"y":480,"width":140,"height":60,"strokeColor":"#60a5fa","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e25","type":"text","x":730,"y":495,"width":120,"height":30,"strokeColor":"#60a5fa","text":"PuppySpot","fontSize":14,"fontFamily":1,"textAlign":"center"},
+    {"id":"e26","type":"rectangle","x":930,"y":480,"width":140,"height":60,"strokeColor":"#60a5fa","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e27","type":"text","x":945,"y":495,"width":110,"height":30,"strokeColor":"#60a5fa","text":"Good Dog","fontSize":14,"fontFamily":1,"textAlign":"center"},
+    {"id":"e28","type":"rectangle","x":1140,"y":480,"width":140,"height":60,"strokeColor":"#60a5fa","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e29","type":"text","x":1150,"y":495,"width":120,"height":30,"strokeColor":"#60a5fa","text":"AKC/Others","fontSize":14,"fontFamily":1,"textAlign":"center"},
+    {"id":"a30","type":"arrow","x":1500,"y":420,"width":-80,"height":60,"strokeColor":"#f472b6","strokeWidth":2,"points":[[0,0],[-80,60]],"endArrowhead":"arrow"},
+    {"id":"a31","type":"arrow","x":1600,"y":420,"width":80,"height":60,"strokeColor":"#f472b6","strokeWidth":2,"points":[[0,0],[80,60]],"endArrowhead":"arrow"},
+    {"id":"e32","type":"rectangle","x":1320,"y":480,"width":140,"height":60,"strokeColor":"#f472b6","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e33","type":"text","x":1340,"y":495,"width":100,"height":30,"strokeColor":"#f472b6","text":"Instagram","fontSize":14,"fontFamily":1,"textAlign":"center"},
+    {"id":"e34","type":"rectangle","x":1580,"y":480,"width":140,"height":60,"strokeColor":"#f472b6","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e35","type":"text","x":1595,"y":495,"width":110,"height":30,"strokeColor":"#f472b6","text":"Facebook","fontSize":14,"fontFamily":1,"textAlign":"center"},
+    {"id":"e36","type":"text","x":205,"y":550,"width":150,"height":20,"strokeColor":"#9ca3af","text":"$0.60-2/click","fontSize":12,"fontFamily":1,"textAlign":"center"},
+    {"id":"e37","type":"text","x":485,"y":550,"width":150,"height":20,"strokeColor":"#9ca3af","text":"$0.26-0.30/click","fontSize":12,"fontFamily":1,"textAlign":"center"},
+    {"id":"e38","type":"text","x":745,"y":550,"width":110,"height":20,"strokeColor":"#22c55e","text":"FREE","fontSize":14,"fontFamily":1,"textAlign":"center"},
+    {"id":"e39","type":"text","x":945,"y":550,"width":110,"height":20,"strokeColor":"#9ca3af","text":"5-10% fee","fontSize":12,"fontFamily":1,"textAlign":"center"},
+    {"id":"e40","type":"text","x":1155,"y":550,"width":110,"height":20,"strokeColor":"#9ca3af","text":"$12-17/mo","fontSize":12,"fontFamily":1,"textAlign":"center"},
+    {"id":"e41","type":"text","x":1325,"y":550,"width":130,"height":20,"strokeColor":"#9ca3af","text":"@premiumdoodles","fontSize":11,"fontFamily":1,"textAlign":"center"},
+    {"id":"e42","type":"text","x":1590,"y":550,"width":120,"height":20,"strokeColor":"#9ca3af","text":"Business Page","fontSize":11,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"a43","type":"arrow","x":280,"y":540,"width":200,"height":100,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[200,100]],"endArrowhead":"arrow"},
+    {"id":"a44","type":"arrow","x":560,"y":540,"width":140,"height":100,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[140,100]],"endArrowhead":"arrow"},
+    {"id":"a45","type":"arrow","x":790,"y":540,"width":80,"height":100,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[80,100]],"endArrowhead":"arrow"},
+    {"id":"a46","type":"arrow","x":1000,"y":540,"width":0,"height":100,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[0,100]],"endArrowhead":"arrow"},
+    {"id":"a47","type":"arrow","x":1210,"y":540,"width":-80,"height":100,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[-80,100]],"endArrowhead":"arrow"},
+    {"id":"a48","type":"arrow","x":1390,"y":540,"width":-140,"height":100,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[-140,100]],"endArrowhead":"arrow"},
+    {"id":"a49","type":"arrow","x":1650,"y":540,"width":-200,"height":100,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[-200,100]],"endArrowhead":"arrow"},
+
+    {"id":"e50","type":"rectangle","x":800,"y":640,"width":400,"height":80,"strokeColor":"#ba9b79","backgroundColor":"#ba9b79","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e51","type":"text","x":920,"y":665,"width":160,"height":30,"strokeColor":"#161616","text":"WEBSITE TRAFFIC","fontSize":18,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"a52","type":"arrow","x":1000,"y":720,"width":0,"height":50,"strokeColor":"#ba9b79","strokeWidth":2,"points":[[0,0],[0,50]],"endArrowhead":"arrow"},
+
+    {"id":"e53","type":"diamond","x":850,"y":770,"width":300,"height":100,"strokeColor":"#ba9b79","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roughness":0},
+    {"id":"e54","type":"text","x":905,"y":805,"width":190,"height":30,"strokeColor":"#ffffff","text":"LEAD CAPTURED?","fontSize":16,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"a55","type":"arrow","x":850,"y":820,"width":-150,"height":80,"strokeColor":"#ef4444","strokeWidth":2,"points":[[0,0],[-150,80]],"endArrowhead":"arrow"},
+    {"id":"a56","type":"arrow","x":1150,"y":820,"width":150,"height":80,"strokeColor":"#22c55e","strokeWidth":2,"points":[[0,0],[150,80]],"endArrowhead":"arrow"},
+
+    {"id":"e57","type":"text","x":720,"y":860,"width":50,"height":20,"strokeColor":"#ef4444","text":"NO","fontSize":14,"fontFamily":1,"textAlign":"center"},
+    {"id":"e58","type":"text","x":1230,"y":860,"width":50,"height":20,"strokeColor":"#22c55e","text":"YES","fontSize":14,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"e59","type":"rectangle","x":550,"y":900,"width":200,"height":60,"strokeColor":"#ef4444","backgroundColor":"#7f1d1d","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e60","type":"text","x":570,"y":915,"width":160,"height":30,"strokeColor":"#ffffff","text":"Retarget with Ads","fontSize":14,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"e61","type":"rectangle","x":1150,"y":900,"width":200,"height":60,"strokeColor":"#22c55e","backgroundColor":"#166534","fillStyle":"solid","strokeWidth":2,"roundness":{"type":3}},
+    {"id":"e62","type":"text","x":1185,"y":915,"width":130,"height":30,"strokeColor":"#ffffff","text":"Email Sequence","fontSize":14,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"a63","type":"arrow","x":1250,"y":960,"width":0,"height":50,"strokeColor":"#22c55e","strokeWidth":2,"points":[[0,0],[0,50]],"endArrowhead":"arrow"},
+
+    {"id":"e64","type":"diamond","x":1100,"y":1010,"width":300,"height":100,"strokeColor":"#22c55e","backgroundColor":"#262626","fillStyle":"solid","strokeWidth":2,"roughness":0},
+    {"id":"e65","type":"text","x":1155,"y":1045,"width":190,"height":30,"strokeColor":"#ffffff","text":"DEPOSIT PLACED?","fontSize":16,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"a66","type":"arrow","x":1400,"y":1060,"width":150,"height":80,"strokeColor":"#22c55e","strokeWidth":2,"points":[[0,0],[150,80]],"endArrowhead":"arrow"},
+
+    {"id":"e67","type":"text","x":1480,"y":1100,"width":50,"height":20,"strokeColor":"#22c55e","text":"YES","fontSize":14,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"e68","type":"ellipse","x":1450,"y":1140,"width":200,"height":80,"strokeColor":"#22c55e","backgroundColor":"#22c55e","fillStyle":"solid","strokeWidth":2,"roughness":0},
+    {"id":"e69","type":"text","x":1510,"y":1165,"width":80,"height":30,"strokeColor":"#161616","text":"SALE!","fontSize":24,"fontFamily":1,"textAlign":"center"},
+
+    {"id":"e70","type":"text","x":1420,"y":1230,"width":260,"height":20,"strokeColor":"#22c55e","text":"Cost: $150-600 per customer","fontSize":14,"fontFamily":1,"textAlign":"center"},
+    {"id":"e71","type":"text","x":1420,"y":1255,"width":260,"height":20,"strokeColor":"#ba9b79","text":"ROI: 4-25x return","fontSize":16,"fontFamily":1,"textAlign":"center"}
+  ]
+}

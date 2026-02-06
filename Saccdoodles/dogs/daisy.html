@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daisy - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    },
+                    fontFamily: {
+                        'spartan': ['League Spartan', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'League Spartan', sans-serif; }
+        .script-font { font-style: italic; font-weight: 300; }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="../index.html" class="text-2xl font-bold text-brand-gold hover:text-brand-gold-light transition-colors">
+                    SACC Doodles
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-300 hover:text-brand-gold" aria-label="Toggle menu">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="../index.html" class="text-gray-300 hover:text-brand-gold transition-colors">Home</a></li>
+                    <li><a href="../our-dogs.html" class="text-brand-gold font-medium">Our Dogs</a></li>
+                    <li><a href="../available-puppies.html" class="text-gray-300 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                    <li><a href="../waitlist.html" class="text-gray-300 hover:text-brand-gold transition-colors">Waitlist</a></li>
+                    <li><a href="../guardian-home.html" class="text-gray-300 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                    <li><a href="../puppy-resources.html" class="text-gray-300 hover:text-brand-gold transition-colors">Puppy Resources</a></li>
+                    <li><a href="../about.html" class="text-gray-300 hover:text-brand-gold transition-colors">About Us</a></li>
+                    <li><a href="../contact.html" class="text-gray-300 hover:text-brand-gold transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-brand-card">
+                <ul class="py-4 space-y-2">
+                    <li><a href="../index.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Home</a></li>
+                    <li><a href="../our-dogs.html" class="block px-4 py-2 text-brand-gold font-medium">Our Dogs</a></li>
+                    <li><a href="../available-puppies.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Available Puppies</a></li>
+                    <li><a href="../waitlist.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Waitlist</a></li>
+                    <li><a href="../guardian-home.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Guardian Homes</a></li>
+                    <li><a href="../puppy-resources.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Puppy Resources</a></li>
+                    <li><a href="../about.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">About Us</a></li>
+                    <li><a href="../contact.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    </script>
+
+    <!-- Breadcrumb -->
+    <section class="pt-24 pb-4 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm text-gray-400">
+                <a href="../our-dogs.html" class="hover:text-brand-gold transition-colors">Our Dogs</a>
+                <span class="mx-2">/</span>
+                <span class="text-brand-gold">Daisy</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Dog Profile -->
+    <section class="py-12 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <!-- Main Photo -->
+                <div>
+                    <img src="../pictures/dog-4.jpeg" alt="Daisy" class="w-full rounded-xl shadow-2xl">
+                </div>
+
+                <!-- Dog Info -->
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-2">
+                        <span class="script-font text-brand-gold text-2xl md:text-3xl block mb-2">Meet</span>
+                        <span class="text-white">Daisy</span>
+                    </h1>
+
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="px-4 py-2 bg-brand-card text-brand-gold rounded-full">Bernedoodle</span>
+                        <span class="px-4 py-2 bg-brand-card text-green-400 rounded-full">Active Dam</span>
+                        <span class="px-4 py-2 bg-brand-card text-blue-400 rounded-full">Health Tested</span>
+                    </div>
+
+                    <p class="text-gray-400 text-lg mb-8">
+                        Daisy is our sweet Bernedoodle with the most beautiful markings. She has a calm, nurturing personality that makes her an exceptional mother. Her puppies are always well-adjusted and ready for their new families.
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <div class="bg-brand-card p-4 rounded-lg">
+                            <p class="text-gray-500 text-sm">Breed</p>
+                            <p class="text-white font-semibold">Bernedoodle</p>
+                        </div>
+                        <div class="bg-brand-card p-4 rounded-lg">
+                            <p class="text-gray-500 text-sm">Weight</p>
+                            <p class="text-white font-semibold">50 lbs</p>
+                        </div>
+                        <div class="bg-brand-card p-4 rounded-lg">
+                            <p class="text-gray-500 text-sm">Color</p>
+                            <p class="text-white font-semibold">Tri-Color</p>
+                        </div>
+                        <div class="bg-brand-card p-4 rounded-lg">
+                            <p class="text-gray-500 text-sm">Age</p>
+                            <p class="text-white font-semibold">2 years</p>
+                        </div>
+                    </div>
+
+                    <!-- Health Testing -->
+                    <div class="bg-brand-card p-6 rounded-xl mb-8">
+                        <h3 class="text-xl font-semibold text-white mb-4">Health Testing</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 text-gray-300">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                OFA Hips - Good
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-300">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                OFA Elbows - Normal
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-300">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                OFA Heart - Normal
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-300">
+                                <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                Genetic Panel - Clear
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="flex gap-4">
+                        <a href="../waitlist.html" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                            Join Waitlist
+                        </a>
+                        <a href="../contact.html" class="inline-flex items-center gap-2 px-6 py-3 border-2 border-brand-gold text-brand-gold rounded-lg hover:bg-brand-gold hover:text-brand-dark transition-colors">
+                            Ask About Daisy
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back Link -->
+    <section class="py-8 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <a href="../our-dogs.html" class="inline-flex items-center gap-2 text-brand-gold hover:text-brand-gold-light transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Back to All Dogs
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-card border-t border-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center">
+                <span class="text-2xl font-bold text-brand-gold">SACC Doodles</span>
+                <p class="text-gray-400 mt-4">Breeding quality puppies with love and care.</p>
+                <p class="text-gray-500 text-sm mt-8">&copy; 2025 SACC Doodles. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

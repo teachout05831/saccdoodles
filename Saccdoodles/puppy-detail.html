@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Puppy Details - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    },
+                    fontFamily: {
+                        'spartan': ['League Spartan', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'League Spartan', sans-serif; }
+        .script-font { font-style: italic; font-weight: 300; }
+        .thumbnail-btn.active { border-color: rgb(186, 155, 121); }
+        .gallery-item { display: none; }
+        .gallery-item.active { display: block; }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-brand-gold hover:text-brand-gold-light transition-colors">
+                    SACC Doodles
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-300 hover:text-brand-gold" aria-label="Toggle menu">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="text-gray-300 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="text-brand-gold font-medium">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="text-gray-300 hover:text-brand-gold transition-colors">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="text-gray-300 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                    <li><a href="puppy-resources.html" class="text-gray-300 hover:text-brand-gold transition-colors">Puppy Resources</a></li>
+                    <li><a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-300 hover:text-brand-gold transition-colors">Contact</a></li>
+                </ul>
+                <a href="admin.html" class="hidden md:block text-gray-400 hover:text-brand-gold transition-colors" title="Admin Dashboard">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"/>
+                    </svg>
+                </a>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-brand-card">
+                <ul class="py-4 space-y-2">
+                    <li><a href="index.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="block px-4 py-2 text-brand-gold font-medium">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Guardian Homes</a></li>
+                    <li><a href="puppy-resources.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Puppy Resources</a></li>
+                    <li><a href="about.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    </script>
+
+    <!-- Back Link -->
+    <section class="pt-24 pb-4 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <a href="available-puppies.html" class="inline-flex items-center gap-2 text-gray-400 hover:text-brand-gold transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Back to Available Puppies
+            </a>
+        </div>
+    </section>
+
+    <!-- Loading State -->
+    <section id="loading-state" class="py-32 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-brand-gold border-t-transparent"></div>
+            <p class="text-gray-400 mt-4">Loading puppy details...</p>
+        </div>
+    </section>
+
+    <!-- Not Found State -->
+    <section id="not-found-state" class="hidden py-32 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <svg class="w-24 h-24 mx-auto text-gray-600 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h2 class="text-3xl font-bold text-white mb-4">Puppy Not Found</h2>
+            <p class="text-gray-400 mb-8">This puppy may no longer be available or the link is invalid.</p>
+            <a href="available-puppies.html" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                View Available Puppies
+            </a>
+        </div>
+    </section>
+
+    <!-- Main Puppy Content (Hidden until loaded) -->
+    <section id="puppy-content" class="hidden py-8 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+
+                <!-- Left Column: Gallery -->
+                <div>
+                    <!-- Main Image/Video -->
+                    <div class="relative aspect-square rounded-xl overflow-hidden bg-brand-card mb-4">
+                        <div id="gallery-main" class="w-full h-full">
+                            <img id="main-image" src="" alt="" class="w-full h-full object-cover">
+                        </div>
+                        <!-- Video Container (hidden by default) -->
+                        <div id="video-container" class="hidden absolute inset-0">
+                            <video id="main-video" class="w-full h-full object-cover" controls></video>
+                        </div>
+                        <!-- Video Play Button (shows when video thumbnail selected) -->
+                        <button id="play-btn" class="hidden absolute inset-0 flex items-center justify-center bg-black/40 hover:bg-black/50 transition-colors">
+                            <div class="w-20 h-20 rounded-full bg-brand-gold/90 flex items-center justify-center">
+                                <svg class="w-8 h-8 text-brand-dark ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                            </div>
+                        </button>
+                        <!-- Status Badge -->
+                        <span id="gallery-status-badge" class="absolute top-4 left-4 px-3 py-1 bg-green-500/90 text-white text-sm font-medium rounded-full">
+                            Available
+                        </span>
+                    </div>
+
+                    <!-- Thumbnail Gallery -->
+                    <div id="thumbnail-gallery" class="flex gap-2 overflow-x-auto pb-2">
+                        <!-- Thumbnails will be inserted dynamically -->
+                    </div>
+                </div>
+
+                <!-- Right Column: Info -->
+                <div>
+                    <!-- Name & Breed -->
+                    <div class="mb-6">
+                        <h1 id="puppy-name" class="text-4xl md:text-5xl font-bold text-white mb-2">Puppy Name</h1>
+                        <p id="puppy-breed" class="text-xl text-gray-400">Breed (Generation)</p>
+                    </div>
+
+                    <!-- Quick Stats Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                        <div class="bg-brand-card rounded-lg p-4 text-center">
+                            <p class="text-gray-400 text-sm mb-1">Gender</p>
+                            <p id="stat-gender" class="text-white font-semibold">-</p>
+                        </div>
+                        <div class="bg-brand-card rounded-lg p-4 text-center">
+                            <p class="text-gray-400 text-sm mb-1">Age</p>
+                            <p id="stat-age" class="text-white font-semibold">-</p>
+                        </div>
+                        <div class="bg-brand-card rounded-lg p-4 text-center">
+                            <p class="text-gray-400 text-sm mb-1">Color</p>
+                            <p id="stat-color" class="text-white font-semibold">-</p>
+                        </div>
+                        <div class="bg-brand-card rounded-lg p-4 text-center">
+                            <p class="text-gray-400 text-sm mb-1">Est. Size</p>
+                            <p id="stat-size" class="text-white font-semibold">-</p>
+                        </div>
+                    </div>
+
+                    <!-- Price & CTA -->
+                    <div class="bg-brand-card rounded-xl p-6 mb-8">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-gray-400 text-sm">Price</p>
+                                <p id="puppy-price" class="text-3xl font-bold text-brand-gold">$0</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-gray-400 text-sm">Ready to go home</p>
+                                <p id="ready-date" class="text-white font-semibold">TBD</p>
+                            </div>
+                        </div>
+                        <!-- Available CTA -->
+                        <div id="available-cta" class="space-y-3">
+                            <a id="reserve-btn" href="contact.html" class="block w-full py-4 bg-brand-gold text-brand-dark font-semibold rounded-lg text-center hover:bg-brand-gold-light transition-colors">
+                                Reserve - $500 Deposit
+                            </a>
+                            <a href="contact.html" class="block w-full py-4 border-2 border-brand-gold text-brand-gold font-semibold rounded-lg text-center hover:bg-brand-gold hover:text-brand-dark transition-colors">
+                                Ask a Question
+                            </a>
+                        </div>
+                        <!-- Reserved Notice -->
+                        <div id="reserved-cta" class="hidden">
+                            <div class="flex items-center gap-3 p-4 bg-yellow-900/20 border border-yellow-600/30 rounded-lg mb-3">
+                                <svg class="w-6 h-6 text-yellow-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                                <p class="text-yellow-500 font-medium">This puppy has been reserved</p>
+                            </div>
+                            <a href="available-puppies.html" class="block w-full py-4 bg-brand-gold text-brand-dark font-semibold rounded-lg text-center hover:bg-brand-gold-light transition-colors">
+                                View Other Puppies
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Personality Tags -->
+                    <div id="personality-section" class="mb-8 hidden">
+                        <h3 class="text-lg font-semibold text-white mb-3">Personality</h3>
+                        <div id="personality-tags" class="flex flex-wrap gap-2">
+                            <!-- Tags will be inserted dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about-section" class="hidden py-12 bg-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-white mb-6">
+                <span class="script-font text-brand-gold text-lg block mb-1">About</span>
+                <span id="about-name">Puppy</span>
+            </h2>
+            <div id="about-content" class="prose prose-lg prose-invert max-w-none">
+                <!-- Description paragraphs will be inserted here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Parents Section -->
+    <section id="parents-section" class="hidden py-12 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-white mb-8">
+                <span class="script-font text-brand-gold text-lg block mb-1">Meet</span>
+                The Parents
+            </h2>
+            <div id="parents-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Parent cards will be inserted dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Health & What's Included -->
+    <section id="health-section" class="hidden py-12 bg-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-white mb-8">
+                <span class="script-font text-brand-gold text-lg block mb-1">Health &</span>
+                What's Included
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-brand-card rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-white font-semibold">Vet Checked</p>
+                    <p class="text-gray-400 text-sm">Full health exam</p>
+                </div>
+                <div class="bg-brand-card rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-white font-semibold">Vaccinations</p>
+                    <p class="text-gray-400 text-sm">Age-appropriate shots</p>
+                </div>
+                <div class="bg-brand-card rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-white font-semibold">Dewormed</p>
+                    <p class="text-gray-400 text-sm">Regular treatments</p>
+                </div>
+                <div class="bg-brand-card rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-white font-semibold">Microchipped</p>
+                    <p class="text-gray-400 text-sm">Registered to you</p>
+                </div>
+                <div class="bg-brand-card rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-white font-semibold">Health Guarantee</p>
+                    <p class="text-gray-400 text-sm">2-year genetic</p>
+                </div>
+                <div class="bg-brand-card rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-white font-semibold">Puppy Pack</p>
+                    <p class="text-gray-400 text-sm">Food, toys, blanket</p>
+                </div>
+                <div class="bg-brand-card rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-white font-semibold">Vet Records</p>
+                    <p class="text-gray-400 text-sm">Complete history</p>
+                </div>
+                <div class="bg-brand-card rounded-xl p-6 text-center">
+                    <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-green-500/20 flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <p class="text-white font-semibold">Lifetime Support</p>
+                    <p class="text-gray-400 text-sm">We're always here</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- More Puppies Section -->
+    <section id="more-puppies-section" class="hidden py-12 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-bold text-white mb-8">
+                <span class="script-font text-brand-gold text-lg block mb-1">More</span>
+                Available Puppies
+            </h2>
+            <div id="more-puppies-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <!-- Puppy cards will be inserted dynamically -->
+            </div>
+            <div class="text-center mt-8">
+                <a href="available-puppies.html" class="inline-flex items-center gap-2 text-brand-gold hover:text-brand-gold-light transition-colors">
+                    View All Puppies
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist CTA -->
+    <section id="waitlist-section" class="hidden py-16 bg-brand-darker">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-brand-card rounded-2xl p-8 md:p-12 text-center">
+                <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-brand-gold/20 flex items-center justify-center">
+                    <svg class="w-8 h-8 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </div>
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-4">
+                    Not finding your perfect match?
+                </h2>
+                <p class="text-gray-400 mb-8 max-w-xl mx-auto">
+                    Join our waitlist and tell us what you're looking for. We'll reach out when we have a puppy that matches your preferences!
+                </p>
+
+                <!-- Mini Waitlist Form -->
+                <form id="waitlist-form" class="max-w-md mx-auto text-left space-y-4">
+                    <div>
+                        <label class="block text-gray-300 text-sm mb-2">What type of puppy interests you?</label>
+                        <select id="waitlist-type" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                            <option>Goldendoodle</option>
+                            <option>Bernedoodle</option>
+                            <option>Labradoodle</option>
+                            <option>Not sure yet</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 text-sm mb-2">Preferred gender?</label>
+                        <select id="waitlist-gender" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                            <option>No preference</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 text-sm mb-2">When are you hoping to bring puppy home?</label>
+                        <select id="waitlist-timeline" class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white focus:border-brand-gold focus:outline-none">
+                            <option>As soon as possible</option>
+                            <option>Next 1-2 months</option>
+                            <option>3-6 months</option>
+                            <option>Just browsing</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-300 text-sm mb-2">Your email</label>
+                        <input type="email" id="waitlist-email" placeholder="you@example.com" required class="w-full px-4 py-3 bg-brand-darker border border-brand-card rounded-lg text-white placeholder-gray-500 focus:border-brand-gold focus:outline-none">
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                        Join Waitlist
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-card border-t border-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div>
+                    <span class="text-2xl font-bold text-brand-gold">SACC Doodles</span>
+                    <p class="text-gray-400 mt-4">Breeding quality puppies with love and care.</p>
+                    <div class="flex gap-4 mt-6">
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="Instagram">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="TikTok">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-brand-gold transition-colors" aria-label="Facebook">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-brand-gold transition-colors">Home</a></li>
+                        <li><a href="our-dogs.html" class="text-gray-400 hover:text-brand-gold transition-colors">Our Dogs</a></li>
+                        <li><a href="available-puppies.html" class="text-gray-400 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                        <li><a href="guardian-home.html" class="text-gray-400 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                        <li><a href="puppy-resources.html" class="text-gray-400 hover:text-brand-gold transition-colors">Puppy Resources</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-brand-gold transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact Us</h4>
+                    <div class="space-y-3">
+                        <p class="flex items-center gap-2 text-gray-400">
+                            <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                            </svg>
+                            480-822-8443
+                        </p>
+                        <p class="flex items-center gap-2 text-gray-400">
+                            <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            mizzteachout@gmail.com
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-brand-darker mt-12 pt-8 text-center">
+                <p class="text-gray-500 text-sm">&copy; 2025 SACC Doodles. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Config -->
+    <script src="js/config.js"></script>
+
+    <script>
+        // Initialize Supabase client
+        const supabaseClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+
+        // Get puppy ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const puppyId = urlParams.get('id');
+
+        // Current puppy data (global for gallery functions)
+        let currentPuppy = null;
+        let currentImageIndex = 0;
+        let galleryImages = [];
+
+        // DOM Elements
+        const loadingState = document.getElementById('loading-state');
+        const notFoundState = document.getElementById('not-found-state');
+        const puppyContent = document.getElementById('puppy-content');
+
+        // Calculate age in weeks
+        function calculateAge(birthDate) {
+            if (!birthDate) return null;
+            const birth = new Date(birthDate);
+            const now = new Date();
+            const diffTime = Math.abs(now - birth);
+            const diffWeeks = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
+            if (diffWeeks < 1) return 'Newborn';
+            if (diffWeeks === 1) return '1 week';
+            return `${diffWeeks} weeks`;
+        }
+
+        // Format date nicely
+        function formatDate(dateStr) {
+            if (!dateStr) return 'TBD';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
+
+        // Gallery functions
+        function changeImage(index) {
+            if (index < 0 || index >= galleryImages.length) return;
+            currentImageIndex = index;
+
+            const mainImage = document.getElementById('main-image');
+            const videoContainer = document.getElementById('video-container');
+            const playBtn = document.getElementById('play-btn');
+            const galleryMain = document.getElementById('gallery-main');
+
+            const item = galleryImages[index];
+
+            if (item.type === 'video') {
+                // Show video
+                mainImage.classList.add('hidden');
+                galleryMain.classList.add('hidden');
+                videoContainer.classList.remove('hidden');
+                playBtn.classList.add('hidden');
+                document.getElementById('main-video').src = item.url;
+            } else {
+                // Show image
+                mainImage.src = item.url;
+                mainImage.classList.remove('hidden');
+                galleryMain.classList.remove('hidden');
+                videoContainer.classList.add('hidden');
+                playBtn.classList.add('hidden');
+            }
+
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function showVideoPreview(index) {
+            currentImageIndex = index;
+            const mainImage = document.getElementById('main-image');
+            const playBtn = document.getElementById('play-btn');
+            const galleryMain = document.getElementById('gallery-main');
+            const videoContainer = document.getElementById('video-container');
+
+            // Show thumbnail with play button overlay
+            const item = galleryImages[index];
+            mainImage.src = item.thumbnail || item.url;
+            mainImage.classList.remove('hidden');
+            galleryMain.classList.remove('hidden');
+            videoContainer.classList.add('hidden');
+            playBtn.classList.remove('hidden');
+
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+        }
+
+        function playVideo() {
+            const videoContainer = document.getElementById('video-container');
+            const playBtn = document.getElementById('play-btn');
+            const galleryMain = document.getElementById('gallery-main');
+            const mainVideo = document.getElementById('main-video');
+
+            const item = galleryImages[currentImageIndex];
+            mainVideo.src = item.url;
+
+            galleryMain.classList.add('hidden');
+            playBtn.classList.add('hidden');
+            videoContainer.classList.remove('hidden');
+            mainVideo.play();
+        }
+
+        // Load puppy details
+        async function loadPuppy() {
+            if (!puppyId) {
+                showNotFound();
+                return;
+            }
+
+            try {
+                // Fetch puppy
+                const { data: puppy, error } = await supabaseClient
+                    .from('puppies')
+                    .select('*')
+                    .eq('id', puppyId)
+                    .eq('is_public', true)
+                    .single();
+
+                if (error || !puppy) {
+                    console.error('Error loading puppy:', error);
+                    showNotFound();
+                    return;
+                }
+
+                currentPuppy = puppy;
+
+                // Fetch parent info if litter exists
+                if (puppy.litter_id) {
+                    const { data: litter } = await supabaseClient
+                        .from('litters')
+                        .select('id, name, mother_id, father_id, dam_id, sire_id')
+                        .eq('id', puppy.litter_id)
+                        .single();
+
+                    if (litter) {
+                        puppy.litter = litter;
+                        const momId = litter.mother_id || litter.dam_id;
+                        const dadId = litter.father_id || litter.sire_id;
+
+                        if (momId || dadId) {
+                            const parentIds = [momId, dadId].filter(Boolean);
+                            const { data: parents } = await supabaseClient
+                                .from('dogs')
+                                .select('id, name, breed, weight_lbs, image_url, photo_url, health_testing')
+                                .in('id', parentIds);
+
+                            if (parents) {
+                                puppy.litter.dam = parents.find(p => p.id === momId);
+                                puppy.litter.sire = parents.find(p => p.id === dadId);
+                            }
+                        }
+                    }
+                }
+
+                renderPuppy(puppy);
+                loadMorePuppies(puppy.id);
+            } catch (err) {
+                console.error('Failed to load puppy:', err);
+                showNotFound();
+            }
+        }
+
+        // Render puppy details
+        function renderPuppy(puppy) {
+            // Update page title
+            document.title = `${puppy.name} - SACC Doodles`;
+
+            // Update name and breed
+            document.getElementById('puppy-name').textContent = puppy.name;
+            document.getElementById('about-name').textContent = puppy.name;
+
+            let breedText = puppy.breed || 'Doodle';
+            if (puppy.generation) breedText += ` (${puppy.generation})`;
+            document.getElementById('puppy-breed').textContent = breedText;
+
+            // Build gallery images array
+            galleryImages = [];
+
+            // Get photos array (support both new photos array and legacy single photo)
+            const photos = puppy.photos || [];
+            const mainImageUrl = photos[0] || puppy.image_url || puppy.photo_url || 'pictures/placeholder-puppy.jpg';
+
+            // Check if video should be featured first
+            const videoFirst = puppy.video_featured && puppy.video_url;
+
+            // Add video first if featured
+            if (videoFirst) {
+                galleryImages.push({
+                    type: 'video',
+                    url: puppy.video_url,
+                    thumbnail: mainImageUrl
+                });
+            }
+
+            // Add all photos
+            if (photos.length > 0) {
+                photos.forEach(photo => {
+                    galleryImages.push({ type: 'image', url: photo });
+                });
+            } else {
+                // Fallback to single photo
+                galleryImages.push({ type: 'image', url: mainImageUrl });
+
+                // Add additional photos if available (legacy support)
+                if (puppy.additional_photos && Array.isArray(puppy.additional_photos)) {
+                    puppy.additional_photos.forEach(photo => {
+                        galleryImages.push({ type: 'image', url: photo });
+                    });
+                }
+            }
+
+            // Add video at end if not featured
+            if (puppy.video_url && !videoFirst) {
+                galleryImages.push({
+                    type: 'video',
+                    url: puppy.video_url,
+                    thumbnail: mainImageUrl
+                });
+            }
+
+            // Set main display - video or image
+            const mainImage = document.getElementById('main-image');
+            const videoContainer = document.getElementById('video-container');
+            const mainVideo = document.getElementById('main-video');
+            const playBtn = document.getElementById('play-btn');
+            const galleryMain = document.getElementById('gallery-main');
+
+            if (videoFirst) {
+                // Show video first
+                galleryMain.classList.add('hidden');
+                videoContainer.classList.remove('hidden');
+                mainVideo.src = puppy.video_url;
+                if (playBtn) playBtn.classList.add('hidden');
+            } else {
+                // Show image first
+                galleryMain.classList.remove('hidden');
+                videoContainer.classList.add('hidden');
+                mainImage.src = mainImageUrl;
+                mainImage.alt = puppy.name;
+                mainImage.onerror = function() { this.src = 'pictures/placeholder-puppy.jpg'; };
+                // Show play button if video available
+                if (playBtn && puppy.video_url) {
+                    playBtn.classList.add('hidden'); // Hide by default, show when video thumb clicked
+                }
+            }
+
+            // Build thumbnail gallery
+            const thumbnailGallery = document.getElementById('thumbnail-gallery');
+            if (galleryImages.length > 1) {
+                thumbnailGallery.innerHTML = galleryImages.map((item, index) => {
+                    if (item.type === 'video') {
+                        return `
+                            <button onclick="showVideoPreview(${index})" class="thumbnail-btn ${index === 0 ? 'active' : ''} flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-brand-gold transition-colors bg-brand-card relative">
+                                <img src="${item.thumbnail || 'pictures/placeholder-puppy.jpg'}" alt="Video" class="w-full h-full object-cover opacity-70" onerror="this.src='pictures/placeholder-puppy.jpg'">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="w-8 h-8 rounded-full bg-brand-gold/90 flex items-center justify-center">
+                                        <svg class="w-4 h-4 text-brand-dark ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 5v14l11-7z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </button>
+                        `;
+                    } else {
+                        return `
+                            <button onclick="changeImage(${index})" class="thumbnail-btn ${index === 0 ? 'active' : ''} flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 border-transparent hover:border-brand-gold transition-colors">
+                                <img src="${item.url}" alt="Photo ${index + 1}" class="w-full h-full object-cover" onerror="this.src='pictures/placeholder-puppy.jpg'">
+                            </button>
+                        `;
+                    }
+                }).join('');
+            } else {
+                thumbnailGallery.innerHTML = '';
+            }
+
+            // Play button click handler
+            document.getElementById('play-btn').onclick = playVideo;
+
+            // Update status badge (case-insensitive)
+            const statusBadge = document.getElementById('gallery-status-badge');
+            const statusLower = (puppy.status || '').toLowerCase();
+            if (statusLower === 'available') {
+                statusBadge.className = 'absolute top-4 left-4 px-3 py-1 bg-green-500/90 text-white text-sm font-medium rounded-full';
+                statusBadge.textContent = 'Available';
+            } else if (statusLower === 'reserved') {
+                statusBadge.className = 'absolute top-4 left-4 px-3 py-1 bg-yellow-500/90 text-white text-sm font-medium rounded-full';
+                statusBadge.textContent = 'Reserved';
+            } else {
+                statusBadge.className = 'absolute top-4 left-4 px-3 py-1 bg-gray-500/90 text-white text-sm font-medium rounded-full';
+                statusBadge.textContent = puppy.status || 'Available';
+            }
+
+            // Update quick stats
+            document.getElementById('stat-gender').textContent = puppy.gender || '-';
+            document.getElementById('stat-age').textContent = calculateAge(puppy.birthday || puppy.birth_date) || '-';
+            document.getElementById('stat-color').textContent = puppy.color || '-';
+            document.getElementById('stat-size').textContent = puppy.expected_size || puppy.size || '-';
+
+            // Update price
+            const price = puppy.price || 0;
+            document.getElementById('puppy-price').textContent = price > 0 ? `$${price.toLocaleString()}` : 'Contact for price';
+
+            // Update ready date
+            document.getElementById('ready-date').textContent = formatDate(puppy.ready_date || puppy.available_date);
+
+            // Update reserve button
+            const depositAmount = puppy.deposit_amount || 500;
+            const reserveBtn = document.getElementById('reserve-btn');
+            reserveBtn.textContent = `Reserve ${puppy.name} - $${depositAmount} Deposit`;
+            if (puppy.deposit_link) {
+                reserveBtn.href = puppy.deposit_link;
+            } else {
+                reserveBtn.href = `contact.html?subject=Reserve ${encodeURIComponent(puppy.name)}`;
+            }
+
+            // Show/hide available or reserved CTA (case-insensitive)
+            const availableCta = document.getElementById('available-cta');
+            const reservedCta = document.getElementById('reserved-cta');
+            if (statusLower === 'reserved') {
+                availableCta.classList.add('hidden');
+                reservedCta.classList.remove('hidden');
+            } else {
+                availableCta.classList.remove('hidden');
+                reservedCta.classList.add('hidden');
+            }
+
+            // Personality tags
+            if (puppy.personality_traits && Array.isArray(puppy.personality_traits) && puppy.personality_traits.length > 0) {
+                const personalitySection = document.getElementById('personality-section');
+                const personalityTags = document.getElementById('personality-tags');
+                personalitySection.classList.remove('hidden');
+                personalityTags.innerHTML = puppy.personality_traits.map(trait =>
+                    `<span class="px-4 py-2 bg-brand-card text-brand-gold rounded-full text-sm">${trait}</span>`
+                ).join('');
+            }
+
+            // About section
+            if (puppy.description) {
+                const aboutSection = document.getElementById('about-section');
+                const aboutContent = document.getElementById('about-content');
+                aboutSection.classList.remove('hidden');
+
+                // Split description into paragraphs
+                const paragraphs = puppy.description.split('\n').filter(p => p.trim());
+                aboutContent.innerHTML = paragraphs.map(p =>
+                    `<p class="text-gray-300 leading-relaxed mb-4">${p}</p>`
+                ).join('');
+            }
+
+            // Parents section
+            if (puppy.litter && (puppy.litter.dam || puppy.litter.sire)) {
+                const parentsSection = document.getElementById('parents-section');
+                const parentsGrid = document.getElementById('parents-grid');
+                parentsSection.classList.remove('hidden');
+
+                let parentsHtml = '';
+
+                if (puppy.litter.dam) {
+                    const dam = puppy.litter.dam;
+                    const damPhoto = dam.image_url || dam.photo_url || 'pictures/placeholder-dog.jpg';
+                    const healthTests = dam.health_testing || [];
+
+                    parentsHtml += `
+                        <div class="bg-brand-card rounded-xl overflow-hidden">
+                            <div class="aspect-video bg-brand-darker">
+                                <img src="${damPhoto}" alt="${dam.name} - Mom" class="w-full h-full object-cover" onerror="this.src='pictures/placeholder-dog.jpg'">
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div>
+                                        <p class="text-brand-gold text-sm font-medium">Mom</p>
+                                        <h3 class="text-xl font-bold text-white">${dam.name}</h3>
+                                    </div>
+                                    ${healthTests.length > 0 ? '<span class="px-3 py-1 bg-green-500/20 text-green-400 text-sm rounded-full">Health Tested</span>' : ''}
+                                </div>
+                                <p class="text-gray-400 mb-4">${dam.breed || 'Doodle'}${dam.weight_lbs ? ` • ${dam.weight_lbs} lbs` : ''}</p>
+                                ${healthTests.length > 0 ? `
+                                    <div class="flex flex-wrap gap-2">
+                                        ${healthTests.slice(0, 4).map(test => `<span class="text-xs px-2 py-1 bg-brand-darker text-gray-300 rounded">${test}</span>`).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (puppy.litter.sire) {
+                    const sire = puppy.litter.sire;
+                    const sirePhoto = sire.image_url || sire.photo_url || 'pictures/placeholder-dog.jpg';
+                    const healthTests = sire.health_testing || [];
+
+                    parentsHtml += `
+                        <div class="bg-brand-card rounded-xl overflow-hidden">
+                            <div class="aspect-video bg-brand-darker">
+                                <img src="${sirePhoto}" alt="${sire.name} - Dad" class="w-full h-full object-cover" onerror="this.src='pictures/placeholder-dog.jpg'">
+                            </div>
+                            <div class="p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div>
+                                        <p class="text-brand-gold text-sm font-medium">Dad</p>
+                                        <h3 class="text-xl font-bold text-white">${sire.name}</h3>
+                                    </div>
+                                    ${healthTests.length > 0 ? '<span class="px-3 py-1 bg-green-500/20 text-green-400 text-sm rounded-full">Health Tested</span>' : ''}
+                                </div>
+                                <p class="text-gray-400 mb-4">${sire.breed || 'Poodle'}${sire.weight_lbs ? ` • ${sire.weight_lbs} lbs` : ''}</p>
+                                ${healthTests.length > 0 ? `
+                                    <div class="flex flex-wrap gap-2">
+                                        ${healthTests.slice(0, 4).map(test => `<span class="text-xs px-2 py-1 bg-brand-darker text-gray-300 rounded">${test}</span>`).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                parentsGrid.innerHTML = parentsHtml;
+            }
+
+            // Show health section
+            document.getElementById('health-section').classList.remove('hidden');
+
+            // Show waitlist section
+            document.getElementById('waitlist-section').classList.remove('hidden');
+
+            // Show the content
+            loadingState.classList.add('hidden');
+            puppyContent.classList.remove('hidden');
+        }
+
+        // Load more available puppies
+        async function loadMorePuppies(excludeId) {
+            try {
+                const { data: puppies, error } = await supabaseClient
+                    .from('puppies')
+                    .select('id, name, gender, color, price, status, image_url, photo_url')
+                    .eq('is_public', true)
+                    .in('status', ['available', 'reserved', 'Available', 'Reserved'])
+                    .neq('id', excludeId)
+                    .limit(4);
+
+                if (error || !puppies || puppies.length === 0) {
+                    return;
+                }
+
+                const morePuppiesSection = document.getElementById('more-puppies-section');
+                const morePuppiesGrid = document.getElementById('more-puppies-grid');
+                morePuppiesSection.classList.remove('hidden');
+
+                morePuppiesGrid.innerHTML = puppies.map(pup => {
+                    const imageUrl = pup.image_url || pup.photo_url || 'pictures/placeholder-puppy.jpg';
+                    const pupStatusLower = (pup.status || '').toLowerCase();
+                    const statusBadge = pupStatusLower === 'reserved'
+                        ? '<span class="absolute top-2 left-2 px-2 py-1 bg-yellow-500/90 text-white text-xs rounded-full">Reserved</span>'
+                        : '<span class="absolute top-2 left-2 px-2 py-1 bg-green-500/90 text-white text-xs rounded-full">Available</span>';
+
+                    return `
+                        <a href="puppy-detail.html?id=${pup.id}" class="bg-brand-card rounded-xl overflow-hidden hover:ring-2 hover:ring-brand-gold transition-all">
+                            <div class="aspect-square bg-brand-darker relative">
+                                <img src="${imageUrl}" alt="${pup.name}" class="w-full h-full object-cover" onerror="this.src='pictures/placeholder-puppy.jpg'">
+                                ${statusBadge}
+                            </div>
+                            <div class="p-4">
+                                <h3 class="font-semibold text-white">${pup.name}</h3>
+                                <p class="text-gray-400 text-sm">${pup.gender || ''} ${pup.gender && pup.color ? '•' : ''} ${pup.color || ''}</p>
+                                <p class="text-brand-gold font-semibold mt-2">${pup.price ? `$${pup.price.toLocaleString()}` : 'Contact for price'}</p>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+            } catch (err) {
+                console.error('Failed to load more puppies:', err);
+            }
+        }
+
+        // Show not found state
+        function showNotFound() {
+            loadingState.classList.add('hidden');
+            puppyContent.classList.add('hidden');
+            notFoundState.classList.remove('hidden');
+        }
+
+        // Waitlist form handler - saves to Supabase waitlist table
+        document.getElementById('waitlist-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+
+            const email = document.getElementById('waitlist-email').value;
+            const puppyType = document.getElementById('waitlist-type').value;
+            const gender = document.getElementById('waitlist-gender').value;
+            const timeline = document.getElementById('waitlist-timeline').value;
+
+            try {
+                // Insert into waitlist table
+                const { data, error } = await supabaseClient
+                    .from('waitlist')
+                    .insert({
+                        email: email,
+                        breed_preference: puppyType,
+                        gender_preference: gender === 'No preference' ? null : gender,
+                        timeline: timeline,
+                        status: 'Active',
+                        source: 'puppy-detail-page'
+                    })
+                    .select()
+                    .single();
+
+                if (error) throw error;
+
+                // Show success message
+                const formContainer = document.getElementById('waitlist-form').parentElement;
+                formContainer.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">You're on the list!</h3>
+                        <p class="text-gray-400 mb-6">We'll reach out when we have a ${puppyType} that matches your preferences.</p>
+                        <a href="available-puppies.html" class="inline-flex items-center gap-2 text-brand-gold hover:text-brand-gold-light transition-colors">
+                            Continue browsing puppies
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error submitting waitlist:', error);
+                alert('There was an error joining the waitlist. Please try again or contact us directly.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadPuppy);
+    </script>
+</body>
+</html>

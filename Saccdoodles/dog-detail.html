@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Dog - SACC Doodles</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand': {
+                            'dark': 'rgb(22, 22, 22)',
+                            'darker': 'rgb(30, 30, 30)',
+                            'card': 'rgb(38, 38, 38)',
+                            'gold': 'rgb(186, 155, 121)',
+                            'gold-light': 'rgb(210, 180, 145)',
+                        }
+                    },
+                    fontFamily: {
+                        'spartan': ['League Spartan', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'League Spartan', sans-serif; }
+        .script-font { font-style: italic; font-weight: 300; }
+    </style>
+</head>
+<body class="bg-brand-dark text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="index.html" class="text-2xl font-bold text-brand-gold hover:text-brand-gold-light transition-colors">
+                    SACC Doodles
+                </a>
+                <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-300 hover:text-brand-gold" aria-label="Toggle menu">
+                    <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+                <ul class="hidden md:flex items-center space-x-8">
+                    <li><a href="index.html" class="text-gray-300 hover:text-brand-gold transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="text-brand-gold font-medium">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="text-gray-300 hover:text-brand-gold transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="text-gray-300 hover:text-brand-gold transition-colors">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="text-gray-300 hover:text-brand-gold transition-colors">Guardian Homes</a></li>
+                    <li class="relative group">
+                        <button class="text-gray-300 hover:text-brand-gold transition-colors flex items-center gap-1">
+                            Resources
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                            </svg>
+                        </button>
+                        <div class="absolute left-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+                            <div class="bg-brand-card rounded-lg shadow-xl border border-brand-darker overflow-hidden">
+                                <a href="puppy-resources.html" class="block px-4 py-3 text-gray-300 hover:text-brand-gold hover:bg-brand-darker transition-colors">Puppy Resources</a>
+                                <a href="faq.html" class="block px-4 py-3 text-gray-300 hover:text-brand-gold hover:bg-brand-darker transition-colors">FAQ</a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="about.html" class="text-gray-300 hover:text-brand-gold transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-300 hover:text-brand-gold transition-colors">Contact</a></li>
+                </ul>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden border-t border-brand-card">
+                <ul class="py-4 space-y-2">
+                    <li><a href="index.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Home</a></li>
+                    <li><a href="our-dogs.html" class="block px-4 py-2 text-brand-gold font-medium">Our Dogs</a></li>
+                    <li><a href="available-puppies.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Available Puppies</a></li>
+                    <li><a href="waitlist.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Waitlist</a></li>
+                    <li><a href="guardian-home.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Guardian Homes</a></li>
+                    <li class="border-t border-brand-darker mt-2 pt-2">
+                        <span class="block px-4 py-1 text-gray-500 text-sm">Resources</span>
+                        <a href="puppy-resources.html" class="block px-6 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Puppy Resources</a>
+                        <a href="faq.html" class="block px-6 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">FAQ</a>
+                    </li>
+                    <li><a href="about.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">About Us</a></li>
+                    <li><a href="contact.html" class="block px-4 py-2 text-gray-300 hover:text-brand-gold hover:bg-brand-card transition-colors">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const closeIcon = document.getElementById('close-icon');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            menuIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+        });
+    </script>
+
+    <!-- Breadcrumb -->
+    <section class="pt-24 pb-4 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="text-sm text-gray-400">
+                <a href="our-dogs.html" class="hover:text-brand-gold transition-colors">Our Dogs</a>
+                <span class="mx-2">/</span>
+                <span class="text-brand-gold" id="breadcrumb-name">Loading...</span>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Loading State -->
+    <section id="loading-state" class="py-32 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-brand-gold border-t-transparent"></div>
+            <p class="text-gray-400 mt-4">Loading dog details...</p>
+        </div>
+    </section>
+
+    <!-- Not Found State -->
+    <section id="not-found-state" class="hidden py-32 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <svg class="w-24 h-24 mx-auto text-gray-600 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h2 class="text-3xl font-bold text-white mb-4">Dog Not Found</h2>
+            <p class="text-gray-400 mb-8">This dog profile could not be found.</p>
+            <a href="our-dogs.html" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                View All Dogs
+            </a>
+        </div>
+    </section>
+
+    <!-- Dog Profile (Hidden until loaded) -->
+    <section id="dog-profile" class="hidden py-12 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-start">
+                <!-- Main Photo -->
+                <div>
+                    <img id="dog-image" src="" alt="" class="w-full rounded-xl shadow-2xl">
+                </div>
+
+                <!-- Dog Info -->
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-bold mb-2">
+                        <span class="script-font text-brand-gold text-2xl md:text-3xl block mb-2">Meet</span>
+                        <span class="text-white" id="dog-name">Dog Name</span>
+                    </h1>
+
+                    <div class="flex flex-wrap gap-2 mb-6" id="dog-badges">
+                        <!-- Badges will be inserted here -->
+                    </div>
+
+                    <p class="text-gray-400 text-lg mb-8" id="dog-bio">
+                        <!-- Bio will be inserted here -->
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="grid grid-cols-2 gap-4 mb-8" id="dog-stats">
+                        <!-- Stats will be inserted here -->
+                    </div>
+
+                    <!-- Health Testing -->
+                    <div id="health-section" class="bg-brand-card p-6 rounded-xl mb-8 hidden">
+                        <h3 class="text-xl font-semibold text-white mb-4">Health Testing</h3>
+                        <ul class="space-y-3" id="health-tests">
+                            <!-- Health tests will be inserted here -->
+                        </ul>
+                    </div>
+
+                    <!-- Available Puppies from this dog -->
+                    <div id="puppies-section" class="bg-brand-card p-6 rounded-xl mb-8 hidden">
+                        <h3 class="text-xl font-semibold text-white mb-4">Available Puppies</h3>
+                        <div class="grid grid-cols-2 gap-3" id="available-puppies">
+                            <!-- Available puppies will be inserted here -->
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="flex gap-4">
+                        <a href="waitlist.html" class="inline-flex items-center gap-2 px-6 py-3 bg-brand-gold text-brand-dark font-semibold rounded-lg hover:bg-brand-gold-light transition-colors">
+                            Join Waitlist
+                        </a>
+                        <a id="contact-link" href="contact.html" class="inline-flex items-center gap-2 px-6 py-3 border-2 border-brand-gold text-brand-gold rounded-lg hover:bg-brand-gold hover:text-brand-dark transition-colors">
+                            Ask About This Dog
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Back Link -->
+    <section class="py-8 bg-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <a href="our-dogs.html" class="inline-flex items-center gap-2 text-brand-gold hover:text-brand-gold-light transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                Back to All Dogs
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-card border-t border-brand-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="text-center">
+                <span class="text-2xl font-bold text-brand-gold">SACC Doodles</span>
+                <p class="text-gray-400 mt-4">Breeding quality puppies with love and care.</p>
+                <p class="text-gray-500 text-sm mt-8">&copy; 2025 SACC Doodles. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Config -->
+    <script src="js/config.js"></script>
+
+    <script>
+        // Initialize Supabase client (using different name to avoid conflict with window.supabase)
+        const supabaseClient = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
+
+        // Get dog ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const dogId = urlParams.get('id');
+
+        // DOM Elements
+        const loadingState = document.getElementById('loading-state');
+        const notFoundState = document.getElementById('not-found-state');
+        const dogProfile = document.getElementById('dog-profile');
+
+        // Load dog details
+        async function loadDog() {
+            if (!dogId) {
+                showNotFound();
+                return;
+            }
+
+            try {
+                // Fetch dog
+                const { data: dog, error } = await supabaseClient
+                    .from('dogs')
+                    .select('*')
+                    .eq('id', dogId)
+                    .eq('is_public', true)
+                    .single();
+
+                if (error || !dog) {
+                    console.error('Error loading dog:', error);
+                    showNotFound();
+                    return;
+                }
+
+                await renderDog(dog);
+            } catch (err) {
+                console.error('Failed to load dog:', err);
+                showNotFound();
+            }
+        }
+
+        // Render dog details
+        async function renderDog(dog) {
+            // Update page title
+            document.title = `${dog.name} - SACC Doodles`;
+
+            // Update breadcrumb
+            document.getElementById('breadcrumb-name').textContent = dog.name;
+
+            // Update main image
+            const imageUrl = dog.image_url || 'pictures/placeholder-dog.jpg';
+            const dogImage = document.getElementById('dog-image');
+            dogImage.src = imageUrl;
+            dogImage.alt = dog.name;
+            dogImage.onerror = function() { this.src = 'pictures/placeholder-dog.jpg'; };
+
+            // Update name
+            document.getElementById('dog-name').textContent = dog.name;
+
+            // Update badges
+            const badgesContainer = document.getElementById('dog-badges');
+            let badges = [];
+            if (dog.breed) badges.push(`<span class="px-4 py-2 bg-brand-card text-brand-gold rounded-full">${dog.breed}</span>`);
+            if (dog.role) {
+                const roleColor = dog.role === 'Dam' ? 'text-green-400' : 'text-purple-400';
+                const roleLabel = dog.role === 'Dam' ? 'Active Dam' : 'Active Sire';
+                badges.push(`<span class="px-4 py-2 bg-brand-card ${roleColor} rounded-full">${roleLabel}</span>`);
+            }
+            if (dog.health_tested) {
+                badges.push(`<span class="px-4 py-2 bg-brand-card text-blue-400 rounded-full">Health Tested</span>`);
+            }
+            badgesContainer.innerHTML = badges.join('');
+
+            // Update bio
+            document.getElementById('dog-bio').textContent = dog.bio ||
+                `${dog.name} is a wonderful ${dog.breed || 'doodle'} and a cherished member of our breeding program.`;
+
+            // Update stats
+            const statsContainer = document.getElementById('dog-stats');
+            let stats = [];
+            if (dog.breed) stats.push({ label: 'Breed', value: dog.breed });
+            if (dog.weight_lbs) stats.push({ label: 'Weight', value: `${dog.weight_lbs} lbs` });
+            if (dog.color) stats.push({ label: 'Color', value: dog.color });
+            if (dog.age_years) stats.push({ label: 'Age', value: `${dog.age_years} years` });
+
+            statsContainer.innerHTML = stats.map(stat => `
+                <div class="bg-brand-card p-4 rounded-lg">
+                    <p class="text-gray-500 text-sm">${stat.label}</p>
+                    <p class="text-white font-semibold">${stat.value}</p>
+                </div>
+            `).join('');
+
+            // Update health testing section
+            if (dog.health_tests && Array.isArray(dog.health_tests) && dog.health_tests.length > 0) {
+                const healthSection = document.getElementById('health-section');
+                const healthTests = document.getElementById('health-tests');
+                healthSection.classList.remove('hidden');
+
+                healthTests.innerHTML = dog.health_tests.map(test => `
+                    <li class="flex items-center gap-3 text-gray-300">
+                        <svg class="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        ${test.test} - ${test.result}
+                    </li>
+                `).join('');
+            }
+
+            // Update contact link
+            document.getElementById('contact-link').href = `contact.html?subject=Question about ${encodeURIComponent(dog.name)}`;
+
+            // Fetch available puppies for this dog
+            await loadAvailablePuppies(dog.id, dog.role);
+
+            // Show the profile
+            loadingState.classList.add('hidden');
+            dogProfile.classList.remove('hidden');
+        }
+
+        // Load available puppies for this dog
+        async function loadAvailablePuppies(dogId, role) {
+            try {
+                // Query puppies based on whether dog is dam or sire
+                let query = supabaseClient
+                    .from('puppies')
+                    .select(`
+                        id, name, gender, color, image_url, status,
+                        litters!inner (
+                            dam_id,
+                            sire_id
+                        )
+                    `)
+                    .eq('is_public', true)
+                    .eq('status', 'Available');
+
+                if (role === 'Dam') {
+                    query = query.eq('litters.dam_id', dogId);
+                } else {
+                    query = query.eq('litters.sire_id', dogId);
+                }
+
+                const { data: puppies, error } = await query;
+
+                if (error) {
+                    console.error('Error loading puppies:', error);
+                    return;
+                }
+
+                if (puppies && puppies.length > 0) {
+                    const puppiesSection = document.getElementById('puppies-section');
+                    const puppiesContainer = document.getElementById('available-puppies');
+                    puppiesSection.classList.remove('hidden');
+
+                    puppiesContainer.innerHTML = puppies.map(puppy => `
+                        <a href="puppy-detail.html?id=${puppy.id}" class="flex items-center gap-3 p-3 bg-brand-darker rounded-lg hover:ring-1 hover:ring-brand-gold transition-all">
+                            <img src="${puppy.image_url || 'pictures/placeholder-puppy.jpg'}" alt="${puppy.name}" class="w-12 h-12 rounded-full object-cover" onerror="this.src='pictures/placeholder-puppy.jpg'">
+                            <div>
+                                <p class="text-white font-medium">${puppy.name}</p>
+                                <p class="text-gray-500 text-sm">${puppy.gender || ''} ${puppy.color || ''}</p>
+                            </div>
+                        </a>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Failed to load puppies:', err);
+            }
+        }
+
+        // Show not found state
+        function showNotFound() {
+            loadingState.classList.add('hidden');
+            dogProfile.classList.add('hidden');
+            notFoundState.classList.remove('hidden');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', loadDog);
+    </script>
+</body>
+</html>
