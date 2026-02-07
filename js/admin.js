@@ -2293,7 +2293,7 @@ function toggleHeatCycleSection() {
     document.getElementById('heatCycleSection').style.display = gender === 'female' ? '' : 'none';
 }
 
-function saveDog(dogId = null) {
+async function saveDog(dogId = null) {
     // Collect all photo URLs from the preview grid
     const photos = getDogPhotoUrls();
 
@@ -2322,15 +2322,14 @@ function saveDog(dogId = null) {
         registrationNumber: document.getElementById('dogRegistration').value.trim(),
         microchip: document.getElementById('dogMicrochip').value.trim(),
         photos: photos,
-        photo: photos[0] || '', // Keep backwards compatibility
+        photoUrl: photos[0] || '',
         description: document.getElementById('dogDescription').value.trim(),
         notes: document.getElementById('dogNotes').value.trim(),
         lastHeatDate: document.getElementById('dogLastHeat').value,
-        cycleLength: parseInt(document.getElementById('dogCycleLength').value) || 180,
+        heatCycleDays: parseInt(document.getElementById('dogCycleLength').value) || 180,
         isBreeding: document.getElementById('dogIsBreeding').checked,
         isPublic: document.getElementById('dogIsPublic').checked,
         location: location,
-        isGuardian: isGuardian,
         guardianFamily: guardianFamily
     };
 
@@ -2339,16 +2338,21 @@ function saveDog(dogId = null) {
         return;
     }
 
-    DB.dogs.save(dog);
-    closeModal();
-    showToast(dogId ? 'Dog updated successfully' : 'Dog added successfully', 'success');
+    try {
+        await DB.dogs.save(dog);
+        closeModal();
+        showToast(dogId ? 'Dog updated successfully' : 'Dog added successfully', 'success');
 
-    if (currentPage === 'dogs') {
-        loadPage('dogs');
-    } else if (currentDogId) {
-        viewDogProfile(currentDogId);
-    } else {
-        loadPage('dashboard');
+        if (currentPage === 'dogs') {
+            loadPage('dogs');
+        } else if (currentDogId) {
+            viewDogProfile(currentDogId);
+        } else {
+            loadPage('dashboard');
+        }
+    } catch (error) {
+        console.error('Error saving dog:', error);
+        showToast('Error saving dog: ' + error.message, 'error');
     }
 }
 
@@ -2517,7 +2521,7 @@ function openAddPuppyModal(litterId = null) {
                                 <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
                             </svg>
                             <p class="drop-text">Tap to upload video</p>
-                            <p class="drop-hint">MP4, WebM, or MOV (max 100MB)</p>
+                            <p class="drop-hint">MP4, WebM, or MOV (max 350MB)</p>
                         </label>
                     </div>
                 </div>
@@ -2801,7 +2805,7 @@ function openPuppyEditor(puppyId) {
                                     <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
                                 </svg>
                                 <p class="drop-text">Tap to upload video</p>
-                                <p class="drop-hint">MP4, WebM, or MOV (max 100MB)</p>
+                                <p class="drop-hint">MP4, WebM, or MOV (max 350MB)</p>
                             </label>
                         `}
                     </div>

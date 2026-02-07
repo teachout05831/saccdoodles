@@ -129,7 +129,27 @@ const DB = {
         },
 
         async save(dog) {
-            const record = this._toSnakeCase(dog);
+            const record = {
+                name: dog.name,
+                breed: dog.breed,
+                gender: dog.gender,
+                birthday: dog.birthday,
+                color: dog.color,
+                weight: dog.weight,
+                registration_number: dog.registrationNumber,
+                microchip: dog.microchip,
+                photos: dog.photos || [],
+                photo_url: dog.photoUrl || dog.photo || '',
+                description: dog.description,
+                notes: dog.notes,
+                last_heat_date: dog.lastHeatDate,
+                heat_cycle_days: dog.heatCycleDays || dog.cycleLength || 180,
+                is_breeding: dog.isBreeding,
+                is_public: dog.isPublic,
+                location: dog.location,
+                guardian_family: dog.guardianFamily
+            };
+
             let result;
 
             if (dog.id) {
@@ -164,16 +184,6 @@ const DB = {
                 .eq('id', id);
             if (error) throw error;
             _cache.dogs = _cache.dogs.filter(d => d.id !== id);
-        },
-
-        _toSnakeCase(obj) {
-            const converted = {};
-            for (const key in obj) {
-                if (key === 'id' && !obj[key]) continue;
-                const snakeKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
-                converted[snakeKey] = obj[key];
-            }
-            return converted;
         }
     },
 

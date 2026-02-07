@@ -6,7 +6,7 @@
 // Upload configuration
 const UPLOAD_CONFIG = {
     maxImageSize: 5 * 1024 * 1024,  // 5MB
-    maxVideoSize: 100 * 1024 * 1024, // 100MB
+    maxVideoSize: 350 * 1024 * 1024, // 350MB
     allowedImageTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
     allowedVideoTypes: ['video/mp4', 'video/webm', 'video/quicktime'],
     imageQuality: 0.85,
@@ -192,7 +192,7 @@ async function uploadVideo(file, folder, onProgress = null) {
         throw new Error('Invalid file type. Allowed: MP4, WebM, MOV');
     }
     if (file.size > UPLOAD_CONFIG.maxVideoSize) {
-        throw new Error('Video too large. Maximum size is 100MB');
+        throw new Error('Video too large. Maximum size is 350MB');
     }
 
     // Upload directly to Bunny
@@ -510,7 +510,7 @@ function resetVideoUpload(container) {
                 <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
             </svg>
             <p class="drop-text">Tap to upload video</p>
-            <p class="drop-hint">MP4, WebM, or MOV (max 100MB)</p>
+            <p class="drop-hint">MP4, WebM, or MOV (max 350MB)</p>
         </label>
     `;
 }
