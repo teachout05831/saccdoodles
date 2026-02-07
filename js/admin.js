@@ -217,8 +217,8 @@ function initSidebar() {
             sidebarLinks.forEach(l => l.classList.remove('active'));
             link.classList.add('active');
             loadPage(page);
-            if (window.innerWidth <= 1024) {
-                sidebar.classList.remove('open');
+            if (window.innerWidth < 768 && typeof closeMobileSidebar === 'function') {
+                closeMobileSidebar();
             }
         });
     });

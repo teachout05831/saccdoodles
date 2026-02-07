@@ -4089,3 +4089,476 @@
         display: none;
     }
 }
+
+/* ============================================
+   MOBILE-FRIENDLY ADMIN DASHBOARD
+   Comprehensive mobile improvements
+   ============================================ */
+
+/* --- Hamburger Menu Button in Header --- */
+.mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    color: var(--brand-gold);
+    cursor: pointer;
+    border-radius: 0.5rem;
+    transition: background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-menu-btn:hover,
+.mobile-menu-btn:active {
+    background: rgba(186, 155, 121, 0.15);
+}
+
+/* --- Sidebar Overlay --- */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 40;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* --- Sidebar Drawer (Mobile) --- */
+@media (max-width: 767px) {
+    #sidebar {
+        display: block !important;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 45;
+        width: 280px;
+        max-width: 85vw;
+    }
+
+    #sidebar.mobile-open {
+        transform: translateX(0);
+    }
+
+    /* Main content takes full width on mobile */
+    #main-content {
+        margin-left: 0 !important;
+        padding: 1rem !important;
+    }
+}
+
+/* --- Search Box Fix --- */
+@media (max-width: 640px) {
+    .search-box input {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .admin-page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-actions {
+        width: 100%;
+    }
+
+    .header-actions .search-box {
+        flex: 1;
+    }
+
+    .header-actions .search-box input {
+        width: 100%;
+    }
+}
+
+/* --- Touch-Friendly Buttons --- */
+@media (max-width: 767px) {
+    .btn,
+    .btn-primary,
+    .btn-secondary,
+    .btn-danger,
+    .btn-outline {
+        min-height: 44px;
+        padding: 0.625rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .btn-sm {
+        min-height: 38px;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .btn-icon,
+    .icon-btn {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0.625rem;
+    }
+
+    /* Quick action buttons */
+    .quick-actions .btn,
+    .flex.flex-wrap.gap-3 button {
+        flex: 1 1 calc(50% - 0.375rem);
+        min-height: 48px;
+        justify-content: center;
+    }
+
+    /* Table action buttons */
+    .admin-table .actions,
+    .action-buttons {
+        gap: 0.25rem;
+    }
+
+    .admin-table .actions .btn-icon,
+    .action-buttons .btn-icon {
+        min-width: 40px;
+        min-height: 40px;
+    }
+}
+
+/* --- Tables on Mobile --- */
+@media (max-width: 767px) {
+    .table-responsive {
+        margin: 0 -1rem;
+        padding: 0 0;
+        border-radius: 0;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 0.75rem 0.625rem;
+        font-size: 0.8125rem;
+    }
+
+    .admin-table th {
+        font-size: 0.6875rem;
+    }
+
+    /* Hide less-important columns on very small screens */
+    .admin-table .hide-mobile {
+        display: none;
+    }
+
+    /* Make table rows more readable */
+    .admin-table .dog-cell,
+    .admin-table .item-cell {
+        gap: 0.5rem;
+    }
+
+    .admin-table .dog-cell img,
+    .admin-table .item-cell img {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* --- Modals on Mobile --- */
+@media (max-width: 767px) {
+    #modalOverlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    #modal {
+        max-width: 100%;
+        margin: 0;
+        border-radius: 1rem 1rem 0 0;
+        max-height: 92vh;
+    }
+
+    #modal.large {
+        max-width: 100%;
+    }
+
+    #modalBody {
+        max-height: 70vh;
+        padding: 1rem;
+    }
+
+    .modal-header,
+    #modal > div:first-child {
+        padding: 1rem;
+    }
+
+    .modal-footer,
+    #modalFooter {
+        padding: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .modal-footer .btn,
+    #modalFooter .btn,
+    #modalFooter button {
+        flex: 1;
+        min-height: 48px;
+        justify-content: center;
+    }
+
+    /* Close button bigger tap target */
+    #modal button[onclick="closeModal()"] {
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* CSS modal styles too */
+    .modal {
+        max-width: 100%;
+        border-radius: 1rem 1rem 0 0;
+        max-height: 92vh;
+    }
+
+    .modal-overlay {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .modal-body {
+        padding: 1rem;
+    }
+
+    .modal-footer {
+        padding: 1rem;
+    }
+}
+
+/* --- Forms on Mobile --- */
+@media (max-width: 640px) {
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    #modalBody input,
+    #modalBody select,
+    #modalBody textarea {
+        font-size: 16px; /* Prevent iOS zoom on focus */
+        padding: 0.75rem;
+        min-height: 44px;
+    }
+
+    .form-group label,
+    #modalBody label {
+        font-size: 0.8125rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-check {
+        min-height: 44px;
+        padding: 0.25rem 0;
+    }
+
+    .form-check input[type="checkbox"] {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    /* Photo drop zone adjustments */
+    .photo-drop-zone {
+        padding: 1.25rem 1rem;
+        min-height: 100px;
+    }
+
+    .photo-preview-grid {
+        gap: 0.5rem;
+    }
+
+    .photo-preview-item {
+        width: 75px;
+        height: 75px;
+    }
+
+    /* Photo remove button always visible on touch devices */
+    .photo-preview-item .photo-remove-btn {
+        opacity: 1;
+        width: 28px;
+        height: 28px;
+    }
+
+    .photo-preview-item .photo-primary-btn {
+        opacity: 1;
+        width: 28px;
+        height: 28px;
+    }
+}
+
+/* --- Stats Cards on Mobile --- */
+@media (max-width: 640px) {
+    .stats-grid {
+        gap: 0.75rem;
+    }
+
+    .stat-card {
+        padding: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+    }
+
+    .stat-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* --- Tabs on Mobile --- */
+@media (max-width: 640px) {
+    .tabs,
+    .admin-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+    }
+
+    .tabs::-webkit-scrollbar,
+    .admin-tabs::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tab,
+    .admin-tab,
+    .tab-btn {
+        white-space: nowrap;
+        padding: 0.625rem 0.875rem;
+        font-size: 0.8125rem;
+        min-height: 44px;
+        flex-shrink: 0;
+    }
+}
+
+/* --- Detail Views on Mobile --- */
+@media (max-width: 640px) {
+    .detail-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .detail-header .detail-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .detail-header .detail-info h1 {
+        font-size: 1.25rem;
+    }
+
+    .detail-header .detail-meta {
+        justify-content: center;
+    }
+
+    .detail-header .detail-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .detail-header .detail-actions .btn {
+        flex: 1;
+        min-width: 120px;
+    }
+}
+
+/* --- Notification Items on Mobile --- */
+@media (max-width: 640px) {
+    .notification-item {
+        padding: 0.75rem;
+    }
+
+    .notification-action .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* --- Reminders on Mobile --- */
+@media (max-width: 640px) {
+    .reminder-item {
+        flex-wrap: wrap;
+        padding: 1rem;
+    }
+
+    .reminder-date {
+        width: 100%;
+        margin-top: 0.5rem;
+        text-align: left;
+    }
+}
+
+/* --- Applications/Messages Grid on Mobile --- */
+@media (max-width: 640px) {
+    .applications-grid,
+    .messages-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+        gap: 1rem;
+    }
+}
+
+/* --- Category Breakdown on Mobile --- */
+@media (max-width: 640px) {
+    .category-item {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .category-bar {
+        grid-column: span 2;
+    }
+}
+
+/* --- Dashboard Page Spacing on Mobile --- */
+@media (max-width: 640px) {
+    .mb-8 {
+        margin-bottom: 1.5rem;
+    }
+
+    .gap-6 {
+        gap: 1rem;
+    }
+
+    .p-6 {
+        padding: 1rem;
+    }
+}
+
+/* --- Login Modal on Mobile --- */
+@media (max-width: 640px) {
+    #loginModal > div {
+        margin: 0 1rem;
+        padding: 1.5rem;
+    }
+
+    #loginModal input {
+        font-size: 16px; /* Prevent iOS zoom */
+    }
+
+    #loginModal button[type="submit"] {
+        min-height: 48px;
+    }
+}
+
+/* --- Safe Area Padding for Notched Phones --- */
+@supports (padding: env(safe-area-inset-bottom)) {
+    @media (max-width: 767px) {
+        #modalFooter,
+        .modal-footer {
+            padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+        }
+
+        #modal {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    }
+}

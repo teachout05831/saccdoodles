@@ -33,14 +33,23 @@
     <header class="fixed top-0 left-0 right-0 z-50 bg-brand-dark/95 backdrop-blur-sm border-b border-brand-card">
         <nav class="px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <a href="index.html" class="text-xl font-bold text-brand-gold">SACC Doodles</a>
+                <div class="flex items-center gap-3">
+                    <button id="mobileMenuBtn" class="md:hidden mobile-menu-btn" onclick="toggleMobileSidebar()" aria-label="Open menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                    <a href="index.html" class="text-xl font-bold text-brand-gold">SACC Doodles</a>
+                </div>
                 <div class="flex items-center gap-4">
-                    <a href="index.html" class="text-gray-300 hover:text-brand-gold text-sm">View Website</a>
+                    <a href="index.html" class="hidden sm:inline text-gray-300 hover:text-brand-gold text-sm">View Website</a>
                     <button onclick="handleLogout()" class="text-gray-400 hover:text-red-400 text-sm flex items-center gap-1">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                         </svg>
-                        Logout
+                        <span class="hidden sm:inline">Logout</span>
                     </button>
                 </div>
             </div>
@@ -412,14 +421,8 @@
         </main>
     </div>
 
-    <!-- Mobile Sidebar Toggle -->
-    <button id="mobileSidebarToggle" class="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-gold text-brand-dark rounded-full shadow-lg flex items-center justify-center z-50" onclick="toggleMobileSidebar()">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <line x1="3" y1="12" x2="21" y2="12"/>
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-    </button>
+    <!-- Mobile Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeMobileSidebar()"></div>
 
     <!-- General Modal (for forms, details, etc.) -->
     <div id="modalOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[90] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-200">
@@ -496,13 +499,28 @@
             }
         }
 
-        // Mobile sidebar toggle
+        // Mobile sidebar toggle with drawer behavior
         function toggleMobileSidebar() {
             const sidebar = document.getElementById('sidebar');
-            if (sidebar) {
-                sidebar.classList.toggle('hidden');
-                sidebar.classList.toggle('block');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar && overlay) {
+                const isOpen = sidebar.classList.contains('mobile-open');
+                if (isOpen) {
+                    closeMobileSidebar();
+                } else {
+                    sidebar.classList.add('mobile-open');
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
             }
+        }
+
+        function closeMobileSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar) sidebar.classList.remove('mobile-open');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
         }
 
         (async function() {
