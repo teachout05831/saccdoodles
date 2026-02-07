@@ -147,7 +147,8 @@ const DB = {
                 is_breeding: dog.isBreeding,
                 is_public: dog.isPublic,
                 location: dog.location,
-                guardian_family: dog.guardianFamily
+                guardian_family: dog.guardianFamily,
+                health_tests: dog.healthTests || dog.health_tests || []
             };
 
             let result;

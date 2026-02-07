@@ -645,16 +645,26 @@
 
                 await DB.init();
 
-                let savedDog;
-                if (currentDogId) {
-                    // Update existing dog
-                    savedDog = await DB.dogs.update(currentDogId, data);
-                    console.log('Dog updated:', savedDog);
-                } else {
-                    // Add new dog
-                    savedDog = await DB.dogs.add(data);
-                    console.log('Dog added:', savedDog);
-                }
+                // Map to camelCase for DB.dogs.save()
+                const dog = {
+                    id: currentDogId || null,
+                    name: data.name,
+                    breed: data.breed,
+                    gender: data.gender,
+                    birthday: data.birthday,
+                    weight: data.weight,
+                    color: data.color,
+                    location: data.location,
+                    isBreeding: data.is_breeding,
+                    isPublic: data.is_public,
+                    description: data.description,
+                    notes: data.notes,
+                    photoUrl: data.photo_url || '',
+                    healthTests: data.health_tests
+                };
+
+                const savedDog = await DB.dogs.save(dog);
+                console.log('Dog saved:', savedDog);
 
                 // Success - redirect back to admin
                 alert('Dog saved successfully!');
