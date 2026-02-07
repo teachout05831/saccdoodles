@@ -7,12 +7,26 @@
 const UPLOAD_CONFIG = {
     maxImageSize: 5 * 1024 * 1024,  // 5MB
     maxVideoSize: 350 * 1024 * 1024, // 350MB
-    allowedImageTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+    allowedImageTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'],
     allowedVideoTypes: ['video/mp4', 'video/webm', 'video/quicktime'],
     imageQuality: 0.85,
     maxImageDimension: 1600,
     thumbnailSize: 400
 };
+
+/**
+ * Check if a file is an allowed image (by MIME type or extension)
+ * Handles iPhone HEIC files where MIME type may be empty
+ */
+function isAllowedImage(file) {
+    if (UPLOAD_CONFIG.allowedImageTypes.includes(file.type)) return true;
+    // Fallback: check extension (iOS sometimes reports empty MIME type for HEIC)
+    if (file.name) {
+        const ext = file.name.split('.').pop().toLowerCase();
+        return ['jpg', 'jpeg', 'png', 'webp', 'gif', 'heic', 'heif'].includes(ext);
+    }
+    return false;
+}
 
 // ============================================
 // Bunny CDN Upload Functions
@@ -158,8 +172,8 @@ async function uploadImage(file, folder, options = {}) {
     } = options;
 
     // Validate file
-    if (!UPLOAD_CONFIG.allowedImageTypes.includes(file.type)) {
-        throw new Error('Invalid file type. Allowed: JPG, PNG, WebP, GIF');
+    if (!isAllowedImage(file)) {
+        throw new Error('Invalid file type. Allowed: JPG, PNG, WebP, GIF, HEIC');
     }
     if (file.size > UPLOAD_CONFIG.maxImageSize) {
         throw new Error('File too large. Maximum size is 5MB');
@@ -274,6 +288,8 @@ function getFileExtension(file) {
         'image/png': 'png',
         'image/webp': 'webp',
         'image/gif': 'gif',
+        'image/heic': 'heic',
+        'image/heif': 'heif',
         'video/mp4': 'mp4',
         'video/webm': 'webm',
         'video/quicktime': 'mov'
@@ -319,7 +335,7 @@ async function uploadPuppyPhotos(puppyId, files, grid) {
         console.log('Processing file:', file.name, file.type, file.size);
 
         // Validate
-        if (!UPLOAD_CONFIG.allowedImageTypes.includes(file.type)) {
+        if (!isAllowedImage(file)) {
             console.log('Invalid file type:', file.type, 'Allowed:', UPLOAD_CONFIG.allowedImageTypes);
             showToast(`${file.name} is not a supported format`, 'error');
             continue;
@@ -570,6 +586,7 @@ function isPuppyVideoFeatured() {
 // Export functions for global use
 // ============================================
 
+window.isAllowedImage = isAllowedImage;
 window.uploadToBunny = uploadToBunny;
 window.deleteFromBunny = deleteFromBunny;
 window.uploadImage = uploadImage;

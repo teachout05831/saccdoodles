@@ -1962,7 +1962,6 @@ function getPhotoUploadHtml(fieldId, options = {}) {
 // Handle file selection
 function handlePhotoFiles(fieldId, files, multiple = false) {
     const maxSize = 5 * 1024 * 1024; // 5MB
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 
     // If single photo mode, clear existing
     if (!multiple) {
@@ -1971,7 +1970,7 @@ function handlePhotoFiles(fieldId, files, multiple = false) {
     }
 
     Array.from(files).forEach(file => {
-        if (!allowedTypes.includes(file.type)) {
+        if (!isAllowedImage(file)) {
             showToast(`${file.name} is not a supported image format`, 'error');
             return;
         }
