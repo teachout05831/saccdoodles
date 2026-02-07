@@ -28,6 +28,20 @@ function isAllowedImage(file) {
     return false;
 }
 
+/**
+ * Check if a file is an allowed video (by MIME type or extension)
+ * Handles iPhone where MIME type may be empty or unexpected
+ */
+function isAllowedVideo(file) {
+    if (UPLOAD_CONFIG.allowedVideoTypes.includes(file.type)) return true;
+    // Fallback: check extension (iOS sometimes reports empty MIME type)
+    if (file.name) {
+        const ext = file.name.split('.').pop().toLowerCase();
+        return ['mp4', 'mov', 'webm', 'm4v'].includes(ext);
+    }
+    return false;
+}
+
 // ============================================
 // Bunny CDN Upload Functions
 // ============================================
@@ -112,8 +126,14 @@ async function uploadToBunny(file, folder, filename = null, onProgress = null) {
             reject(new Error('Upload cancelled'));
         });
 
+        xhr.addEventListener('timeout', () => {
+            console.error('Upload timed out');
+            reject(new Error('Upload timed out. Try a shorter video or a stronger connection.'));
+        });
+
         // Open connection to Edge Function
         xhr.open('POST', edgeFunctionUrl);
+        xhr.timeout = 5 * 60 * 1000; // 5 minute timeout for large uploads
         xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
         xhr.setRequestHeader('x-file-name', filename);
         xhr.setRequestHeader('x-folder', folder || '');
@@ -198,11 +218,7 @@ async function uploadImage(file, folder, options = {}) {
  */
 async function uploadVideo(file, folder, onProgress = null) {
     // Validate file
-    const isVideo = UPLOAD_CONFIG.allowedVideoTypes.includes(file.type) ||
-                    file.name.toLowerCase().endsWith('.mov') ||
-                    file.name.toLowerCase().endsWith('.mp4');
-
-    if (!isVideo) {
+    if (!isAllowedVideo(file)) {
         throw new Error('Invalid file type. Allowed: MP4, WebM, MOV');
     }
     if (file.size > UPLOAD_CONFIG.maxVideoSize) {
@@ -587,6 +603,7 @@ function isPuppyVideoFeatured() {
 // ============================================
 
 window.isAllowedImage = isAllowedImage;
+window.isAllowedVideo = isAllowedVideo;
 window.uploadToBunny = uploadToBunny;
 window.deleteFromBunny = deleteFromBunny;
 window.uploadImage = uploadImage;
