@@ -3307,43 +3307,29 @@ async function generatePuppyContentWithAI(puppyId) {
     }
 }
 
-// Call OpenAI API for puppy content
+// Call AI via Supabase Edge Function (API key stored securely server-side)
 async function callOpenAIForPuppy(prompt) {
-    // Check if API key is configured
-    if (!CONFIG.OPENAI_API_KEY || CONFIG.OPENAI_API_KEY === 'your-openai-api-key-here') {
-        throw new Error('OpenAI API key not configured. Please add your API key to js/config.js');
-    }
+    const edgeFunctionUrl = `${CONFIG.SUPABASE_URL}/functions/v1/generate-ai-description`;
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch(edgeFunctionUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${CONFIG.OPENAI_API_KEY}`
+            'Authorization': `Bearer ${CONFIG.SUPABASE_ANON_KEY}`
         },
         body: JSON.stringify({
-            model: 'gpt-4',
-            messages: [
-                {
-                    role: 'system',
-                    content: 'You are a professional dog breeder copywriter. Generate warm, engaging, and accurate content for puppy profiles that highlight their personality, temperament, and appeal to potential families. Always follow the exact format requested.'
-                },
-                {
-                    role: 'user',
-                    content: prompt
-                }
-            ],
-            temperature: 0.7,
-            max_tokens: 400
+            prompt: prompt,
+            type: 'puppy'
         })
     });
 
     if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error?.message || 'OpenAI API request failed');
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.error || 'AI generation failed');
     }
 
     const data = await response.json();
-    return data.choices[0].message.content.trim();
+    return data.content;
 }
 
 // Parse AI response into structured data
