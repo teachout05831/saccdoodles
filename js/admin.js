@@ -2417,7 +2417,7 @@ function openAddLitterModal(defaultDogId = null) {
     openModal('Add New Litter', content, footer);
 }
 
-function saveLitter(litterId = null) {
+async function saveLitter(litterId = null) {
     const litter = {
         id: litterId,
         name: document.getElementById('litterName').value.trim(),
@@ -2434,10 +2434,15 @@ function saveLitter(litterId = null) {
         return;
     }
 
-    DB.litters.save(litter);
-    closeModal();
-    showToast('Litter added successfully', 'success');
-    loadPage('litters');
+    try {
+        await DB.litters.save(litter);
+        closeModal();
+        showToast(litterId ? 'Litter updated successfully' : 'Litter added successfully', 'success');
+        loadPage('litters');
+    } catch (error) {
+        console.error('Error saving litter:', error);
+        showToast('Error saving litter: ' + error.message, 'error');
+    }
 }
 
 // Puppy Modal
@@ -3882,23 +3887,30 @@ function openAddVetVisitModal(dogId) {
     openModal('Add Vet Visit', content, footer);
 }
 
-function saveVetVisit() {
+async function saveVetVisit() {
     const visit = {
-        date: document.getElementById('vetDate').value,
-        reason: document.getElementById('vetReason').value.trim(),
-        veterinarian: document.getElementById('vetDoctor').value.trim(),
+        dogId: currentDogId,
+        visitDate: document.getElementById('vetDate').value,
+        type: document.getElementById('vetReason').value.trim(),
+        description: document.getElementById('vetReason').value.trim(),
+        vetName: document.getElementById('vetDoctor').value.trim(),
         notes: document.getElementById('vetNotes').value.trim()
     };
 
-    if (!visit.date || !visit.reason) {
+    if (!visit.visitDate || !visit.type) {
         showToast('Please enter date and reason', 'error');
         return;
     }
 
-    DB.vetVisits.add(currentDogId, visit);
-    closeModal();
-    showToast('Vet visit added successfully', 'success');
-    viewDogProfile(currentDogId);
+    try {
+        await DB.vetRecords.save(visit);
+        closeModal();
+        showToast('Vet visit added successfully', 'success');
+        viewDogProfile(currentDogId);
+    } catch (error) {
+        console.error('Error saving vet visit:', error);
+        showToast('Error saving vet visit: ' + error.message, 'error');
+    }
 }
 
 // View profiles
