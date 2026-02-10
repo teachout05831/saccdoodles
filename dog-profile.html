@@ -75,32 +75,21 @@
                         Photos & Videos
                     </h3>
 
-                    <!-- Primary Photo -->
+                    <!-- Photos -->
                     <div class="mb-4 sm:mb-6">
-                        <label class="block text-xs sm:text-sm text-gray-400 mb-2">Primary Photo</label>
-                        <div class="aspect-square bg-brand-darker rounded-lg overflow-hidden relative group cursor-pointer border-2 border-dashed border-gray-600 hover:border-brand-gold transition-colors">
-                            <img id="primaryPhoto" src="" alt="Primary photo" class="w-full h-full object-cover hidden">
-                            <div id="primaryPhotoPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-gray-500">
-                                <svg class="w-12 h-12 sm:w-16 sm:h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                </svg>
-                                <span class="text-xs sm:text-sm text-center px-2">Click to upload photo</span>
-                            </div>
-                            <input type="file" id="primaryPhotoInput" accept="image/*" class="hidden">
+                        <label class="block text-xs sm:text-sm text-gray-400 mb-2">Photos</label>
+                        <div id="dogPhotoGrid" class="grid grid-cols-3 gap-1.5 sm:gap-2 mb-2">
+                            <!-- Existing photos will be populated here -->
                         </div>
-                    </div>
-
-                    <!-- Photo Gallery -->
-                    <div class="mb-4 sm:mb-6">
-                        <label class="block text-xs sm:text-sm text-gray-400 mb-2">Additional Photos</label>
-                        <div class="grid grid-cols-3 gap-1.5 sm:gap-2 mb-3">
-                            <div class="aspect-square bg-brand-darker rounded-lg border-2 border-dashed border-gray-600 flex items-center justify-center cursor-pointer hover:border-brand-gold transition-colors">
-                                <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
-                                </svg>
-                            </div>
-                        </div>
-                        <p class="text-xs text-gray-500">Add multiple photos to showcase your dog</p>
+                        <!-- Add Photo Button -->
+                        <label for="dogPhotoInput" class="flex items-center justify-center gap-2 w-full py-3 bg-brand-darker rounded-lg border-2 border-dashed border-gray-600 cursor-pointer hover:border-brand-gold transition-colors">
+                            <input type="file" id="dogPhotoInput" accept="image/*" multiple class="hidden" onchange="handleDogPhotoUpload(this.files)">
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            <span class="text-xs sm:text-sm text-gray-400">Add Photos</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mt-1">JPG, PNG, WebP, HEIC - up to 5MB each</p>
                     </div>
 
                     <!-- Featured Video -->
@@ -341,13 +330,13 @@
     <!-- 1. Supabase library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- 2. Config (your credentials) -->
-    <script src="js/config.js?v=20260209c"></script>
+    <script src="js/config.js?v=20260210"></script>
     <!-- 3. Supabase initialization -->
-    <script src="js/supabase-config.js?v=20260209c"></script>
+    <script src="js/supabase-config.js?v=20260210"></script>
     <!-- 4. Data layer (Supabase version) - defines DB object -->
-    <script src="js/data-supabase.js?v=20260209c"></script>
+    <script src="js/data-supabase.js?v=20260210"></script>
     <!-- 5. Media upload system -->
-    <script src="js/uploads.js?v=20260209c"></script>
+    <script src="js/uploads.js?v=20260210"></script>
 
     <script>
         // Initialize and load dog data
@@ -405,15 +394,15 @@
                 }
             }
 
-            // Load photos
-            if (dog.photo_url || (dog.photos && dog.photos.length > 0)) {
-                const photoUrl = dog.photo_url || dog.photos[0];
-                const photoEl = document.getElementById('primaryPhoto');
-                photoEl.src = photoUrl;
-                photoEl.dataset.cdnUrl = photoUrl;
-                photoEl.classList.remove('hidden');
-                document.getElementById('primaryPhotoPlaceholder').classList.add('hidden');
+            // Load photos into grid
+            const allPhotos = [];
+            if (dog.photo_url) allPhotos.push(dog.photo_url);
+            if (dog.photos && dog.photos.length > 0) {
+                dog.photos.forEach(function(url) {
+                    if (url && !allPhotos.includes(url)) allPhotos.push(url);
+                });
             }
+            allPhotos.forEach(function(url) { addPhotoTile(url); });
 
             // Load video
             if (dog.video_url) {
@@ -508,58 +497,71 @@
             nameDisplay.textContent = this.value || 'New Dog';
         });
 
-        // Photo upload functionality - uploads to Bunny CDN
-        document.getElementById('primaryPhotoPlaceholder').addEventListener('click', function() {
-            document.getElementById('primaryPhotoInput').click();
-        });
-        // Also allow clicking existing photo to replace it
-        document.getElementById('primaryPhoto').addEventListener('click', function() {
-            document.getElementById('primaryPhotoInput').click();
-        });
+        // ============================================
+        // PHOTO UPLOAD SYSTEM (multi-photo with remove)
+        // ============================================
 
-        document.getElementById('primaryPhotoInput').addEventListener('change', async function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+        // Add a photo tile to the grid
+        window.addPhotoTile = function(url) {
+            const grid = document.getElementById('dogPhotoGrid');
+            const tile = document.createElement('div');
+            tile.className = 'aspect-square bg-brand-darker rounded-lg overflow-hidden relative group';
+            tile.dataset.url = url;
+            tile.innerHTML = '<img src="' + url + '" class="w-full h-full object-cover" alt="Dog photo">' +
+                '<button type="button" onclick="removeDogPhotoTile(this)" class="absolute top-1 right-1 w-7 h-7 bg-red-500/80 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors" style="min-width:28px;min-height:28px;">' +
+                '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+                '</button>';
+            grid.appendChild(tile);
+        };
 
-            if (!isAllowedImage(file)) {
-                alert('Please select a valid image (JPG, PNG, WebP, HEIC)');
-                return;
+        // Remove a photo tile
+        window.removeDogPhotoTile = function(btn) {
+            btn.closest('[data-url]').remove();
+        };
+
+        // Handle multi-photo upload
+        window.handleDogPhotoUpload = async function(files) {
+            for (const file of Array.from(files)) {
+                if (!isAllowedImage(file)) {
+                    alert(file.name + ' is not a supported format');
+                    continue;
+                }
+                if (file.size > UPLOAD_CONFIG.maxImageSize) {
+                    alert(file.name + ' is too large (max 5MB)');
+                    continue;
+                }
+
+                // Add loading tile
+                const grid = document.getElementById('dogPhotoGrid');
+                const loadingTile = document.createElement('div');
+                loadingTile.className = 'aspect-square bg-brand-darker rounded-lg flex items-center justify-center';
+                loadingTile.innerHTML = '<div style="width:20px;height:20px;border:3px solid #555;border-top-color:#ba9b79;border-radius:50%;animation:spin 1s linear infinite;"></div>';
+                grid.appendChild(loadingTile);
+
+                try {
+                    const dogId = currentDogId || 'new';
+                    const result = await uploadImage(file, 'dogs/' + dogId, {
+                        compress: true,
+                        maxWidth: 1200,
+                        quality: 0.85
+                    });
+                    loadingTile.remove();
+                    addPhotoTile(result.url);
+                } catch (error) {
+                    console.error('Photo upload error:', error);
+                    loadingTile.remove();
+                    alert('Upload failed: ' + error.message);
+                }
             }
-            if (file.size > UPLOAD_CONFIG.maxImageSize) {
-                alert('Image is too large. Maximum size is 5MB.');
-                return;
-            }
+            // Reset input so the same file can be selected again
+            document.getElementById('dogPhotoInput').value = '';
+        };
 
-            // Show uploading state
-            const placeholder = document.getElementById('primaryPhotoPlaceholder');
-            const photoEl = document.getElementById('primaryPhoto');
-            placeholder.innerHTML = '<div style="width:24px;height:24px;border:3px solid #555;border-top-color:#ba9b79;border-radius:50%;animation:spin 1s linear infinite;"></div><span class="text-xs text-gray-400">Uploading...</span>';
-            placeholder.classList.remove('hidden');
-            photoEl.classList.add('hidden');
-
-            try {
-                const dogId = currentDogId || 'new';
-                const result = await uploadImage(file, `dogs/${dogId}`, {
-                    compress: true,
-                    maxWidth: 1200,
-                    quality: 0.85
-                });
-
-                photoEl.src = result.url;
-                photoEl.dataset.cdnUrl = result.url;
-                photoEl.classList.remove('hidden');
-                placeholder.classList.add('hidden');
-                // Restore placeholder content for next time
-                placeholder.innerHTML = '<svg class="w-12 h-12 sm:w-16 sm:h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span class="text-xs sm:text-sm text-center px-2">Click to change photo</span>';
-            } catch (error) {
-                console.error('Photo upload error:', error);
-                alert('Photo upload failed: ' + error.message);
-                // Restore placeholder
-                placeholder.innerHTML = '<svg class="w-12 h-12 sm:w-16 sm:h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span class="text-xs sm:text-sm text-center px-2">Click to upload photo</span>';
-                placeholder.classList.remove('hidden');
-                if (!photoEl.dataset.cdnUrl) photoEl.classList.add('hidden');
-            }
-        });
+        // Get all photo URLs from the grid
+        window.getDogPhotoUrls = function() {
+            const tiles = document.querySelectorAll('#dogPhotoGrid [data-url]');
+            return Array.from(tiles).map(function(t) { return t.dataset.url; });
+        };
 
         // Video upload handler (global so it works after DOM replacement)
         window.handleDogVideoFileSelect = async function(input) {
@@ -698,12 +700,10 @@
                 notes: document.getElementById('dogNotesInput')?.value.trim() || '',
             };
 
-            // Get photo URL - prefer CDN URL from dataset, fallback to src
-            const photoEl = document.getElementById('primaryPhoto');
-            const photoUrl = photoEl?.dataset?.cdnUrl || photoEl?.src || '';
-            if (photoUrl && !photoUrl.includes('blob:') && !photoUrl.startsWith('data:') && photoUrl !== window.location.href) {
-                data.photo_url = photoUrl;
-            }
+            // Get all photo URLs from the grid
+            const photoUrls = getDogPhotoUrls();
+            data.photo_url = photoUrls.length > 0 ? photoUrls[0] : '';
+            data.photos = photoUrls;
 
             // Get video URL
             const videoEl = document.getElementById('dogVideoPreview');
@@ -761,6 +761,7 @@
                     description: data.description,
                     notes: data.notes,
                     photoUrl: data.photo_url || '',
+                    photos: data.photos || [],
                     videoUrl: data.video_url || '',
                     healthTests: data.health_tests
                 };
