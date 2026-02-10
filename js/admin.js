@@ -1710,11 +1710,21 @@ function openModal(title, content, footer = '', large = false) {
     document.getElementById('modalBody').innerHTML = content;
     document.getElementById('modalFooter').innerHTML = footer;
     modal.classList.toggle('large', large);
-    overlay.classList.add('active');
+    // Show modal - toggle Tailwind utility classes
+    overlay.classList.remove('opacity-0', 'pointer-events-none');
+    overlay.classList.add('opacity-100', 'pointer-events-auto');
+    modal.classList.remove('scale-95');
+    modal.classList.add('scale-100');
 }
 
 function closeModal() {
-    document.getElementById('modalOverlay').classList.remove('active');
+    const overlay = document.getElementById('modalOverlay');
+    const modal = document.getElementById('modal');
+    // Hide modal - restore Tailwind utility classes
+    overlay.classList.add('opacity-0', 'pointer-events-none');
+    overlay.classList.remove('opacity-100', 'pointer-events-auto');
+    modal.classList.add('scale-95');
+    modal.classList.remove('scale-100');
 }
 
 // Close modal on overlay click
@@ -1786,7 +1796,7 @@ function getDogFormHtml(dog = {}) {
 
             <!-- Photo Drop Zone - Using label for better mobile support -->
             <label class="photo-drop-zone" id="dogPhotoDropZone" for="dogPhotoFileInput">
-                <input type="file" id="dogPhotoFileInput" name="dogPhotoFileInput" accept="image/*" capture="environment" multiple onchange="handleDogPhotoFiles(this.files)">
+                <input type="file" id="dogPhotoFileInput" name="dogPhotoFileInput" accept="image/*" multiple onchange="handleDogPhotoFiles(this.files)">
                 <svg class="drop-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
@@ -1839,7 +1849,7 @@ function getDogFormHtml(dog = {}) {
                     </div>
                 ` : `
                     <label class="video-drop-zone" for="dogVideoFileInput">
-                        <input type="file" id="dogVideoFileInput" accept="video/*" capture="environment" style="display:none;" onchange="handleDogVideoSelect(this)">
+                        <input type="file" id="dogVideoFileInput" accept="video/*" style="display:none;" onchange="handleDogVideoSelect(this)">
                         <svg class="drop-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                             <polygon points="23 7 16 12 23 17 23 7"/>
                             <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
@@ -2254,7 +2264,8 @@ async function handleDogVideoSelect(input) {
 
     try {
         const dogId = document.getElementById('dogProfileId')?.value || 'new';
-        const url = await uploadVideo(dogId, file, (percent) => {
+        const folder = `dogs/${dogId}`;
+        const result = await uploadVideo(file, folder, (percent) => {
             const fill = document.getElementById('dogVideoProgress');
             const text = document.getElementById('dogVideoProgressText');
             if (fill) fill.style.width = percent + '%';
@@ -2263,8 +2274,8 @@ async function handleDogVideoSelect(input) {
 
         container.innerHTML = `
             <div class="video-preview">
-                <video src="${url}" controls style="max-height:200px; width:100%; border-radius:0.5rem;"></video>
-                <input type="hidden" id="dogVideoUrl" value="${url}">
+                <video src="${result.url}" controls style="max-height:200px; width:100%; border-radius:0.5rem;"></video>
+                <input type="hidden" id="dogVideoUrl" value="${result.url}">
                 <button type="button" class="btn btn-sm btn-danger" style="margin-top:0.5rem;" onclick="removeDogVideo()">Remove Video</button>
             </div>
         `;
@@ -2273,7 +2284,7 @@ async function handleDogVideoSelect(input) {
         console.error('Dog video upload error:', error);
         container.innerHTML = `
             <label class="video-drop-zone" for="dogVideoFileInput">
-                <input type="file" id="dogVideoFileInput" accept="video/*" capture="environment" style="display:none;" onchange="handleDogVideoSelect(this)">
+                <input type="file" id="dogVideoFileInput" accept="video/*" style="display:none;" onchange="handleDogVideoSelect(this)">
                 <svg class="drop-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <polygon points="23 7 16 12 23 17 23 7"/>
                     <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
@@ -2290,7 +2301,7 @@ function removeDogVideo() {
     const container = document.getElementById('dogVideoContainer');
     container.innerHTML = `
         <label class="video-drop-zone" for="dogVideoFileInput">
-            <input type="file" id="dogVideoFileInput" accept="video/*" capture="environment" style="display:none;" onchange="handleDogVideoSelect(this)">
+            <input type="file" id="dogVideoFileInput" accept="video/*" style="display:none;" onchange="handleDogVideoSelect(this)">
             <svg class="drop-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                 <polygon points="23 7 16 12 23 17 23 7"/>
                 <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
@@ -2353,7 +2364,7 @@ async function handleLitterPhotoSelect(input) {
         console.error('Litter photo upload error:', error);
         container.innerHTML = `
             <label class="photo-drop-zone" for="litterPhotoFileInput" style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem; border:2px dashed var(--border-color); border-radius:0.75rem; cursor:pointer; text-align:center;">
-                <input type="file" id="litterPhotoFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleLitterPhotoSelect(this)">
+                <input type="file" id="litterPhotoFileInput" accept="image/*" style="display:none;" onchange="handleLitterPhotoSelect(this)">
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-muted);">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                     <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -2371,7 +2382,7 @@ function removeLitterPhoto() {
     const container = document.getElementById('litterPhotoContainer');
     container.innerHTML = `
         <label class="photo-drop-zone" for="litterPhotoFileInput" style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem; border:2px dashed var(--border-color); border-radius:0.75rem; cursor:pointer; text-align:center;">
-            <input type="file" id="litterPhotoFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleLitterPhotoSelect(this)">
+            <input type="file" id="litterPhotoFileInput" accept="image/*" style="display:none;" onchange="handleLitterPhotoSelect(this)">
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-muted);">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                 <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -2602,7 +2613,7 @@ function openAddLitterModal(defaultDogId = null) {
             <label>Litter Photo</label>
             <div id="litterPhotoContainer">
                 <label class="photo-drop-zone" for="litterPhotoFileInput" style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem; border:2px dashed var(--border-color); border-radius:0.75rem; cursor:pointer; text-align:center;">
-                    <input type="file" id="litterPhotoFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleLitterPhotoSelect(this)">
+                    <input type="file" id="litterPhotoFileInput" accept="image/*" style="display:none;" onchange="handleLitterPhotoSelect(this)">
                     <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-muted);">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                         <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -4783,7 +4794,7 @@ function openEditLitterModal(litterId) {
                     </div>
                 ` : `
                     <label class="photo-drop-zone" for="litterPhotoFileInput" style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem; border:2px dashed var(--border-color); border-radius:0.75rem; cursor:pointer; text-align:center;">
-                        <input type="file" id="litterPhotoFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleLitterPhotoSelect(this)">
+                        <input type="file" id="litterPhotoFileInput" accept="image/*" style="display:none;" onchange="handleLitterPhotoSelect(this)">
                         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-muted);">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
                             <circle cx="8.5" cy="8.5" r="1.5"/>

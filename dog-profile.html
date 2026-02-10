@@ -27,6 +27,7 @@
     </script>
     <style>
         body { font-family: 'League Spartan', sans-serif; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="bg-brand-dark text-gray-100 min-h-screen">
@@ -105,12 +106,17 @@
                     <!-- Featured Video -->
                     <div>
                         <label class="block text-xs sm:text-sm text-gray-400 mb-2">Featured Video (optional)</label>
-                        <div class="aspect-video bg-brand-darker rounded-lg border-2 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold transition-colors">
-                            <svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                            </svg>
-                            <span class="text-gray-500 text-xs sm:text-sm text-center px-2">Drop video or click to upload</span>
+                        <div id="dogVideoContainer">
+                            <label for="dogVideoInput" class="aspect-video bg-brand-darker rounded-lg border-2 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold transition-colors" id="dogVideoDropZone">
+                                <input type="file" id="dogVideoInput" accept="video/*" class="hidden" onchange="handleDogVideoFileSelect(this)">
+                                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                <span class="text-gray-500 text-xs sm:text-sm text-center px-2">Tap to upload video</span>
+                                <span class="text-gray-600 text-xs">MP4 or MOV, up to 350MB</span>
+                            </label>
                         </div>
+                        <input type="hidden" id="dogVideoUrl" value="">
                     </div>
                 </div>
 
@@ -335,13 +341,13 @@
     <!-- 1. Supabase library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- 2. Config (your credentials) -->
-    <script src="js/config.js"></script>
+    <script src="js/config.js?v=20260209c"></script>
     <!-- 3. Supabase initialization -->
-    <script src="js/supabase-config.js"></script>
+    <script src="js/supabase-config.js?v=20260209c"></script>
     <!-- 4. Data layer (Supabase version) - defines DB object -->
-    <script src="js/data-supabase.js"></script>
+    <script src="js/data-supabase.js?v=20260209c"></script>
     <!-- 5. Media upload system -->
-    <script src="js/uploads.js"></script>
+    <script src="js/uploads.js?v=20260209c"></script>
 
     <script>
         // Initialize and load dog data
@@ -402,9 +408,17 @@
             // Load photos
             if (dog.photo_url || (dog.photos && dog.photos.length > 0)) {
                 const photoUrl = dog.photo_url || dog.photos[0];
-                document.getElementById('primaryPhoto').src = photoUrl;
-                document.getElementById('primaryPhoto').classList.remove('hidden');
+                const photoEl = document.getElementById('primaryPhoto');
+                photoEl.src = photoUrl;
+                photoEl.dataset.cdnUrl = photoUrl;
+                photoEl.classList.remove('hidden');
                 document.getElementById('primaryPhotoPlaceholder').classList.add('hidden');
+            }
+
+            // Load video
+            if (dog.video_url) {
+                document.getElementById('dogVideoUrl').value = dog.video_url;
+                document.getElementById('dogVideoContainer').innerHTML = '<video src="' + dog.video_url + '" controls class="w-full rounded-lg" style="max-height:200px;"></video><button type="button" onclick="removeDogVideoProfile()" class="mt-2 px-3 py-1.5 text-xs bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors">Remove Video</button>';
             }
 
             // Load health tests
@@ -494,23 +508,102 @@
             nameDisplay.textContent = this.value || 'New Dog';
         });
 
-        // Photo upload functionality
+        // Photo upload functionality - uploads to Bunny CDN
         document.getElementById('primaryPhotoPlaceholder').addEventListener('click', function() {
             document.getElementById('primaryPhotoInput').click();
         });
+        // Also allow clicking existing photo to replace it
+        document.getElementById('primaryPhoto').addEventListener('click', function() {
+            document.getElementById('primaryPhotoInput').click();
+        });
 
-        document.getElementById('primaryPhotoInput').addEventListener('change', function(e) {
+        document.getElementById('primaryPhotoInput').addEventListener('change', async function(e) {
             const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('primaryPhoto').src = e.target.result;
-                    document.getElementById('primaryPhoto').classList.remove('hidden');
-                    document.getElementById('primaryPhotoPlaceholder').classList.add('hidden');
-                };
-                reader.readAsDataURL(file);
+            if (!file) return;
+
+            if (!isAllowedImage(file)) {
+                alert('Please select a valid image (JPG, PNG, WebP, HEIC)');
+                return;
+            }
+            if (file.size > UPLOAD_CONFIG.maxImageSize) {
+                alert('Image is too large. Maximum size is 5MB.');
+                return;
+            }
+
+            // Show uploading state
+            const placeholder = document.getElementById('primaryPhotoPlaceholder');
+            const photoEl = document.getElementById('primaryPhoto');
+            placeholder.innerHTML = '<div style="width:24px;height:24px;border:3px solid #555;border-top-color:#ba9b79;border-radius:50%;animation:spin 1s linear infinite;"></div><span class="text-xs text-gray-400">Uploading...</span>';
+            placeholder.classList.remove('hidden');
+            photoEl.classList.add('hidden');
+
+            try {
+                const dogId = currentDogId || 'new';
+                const result = await uploadImage(file, `dogs/${dogId}`, {
+                    compress: true,
+                    maxWidth: 1200,
+                    quality: 0.85
+                });
+
+                photoEl.src = result.url;
+                photoEl.dataset.cdnUrl = result.url;
+                photoEl.classList.remove('hidden');
+                placeholder.classList.add('hidden');
+                // Restore placeholder content for next time
+                placeholder.innerHTML = '<svg class="w-12 h-12 sm:w-16 sm:h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span class="text-xs sm:text-sm text-center px-2">Click to change photo</span>';
+            } catch (error) {
+                console.error('Photo upload error:', error);
+                alert('Photo upload failed: ' + error.message);
+                // Restore placeholder
+                placeholder.innerHTML = '<svg class="w-12 h-12 sm:w-16 sm:h-16 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><span class="text-xs sm:text-sm text-center px-2">Click to upload photo</span>';
+                placeholder.classList.remove('hidden');
+                if (!photoEl.dataset.cdnUrl) photoEl.classList.add('hidden');
             }
         });
+
+        // Video upload handler (global so it works after DOM replacement)
+        window.handleDogVideoFileSelect = async function(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            if (!isAllowedVideo(file)) {
+                alert('Please select a valid video (MP4, MOV, WebM)');
+                return;
+            }
+            if (file.size > UPLOAD_CONFIG.maxVideoSize) {
+                alert('Video is too large. Maximum size is 350MB.');
+                return;
+            }
+
+            const container = document.getElementById('dogVideoContainer');
+            container.innerHTML = '<div class="aspect-video bg-brand-darker rounded-lg flex flex-col items-center justify-center"><div style="width:24px;height:24px;border:3px solid #555;border-top-color:#ba9b79;border-radius:50%;animation:spin 1s linear infinite;"></div><span class="text-xs text-gray-400 mt-2">Uploading video...</span></div>';
+
+            try {
+                const dogId = currentDogId || 'new';
+                const result = await uploadVideo(file, `dogs/${dogId}`, function(percent) {
+                    const span = container.querySelector('span');
+                    if (span) span.textContent = 'Uploading... ' + Math.round(percent) + '%';
+                });
+
+                document.getElementById('dogVideoUrl').value = result.url;
+                container.innerHTML = '<video src="' + result.url + '" controls class="w-full rounded-lg" style="max-height:200px;"></video><button type="button" onclick="removeDogVideoProfile()" class="mt-2 px-3 py-1.5 text-xs bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors">Remove Video</button>';
+            } catch (error) {
+                console.error('Video upload error:', error);
+                alert('Video upload failed: ' + error.message);
+                showVideoDropZone();
+            }
+        };
+
+        // Remove video
+        window.removeDogVideoProfile = function() {
+            document.getElementById('dogVideoUrl').value = '';
+            showVideoDropZone();
+        };
+
+        // Show the video drop zone (reusable)
+        function showVideoDropZone() {
+            document.getElementById('dogVideoContainer').innerHTML = '<label for="dogVideoInput" class="aspect-video bg-brand-darker rounded-lg border-2 border-dashed border-gray-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-gold transition-colors"><input type="file" id="dogVideoInput" accept="video/*" class="hidden" onchange="handleDogVideoFileSelect(this)"><svg class="w-8 h-8 sm:w-10 sm:h-10 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg><span class="text-gray-500 text-xs sm:text-sm text-center px-2">Tap to upload video</span><span class="text-gray-600 text-xs">MP4 or MOV, up to 350MB</span></label>';
+        }
 
         // Add health test to list
         function addHealthTestToList(testName, testResult) {
@@ -605,10 +698,18 @@
                 notes: document.getElementById('dogNotesInput')?.value.trim() || '',
             };
 
-            // Get photo URL - only if it's not a placeholder
-            const photoSrc = document.getElementById('primaryPhoto')?.src || '';
-            if (photoSrc && !photoSrc.includes('blob:') && photoSrc !== window.location.href) {
-                data.photo_url = photoSrc;
+            // Get photo URL - prefer CDN URL from dataset, fallback to src
+            const photoEl = document.getElementById('primaryPhoto');
+            const photoUrl = photoEl?.dataset?.cdnUrl || photoEl?.src || '';
+            if (photoUrl && !photoUrl.includes('blob:') && !photoUrl.startsWith('data:') && photoUrl !== window.location.href) {
+                data.photo_url = photoUrl;
+            }
+
+            // Get video URL
+            const videoEl = document.getElementById('dogVideoPreview');
+            const videoUrl = document.getElementById('dogVideoUrl')?.value || '';
+            if (videoUrl) {
+                data.video_url = videoUrl;
             }
 
             // Get guardian ID if location is guardian
@@ -660,6 +761,7 @@
                     description: data.description,
                     notes: data.notes,
                     photoUrl: data.photo_url || '',
+                    videoUrl: data.video_url || '',
                     healthTests: data.health_tests
                 };
 
