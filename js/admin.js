@@ -1828,6 +1828,29 @@ function getDogFormHtml(dog = {}) {
             </div>
         </div>
 
+        <h3 style="margin: 1.5rem 0 1rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">Video</h3>
+        <div class="form-group">
+            <label>Upload Video <span style="color: var(--text-muted); font-weight: normal;">(MP4, MOV - up to 350MB)</span></label>
+            <div id="dogVideoContainer">
+                ${dog.video_url ? `
+                    <div class="video-preview">
+                        <video src="${escapeHtml(dog.video_url)}" controls style="max-height:200px; width:100%; border-radius:0.5rem;"></video>
+                        <button type="button" class="btn btn-sm btn-danger" style="margin-top:0.5rem;" onclick="removeDogVideo()">Remove Video</button>
+                    </div>
+                ` : `
+                    <label class="video-drop-zone" for="dogVideoFileInput">
+                        <input type="file" id="dogVideoFileInput" accept="video/*" capture="environment" style="display:none;" onchange="handleDogVideoSelect(this)">
+                        <svg class="drop-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <polygon points="23 7 16 12 23 17 23 7"/>
+                            <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                        </svg>
+                        <p class="drop-text">Tap here to add a video</p>
+                        <p class="drop-hint">MP4 or MOV, up to 350MB</p>
+                    </label>
+                `}
+            </div>
+        </div>
+
         <div class="form-group">
             <label>Description</label>
             <textarea id="dogDescription">${escapeHtml(dog.description || '')}</textarea>
@@ -2203,6 +2226,171 @@ function removeDogPhotoInput(btn) {
 }
 
 // ============================================
+// Dog Video Upload
+// ============================================
+
+async function handleDogVideoSelect(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    if (!isAllowedVideo(file)) {
+        showToast('Please select a valid video file (MP4, MOV, WebM)', 'error');
+        return;
+    }
+
+    if (file.size > UPLOAD_CONFIG.maxVideoSize) {
+        showToast('Video is too large. Maximum size is 350MB.', 'error');
+        return;
+    }
+
+    const container = document.getElementById('dogVideoContainer');
+    container.innerHTML = `
+        <div class="video-upload-progress">
+            <div class="upload-spinner" style="margin: 0 auto 0.75rem;"></div>
+            <div class="progress-bar"><div class="progress-fill" id="dogVideoProgress" style="width:0%"></div></div>
+            <p class="progress-text" id="dogVideoProgressText">Uploading video...</p>
+        </div>
+    `;
+
+    try {
+        const dogId = document.getElementById('dogProfileId')?.value || 'new';
+        const url = await uploadVideo(dogId, file, (percent) => {
+            const fill = document.getElementById('dogVideoProgress');
+            const text = document.getElementById('dogVideoProgressText');
+            if (fill) fill.style.width = percent + '%';
+            if (text) text.textContent = `Uploading... ${Math.round(percent)}%`;
+        });
+
+        container.innerHTML = `
+            <div class="video-preview">
+                <video src="${url}" controls style="max-height:200px; width:100%; border-radius:0.5rem;"></video>
+                <input type="hidden" id="dogVideoUrl" value="${url}">
+                <button type="button" class="btn btn-sm btn-danger" style="margin-top:0.5rem;" onclick="removeDogVideo()">Remove Video</button>
+            </div>
+        `;
+        showToast('Video uploaded successfully', 'success');
+    } catch (error) {
+        console.error('Dog video upload error:', error);
+        container.innerHTML = `
+            <label class="video-drop-zone" for="dogVideoFileInput">
+                <input type="file" id="dogVideoFileInput" accept="video/*" capture="environment" style="display:none;" onchange="handleDogVideoSelect(this)">
+                <svg class="drop-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <polygon points="23 7 16 12 23 17 23 7"/>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+                </svg>
+                <p class="drop-text">Tap here to add a video</p>
+                <p class="drop-hint">MP4 or MOV, up to 350MB</p>
+            </label>
+        `;
+        showToast('Video upload failed: ' + error.message, 'error');
+    }
+}
+
+function removeDogVideo() {
+    const container = document.getElementById('dogVideoContainer');
+    container.innerHTML = `
+        <label class="video-drop-zone" for="dogVideoFileInput">
+            <input type="file" id="dogVideoFileInput" accept="video/*" capture="environment" style="display:none;" onchange="handleDogVideoSelect(this)">
+            <svg class="drop-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polygon points="23 7 16 12 23 17 23 7"/>
+                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+            </svg>
+            <p class="drop-text">Tap here to add a video</p>
+            <p class="drop-hint">MP4 or MOV, up to 350MB</p>
+        </label>
+    `;
+}
+
+function getDogVideoUrl() {
+    const hidden = document.getElementById('dogVideoUrl');
+    if (hidden) return hidden.value;
+    const video = document.querySelector('#dogVideoContainer video');
+    return video ? video.src : '';
+}
+
+// ============================================
+// LITTER PHOTO UPLOAD HANDLERS
+// ============================================
+
+async function handleLitterPhotoSelect(input) {
+    const file = input.files[0];
+    if (!file) return;
+
+    if (!isAllowedImage(file)) {
+        showToast('Please select a valid image file (JPG, PNG, WebP, HEIC)', 'error');
+        return;
+    }
+
+    if (file.size > UPLOAD_CONFIG.maxImageSize) {
+        showToast('Image is too large. Maximum size is 5MB.', 'error');
+        return;
+    }
+
+    const container = document.getElementById('litterPhotoContainer');
+    container.innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem;">
+            <div class="upload-spinner" style="margin: 0 auto 0.75rem;"></div>
+            <p style="margin:0; color:var(--text-muted);">Uploading photo...</p>
+        </div>
+    `;
+
+    try {
+        const result = await uploadImage(file, 'litters', {
+            compress: true,
+            maxWidth: 1200,
+            quality: 0.85
+        });
+
+        container.innerHTML = `
+            <div class="photo-preview" style="position:relative; display:inline-block;">
+                <img src="${result.url}" style="max-height:200px; width:100%; object-fit:cover; border-radius:0.5rem;">
+                <input type="hidden" id="litterPhotoUrl" value="${result.url}">
+                <button type="button" class="btn btn-sm btn-danger" style="margin-top:0.5rem;" onclick="removeLitterPhoto()">Remove Photo</button>
+            </div>
+        `;
+        showToast('Photo uploaded successfully', 'success');
+    } catch (error) {
+        console.error('Litter photo upload error:', error);
+        container.innerHTML = `
+            <label class="photo-drop-zone" for="litterPhotoFileInput" style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem; border:2px dashed var(--border-color); border-radius:0.75rem; cursor:pointer; text-align:center;">
+                <input type="file" id="litterPhotoFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleLitterPhotoSelect(this)">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-muted);">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <circle cx="8.5" cy="8.5" r="1.5"/>
+                    <polyline points="21 15 16 10 5 21"/>
+                </svg>
+                <p style="margin:0; color:var(--text-muted);">Tap to add a photo</p>
+                <p style="margin:0; font-size:0.75rem; color:var(--text-muted);">JPG, PNG, WebP, HEIC</p>
+            </label>
+        `;
+        showToast('Photo upload failed: ' + error.message, 'error');
+    }
+}
+
+function removeLitterPhoto() {
+    const container = document.getElementById('litterPhotoContainer');
+    container.innerHTML = `
+        <label class="photo-drop-zone" for="litterPhotoFileInput" style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem; border:2px dashed var(--border-color); border-radius:0.75rem; cursor:pointer; text-align:center;">
+            <input type="file" id="litterPhotoFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleLitterPhotoSelect(this)">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-muted);">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            <p style="margin:0; color:var(--text-muted);">Tap to add a photo</p>
+            <p style="margin:0; font-size:0.75rem; color:var(--text-muted);">JPG, PNG, WebP, HEIC</p>
+        </label>
+    `;
+}
+
+function getLitterPhotoUrl() {
+    const hidden = document.getElementById('litterPhotoUrl');
+    if (hidden) return hidden.value;
+    const img = document.querySelector('#litterPhotoContainer img');
+    return img ? img.src : '';
+}
+
+// ============================================
 // Puppy Photo Upload (Bunny CDN)
 // ============================================
 
@@ -2329,7 +2517,8 @@ async function saveDog(dogId = null) {
         isBreeding: document.getElementById('dogIsBreeding').checked,
         isPublic: document.getElementById('dogIsPublic').checked,
         location: location,
-        guardianFamily: guardianFamily
+        guardianFamily: guardianFamily,
+        videoUrl: typeof getDogVideoUrl === 'function' ? getDogVideoUrl() : ''
     };
 
     if (!dog.name) {
@@ -2409,6 +2598,21 @@ function openAddLitterModal(defaultDogId = null) {
                 <input type="checkbox" id="litterIsPublic"> Show on Public Website
             </label>
         </div>
+        <div class="form-group">
+            <label>Litter Photo</label>
+            <div id="litterPhotoContainer">
+                <label class="photo-drop-zone" for="litterPhotoFileInput" style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem; border:2px dashed var(--border-color); border-radius:0.75rem; cursor:pointer; text-align:center;">
+                    <input type="file" id="litterPhotoFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleLitterPhotoSelect(this)">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-muted);">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    <p style="margin:0; color:var(--text-muted);">Tap to add a photo</p>
+                    <p style="margin:0; font-size:0.75rem; color:var(--text-muted);">JPG, PNG, WebP, HEIC</p>
+                </label>
+            </div>
+        </div>
     `;
     const footer = `
         <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
@@ -2426,7 +2630,8 @@ async function saveLitter(litterId = null) {
         birthDate: document.getElementById('litterBirthDate').value,
         expectedDate: document.getElementById('litterExpectedDate').value,
         notes: document.getElementById('litterNotes').value.trim(),
-        isPublic: document.getElementById('litterIsPublic').checked
+        isPublic: document.getElementById('litterIsPublic').checked,
+        photoUrl: typeof getLitterPhotoUrl === 'function' ? getLitterPhotoUrl() : ''
     };
 
     if (!litter.motherId || !litter.fatherId) {
@@ -4567,6 +4772,29 @@ function openEditLitterModal(litterId) {
                 <input type="checkbox" id="litterIsPublic" ${litter.isPublic ? 'checked' : ''}> Show on Public Website
             </label>
         </div>
+        <div class="form-group">
+            <label>Litter Photo</label>
+            <div id="litterPhotoContainer">
+                ${litter.photoUrl || litter.photo_url ? `
+                    <div class="photo-preview" style="position:relative; display:inline-block;">
+                        <img src="${escapeHtml(litter.photoUrl || litter.photo_url)}" style="max-height:200px; width:100%; object-fit:cover; border-radius:0.5rem;">
+                        <input type="hidden" id="litterPhotoUrl" value="${escapeHtml(litter.photoUrl || litter.photo_url)}">
+                        <button type="button" class="btn btn-sm btn-danger" style="margin-top:0.5rem;" onclick="removeLitterPhoto()">Remove Photo</button>
+                    </div>
+                ` : `
+                    <label class="photo-drop-zone" for="litterPhotoFileInput" style="display:flex; flex-direction:column; align-items:center; gap:0.5rem; padding:2rem; border:2px dashed var(--border-color); border-radius:0.75rem; cursor:pointer; text-align:center;">
+                        <input type="file" id="litterPhotoFileInput" accept="image/*" capture="environment" style="display:none;" onchange="handleLitterPhotoSelect(this)">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color:var(--text-muted);">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                        <p style="margin:0; color:var(--text-muted);">Tap to add a photo</p>
+                        <p style="margin:0; font-size:0.75rem; color:var(--text-muted);">JPG, PNG, WebP, HEIC</p>
+                    </label>
+                `}
+            </div>
+        </div>
     `;
     const footer = `
         <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
@@ -4575,7 +4803,7 @@ function openEditLitterModal(litterId) {
     openModal('Edit Litter', content, footer);
 }
 
-function updateLitter(litterId) {
+async function updateLitter(litterId) {
     const litter = {
         id: litterId,
         name: document.getElementById('litterName').value.trim(),
@@ -4584,13 +4812,19 @@ function updateLitter(litterId) {
         birthDate: document.getElementById('litterBirthDate').value,
         expectedDate: document.getElementById('litterExpectedDate').value,
         notes: document.getElementById('litterNotes').value.trim(),
-        isPublic: document.getElementById('litterIsPublic').checked
+        isPublic: document.getElementById('litterIsPublic').checked,
+        photoUrl: typeof getLitterPhotoUrl === 'function' ? getLitterPhotoUrl() : ''
     };
 
-    DB.litters.save(litter);
-    closeModal();
-    showToast('Litter updated successfully', 'success');
-    viewLitterProfile(litterId);
+    try {
+        await DB.litters.save(litter);
+        closeModal();
+        showToast('Litter updated successfully', 'success');
+        viewLitterProfile(litterId);
+    } catch (error) {
+        console.error('Error updating litter:', error);
+        showToast('Error updating litter: ' + error.message, 'error');
+    }
 }
 
 // ============================================

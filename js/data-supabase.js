@@ -148,7 +148,8 @@ const DB = {
                 is_public: dog.isPublic,
                 location: dog.location,
                 guardian_family: dog.guardianFamily,
-                health_tests: dog.healthTests || dog.health_tests || []
+                health_tests: dog.healthTests || dog.health_tests || [],
+                video_url: dog.videoUrl || null
             };
 
             let result;
